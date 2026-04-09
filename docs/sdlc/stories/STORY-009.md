@@ -1,5 +1,5 @@
 ---
-status: TO_DO
+status: DONE
 milestone: M2
 track: B
 depends_on: STORY-003, STORY-004
