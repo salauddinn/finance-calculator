@@ -1,5 +1,5 @@
 ---
-status: TO_DO
+status: DONE
 milestone: M1
 track: A
 depends_on: STORY-002
