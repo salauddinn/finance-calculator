@@ -23,6 +23,7 @@ India-first consumer finance calculator web app for personal loans, home loans, 
 ## Getting started
 
 ```bash
+nvm use
 npm install
 npm run dev
 ```
@@ -45,6 +46,8 @@ V1 is designed for Vercel deployment. A production release should pass:
 - `npm run test:e2e`
 - `npm run build`
 - `npm audit --audit-level=high`
+
+GitHub Actions CI now runs the same checks from [`.github/workflows/ci.yml`](/Users/salauddin/Projects/learning/Personal%20Projects/finace-calculator/.github/workflows/ci.yml) on pushes to `main` and on pull requests.
 
 ## Project docs
 
