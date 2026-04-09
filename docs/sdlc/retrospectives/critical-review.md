@@ -70,6 +70,24 @@
 
 - [x] PASS — no P0/P1 findings
 
+# Critical review — STORY-008 — 2026-04-09
+
+## P0 findings (block release)
+
+- None.
+
+## P1 findings (fix before merge)
+
+- None.
+
+## P2 findings (tech debt — log and continue)
+
+- Repo-wide verification still has unrelated failures in `src/features/calculators/personal-loan/*` and `src/lib/calculations/personal-loan/*`. They are outside the SIP story scope, but they remain an open integration risk for the broader calculator set.
+
+## Review verdict
+
+- [x] PASS — no P0/P1 findings
+
 # Critical review — STORY-006 — 2026-04-09
 
 ## P0 findings (block release)

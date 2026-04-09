@@ -1,0 +1,27 @@
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+
+import { SipCalculator } from "@/features/calculators/sip/sip-calculator";
+
+describe("SipCalculator", () => {
+  it("shows the result breakdown and plain-language assumptions", async () => {
+    const user = userEvent.setup();
+
+    render(<SipCalculator />);
+
+    await user.clear(screen.getByLabelText(/monthly contribution/i));
+    await user.type(screen.getByLabelText(/monthly contribution/i), "10000");
+    await user.clear(screen.getByLabelText(/expected annual return/i));
+    await user.type(screen.getByLabelText(/expected annual return/i), "12");
+    await user.clear(screen.getByLabelText(/duration in months/i));
+    await user.type(screen.getByLabelText(/duration in months/i), "24");
+    await user.click(screen.getByRole("button", { name: /calculate sip/i }));
+
+    expect(screen.getByText(/invested amount/i)).toBeInTheDocument();
+    expect(screen.getByText(/estimated returns/i)).toBeInTheDocument();
+    expect(screen.getByText(/maturity value/i)).toBeInTheDocument();
+    expect(
+      screen.getByText(/we assume you invest the same amount every month/i)
+    ).toBeInTheDocument();
+  });
+});

@@ -1,0 +1,112 @@
+"use client";
+
+import { useMemo, useState, type FormEvent } from "react";
+
+import { Button } from "@/components/primitives/button";
+import { ResultSummaryCard } from "@/components/primitives/result-summary-card";
+import { TextInput } from "@/components/primitives/text-input";
+import { calculateSip, type SipResult } from "@/lib/calculations/sip/calculate-sip";
+
+const currencyFormatter = new Intl.NumberFormat("en-IN", {
+  style: "currency",
+  currency: "INR",
+  maximumFractionDigits: 2
+});
+
+function formatCurrency(value: number) {
+  return currencyFormatter.format(value);
+}
+
+function toNumber(value: string) {
+  return Number(value);
+}
+
+export function SipCalculator() {
+  const [monthlyContribution, setMonthlyContribution] = useState("10000");
+  const [annualReturnPct, setAnnualReturnPct] = useState("12");
+  const [durationMonths, setDurationMonths] = useState("24");
+  const [result, setResult] = useState<SipResult | null>(null);
+
+  const assumptions = useMemo(
+    () => "We assume you invest the same amount every month and keep the return rate steady.",
+    []
+  );
+
+  function handleCalculate(event?: FormEvent<HTMLFormElement>) {
+    event?.preventDefault();
+
+    setResult(
+      calculateSip({
+        monthlyContribution: toNumber(monthlyContribution),
+        annualReturnPct: toNumber(annualReturnPct),
+        durationMonths: toNumber(durationMonths)
+      })
+    );
+  }
+
+  return (
+    <section className="calculator-shell">
+      <div className="calculator-panel">
+        <div className="calculator-copy">
+          <p className="eyebrow">SIP calculator</p>
+          <h2>Plan monthly investments with confidence</h2>
+          <p className="hero-copy">{assumptions}</p>
+        </div>
+
+        <form className="calculator-grid" onSubmit={handleCalculate}>
+          <TextInput
+            id="sip-monthly-contribution"
+            label="Monthly contribution"
+            value={monthlyContribution}
+            onChange={(event) => setMonthlyContribution(event.target.value)}
+            inputMode="decimal"
+            type="number"
+            step="any"
+            min="0"
+          />
+          <TextInput
+            id="sip-annual-return"
+            label="Expected annual return"
+            value={annualReturnPct}
+            onChange={(event) => setAnnualReturnPct(event.target.value)}
+            inputMode="decimal"
+            type="number"
+            step="any"
+            min="0"
+          />
+          <TextInput
+            id="sip-duration-months"
+            label="Duration in months"
+            value={durationMonths}
+            onChange={(event) => setDurationMonths(event.target.value)}
+            inputMode="numeric"
+            type="number"
+            step="1"
+            min="1"
+          />
+
+          <Button type="submit">Calculate SIP</Button>
+        </form>
+      </div>
+
+      {result ? (
+        <div className="calculator-results">
+          <ResultSummaryCard
+            label="Invested amount"
+            value={formatCurrency(result.investedAmount.value)}
+          />
+          <ResultSummaryCard
+            label="Estimated returns"
+            value={formatCurrency(result.estimatedReturns.value)}
+            tone="positive"
+          />
+          <ResultSummaryCard
+            label="Maturity value"
+            value={formatCurrency(result.maturityValue.value)}
+            tone="positive"
+          />
+        </div>
+      ) : null}
+    </section>
+  );
+}
