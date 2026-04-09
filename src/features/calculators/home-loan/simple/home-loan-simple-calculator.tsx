@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 
+import { ResultInsightPanel } from "@/components/primitives/result-insight-panel";
 import { ResultSummaryCard } from "@/components/primitives/result-summary-card";
 import { TextInput } from "@/components/primitives/text-input";
 import { useCalculatorPreferences } from "@/features/preferences/use-calculator-preferences";
@@ -108,20 +109,33 @@ export function HomeLoanSimpleCalculator() {
 
       {result ? (
         <div className="calculator-results">
-          <ResultSummaryCard
-            label="Monthly EMI"
-            value={formatCurrency(result.monthlyEmi.value)}
-            tone="positive"
+          <ResultInsightPanel
+            title="What this means for your home plan"
+            summary={`Your current estimate is about ${formatCurrency(result.monthlyEmi.value)} per month before you add real-world changes like prepayments or rate shifts.`}
+            supportingPoints={[
+              `If the loan runs for the full term, the total repayment would be ${formatCurrency(result.totalRepayment.value)}.`,
+              `The interest portion alone would be ${formatCurrency(result.totalInterest.value)}.`
+            ]}
           />
-          <ResultSummaryCard
-            label="Total repayment"
-            value={formatCurrency(result.totalRepayment.value)}
-          />
-          <ResultSummaryCard
-            label="Total interest"
-            value={formatCurrency(result.totalInterest.value)}
-            tone="caution"
-          />
+          <div className="calculator-metric-grid">
+            <ResultSummaryCard
+              caption="Main monthly commitment"
+              label="Monthly EMI"
+              value={formatCurrency(result.monthlyEmi.value)}
+              tone="positive"
+            />
+            <ResultSummaryCard
+              caption="Total paid across the full tenure"
+              label="Total repayment"
+              value={formatCurrency(result.totalRepayment.value)}
+            />
+            <ResultSummaryCard
+              caption="Borrowing cost over time"
+              label="Total interest"
+              value={formatCurrency(result.totalInterest.value)}
+              tone="caution"
+            />
+          </div>
         </div>
       ) : null}
     </section>

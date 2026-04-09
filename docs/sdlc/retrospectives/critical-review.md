@@ -213,3 +213,21 @@
 ## Review verdict
 
 - [x] PASS — no P0/P1 findings
+
+# Critical review — STORY-013 — 2026-04-09
+
+## P0 findings (block release)
+
+- None.
+
+## P1 findings (fix before merge)
+
+- None.
+
+## P2 findings (tech debt — log and continue)
+
+- None. The redesign stays inside the existing calculator and persistence contracts while materially improving hierarchy, result interpretation, and the visual shell.
+
+## Review verdict
+
+- [x] PASS — no P0/P1 findings

@@ -15,8 +15,9 @@ describe("HomeLoanAdvancedCalculator", () => {
     await user.click(screen.getByRole("button", { name: /recalculate advanced plan/i }));
 
     expect(screen.getByText(/final monthly emi/i)).toBeInTheDocument();
-    expect(screen.getByText(/₹37,982\.71/i)).toBeInTheDocument();
+    expect(screen.getAllByText(/₹37,982\.71/i).length).toBeGreaterThan(0);
     expect(screen.getByText(/impact summary/i)).toBeInTheDocument();
     expect(screen.getByText(/prepayment of ₹2,00,000/i)).toBeInTheDocument();
+    expect(screen.getByText(/what this scenario is telling you/i)).toBeInTheDocument();
   });
 });

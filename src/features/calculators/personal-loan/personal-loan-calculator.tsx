@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/primitives/button";
+import { ResultInsightPanel } from "@/components/primitives/result-insight-panel";
 import { ResultSummaryCard } from "@/components/primitives/result-summary-card";
 import { TextInput } from "@/components/primitives/text-input";
 import { useCalculatorPreferences } from "@/features/preferences/use-calculator-preferences";
@@ -44,6 +45,9 @@ export function PersonalLoanCalculator() {
     : null;
 
   const validationIssues = validation.ok ? [] : validation.issues;
+  const validatedTenureMonths = validation.ok
+    ? validation.data.tenureMonths
+    : inputs.tenureMonths;
 
   return (
     <section className="calculator-shell">
@@ -80,16 +84,33 @@ export function PersonalLoanCalculator() {
       <div className="calculator-shell__results">
         {result ? (
           <>
-            <ResultSummaryCard label="Monthly EMI" value={formatCurrency(result.monthlyEmi.value)} tone="positive" />
+            <ResultInsightPanel
+              title="What this means for your budget"
+              summary={`You would pay around ${formatCurrency(result.monthlyEmi.value)} every month for ${validatedTenureMonths} months.`}
+              supportingPoints={[
+                `Across the full loan, you would repay ${formatCurrency(result.totalRepayment.value)}.`,
+                `Out of that total, ${formatCurrency(result.totalInterest.value)} is interest.`
+              ]}
+            />
+            <div className="calculator-metric-grid">
+              <ResultSummaryCard
+                caption="Main monthly commitment"
+                label="Monthly EMI"
+                value={formatCurrency(result.monthlyEmi.value)}
+                tone="positive"
+              />
             <ResultSummaryCard
+              caption="Amount repaid over the full term"
               label="Total repayment"
               value={formatCurrency(result.totalRepayment.value)}
             />
             <ResultSummaryCard
+              caption="Cost of borrowing"
               label="Total interest"
               value={formatCurrency(result.totalInterest.value)}
               tone="caution"
             />
+            </div>
           </>
         ) : null}
       </div>

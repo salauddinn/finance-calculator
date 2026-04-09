@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 
 import { Button } from "@/components/primitives/button";
+import { ResultInsightPanel } from "@/components/primitives/result-insight-panel";
 import { ResultSummaryCard } from "@/components/primitives/result-summary-card";
 import { TextInput } from "@/components/primitives/text-input";
 import { useCalculatorPreferences } from "@/features/preferences/use-calculator-preferences";
@@ -106,20 +107,33 @@ export function HomeLoanAdvancedCalculator() {
       </div>
 
       <div className="calculator-results">
-        <ResultSummaryCard
-          label="Final monthly EMI"
-          value={formatCurrency(result.finalMonthlyEmi.value)}
-          tone="positive"
+        <ResultInsightPanel
+          title="What this scenario is telling you"
+          summary={`With the current events and strategy, your plan lands at about ${formatCurrency(result.finalMonthlyEmi.value)} per month by the end of the scenario.`}
+          supportingPoints={[
+            `The full repayment path comes to ${formatCurrency(result.totalRepayment.value)}.`,
+            `You are contributing ${formatCurrency(result.totalPrepaymentAmount.value)} as planned prepayments.`
+          ]}
         />
-        <ResultSummaryCard
-          label="Total repayment"
-          value={formatCurrency(result.totalRepayment.value)}
-        />
-        <ResultSummaryCard
-          label="Total prepayment amount"
-          value={formatCurrency(result.totalPrepaymentAmount.value)}
-          tone="caution"
-        />
+        <div className="calculator-metric-grid">
+          <ResultSummaryCard
+            caption="End-state monthly payment"
+            label="Final monthly EMI"
+            value={formatCurrency(result.finalMonthlyEmi.value)}
+            tone="positive"
+          />
+          <ResultSummaryCard
+            caption="Total paid across the modeled journey"
+            label="Total repayment"
+            value={formatCurrency(result.totalRepayment.value)}
+          />
+          <ResultSummaryCard
+            caption="Extra amount you plan to prepay"
+            label="Total prepayment amount"
+            value={formatCurrency(result.totalPrepaymentAmount.value)}
+            tone="caution"
+          />
+        </div>
       </div>
 
       <section className="calculator-panel">

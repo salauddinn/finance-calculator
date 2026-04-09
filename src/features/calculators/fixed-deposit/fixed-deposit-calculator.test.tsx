@@ -9,6 +9,12 @@ describe("FixedDepositCalculator", () => {
 
     expect(screen.getByText(/maturity value/i)).toBeInTheDocument();
     expect(screen.getByText(/interest earned/i)).toBeInTheDocument();
+    expect(screen.getByText(/what this fixed deposit gives you/i)).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        /you keep your original deposit protected while earning a fixed return/i
+      )
+    ).toBeInTheDocument();
   });
 
   it("recalculates immediately when the compounding frequency changes", async () => {

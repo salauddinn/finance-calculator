@@ -69,3 +69,58 @@ Build a polished, trustworthy India-focused consumer finance calculator web app 
 ## Open questions
 
 None at this stage. Any future expansion into account-based features, comparison workflows, lender-specific rules, or live rate integrations will be handled in later stages.
+
+## Story: STORY-013 — V1 visual and explanatory redesign — 2026-04-09
+
+### User job-to-be-done
+
+Help users feel confident and oriented while using the app by making the landing page feel modern and trustworthy, and by turning raw calculator outputs into clearer decision-friendly summaries.
+
+### Business outcome
+
+- Increase perceived trust and product polish during first impression
+- Reduce confusion around what result values mean and how to use them
+- Improve the likelihood that a first-time user can understand the main outcome of a calculator without needing finance expertise
+
+### User personas affected
+
+- Salaried Sam
+- Starter Sneha
+
+### Acceptance criteria
+
+- Given a user lands on the homepage
+- When they view the product for the first time
+- Then the page feels premium, modern, and clearly organized around the app’s main calculator journeys
+- Given a user opens any calculator page
+- When they scan the layout and result area
+- Then the experience clearly separates inputs, primary outcome, supporting metrics, and plain-language interpretation
+- Given a user sees calculated values
+- When they review the results
+- Then labels and supporting copy help them understand what matters most instead of only showing raw metric names
+- Given the redesign is complete
+- When the full regression suite and production build are run
+- Then existing calculator correctness, accessibility, and performance behavior remain intact
+
+### Definition of done (story level)
+
+- [ ] Acceptance criteria verified with passing tests
+- [ ] Regression tests still passing
+- [ ] Coverage not decreased from the current baseline
+- [ ] No calculator formula or persistence contract changed
+
+### Dependencies
+
+- Existing calculator logic and persistence layer remain unchanged
+- Existing route structure remains unchanged
+
+### Scope risks
+
+- Scope could expand into brand redesign, new calculator logic, charting, or comparison workflows; these are out of scope for this story
+- Scope could also drift into copywriting for SEO or content marketing pages; also out of scope
+
+### Existing behavior check
+
+- Landing page exists in `src/app/page.tsx`
+- Calculator route shell exists in `src/app/calculators/[slug]/page.tsx`
+- Result summaries currently rely on `src/components/primitives/result-summary-card.tsx`

@@ -62,3 +62,9 @@ WCAG 2.2 AA minimum across light and dark themes.
 - Key outputs such as EMI, total repayment, maturity value, and interest earned should be grouped and announced in a logical order
 - Assumptions and disclaimers must be readable and not hidden behind hover-only affordances
 - Complex scenarios in advanced home loan mode must include plain-language summaries of how each event changes the outcome
+
+## Story delta — STORY-013: V1 visual and explanatory redesign — 2026-04-09
+
+- Redesigned calculator pages must expose one clear primary result before secondary metrics
+- Supporting “what this means” copy must be readable in sequence after the primary result cards
+- Landing page trust and category sections must preserve semantic headings and link clarity during the visual overhaul

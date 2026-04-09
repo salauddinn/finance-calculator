@@ -17,11 +17,17 @@ describe("SipCalculator", () => {
     await user.type(screen.getByLabelText(/duration in months/i), "24");
     await user.click(screen.getByRole("button", { name: /calculate sip/i }));
 
-    expect(screen.getByText(/invested amount/i)).toBeInTheDocument();
-    expect(screen.getByText(/estimated returns/i)).toBeInTheDocument();
-    expect(screen.getByText(/maturity value/i)).toBeInTheDocument();
+    expect(screen.getAllByText(/invested amount/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/estimated returns/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/maturity value/i).length).toBeGreaterThan(0);
     expect(
       screen.getByText(/we assume you invest the same amount every month/i)
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/what this means for your investing goal/i)
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/if returns stay steady, your money could grow to/i)
     ).toBeInTheDocument();
   });
 });

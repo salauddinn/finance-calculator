@@ -140,3 +140,28 @@ The brand will be defined from scratch for this product. V1 includes both light 
 - Results should update quickly and smoothly, without disorienting motion
 - Finance terminology should be paired with plain-language support text when ambiguity is likely
 - Preference persistence should feel helpful and low-stakes, with clear messaging that data is stored locally on the device
+
+## Story delta — STORY-013: V1 visual and explanatory redesign — 2026-04-09
+
+### New components introduced
+
+| Component | States | Reuses existing | Notes |
+|---|---|---|---|
+| Calculator page hero | default | existing typography and spacing tokens | Adds page framing and clearer task context |
+| Insight panel | default, positive, caution | result card styles and body text tokens | Converts raw values into human-readable takeaways |
+| Metric list row | default, emphasized | result summary card metrics | Presents supporting values in a more readable hierarchy |
+| Trust highlight strip | default | existing landing card patterns | Makes homepage feel more premium and structured |
+
+### New design tokens
+
+| Token | Value | Rationale |
+|---|---|---|
+| color-surface-tint-light | rgba(255, 255, 255, 0.58) | Needed for more layered premium surfaces on the landing and calculator pages |
+| color-surface-tint-dark | rgba(32, 38, 46, 0.78) | Dark theme equivalent for layered shells |
+| gradient-hero-accent | linear-gradient(135deg, rgba(31,107,95,0.18), rgba(197,139,42,0.16)) | Adds atmosphere without resorting to generic fintech gradients |
+
+### Accessibility additions
+
+- Result interpretation blocks must preserve clear heading structure and meaningful reading order
+- Supporting copy that explains financial outcomes must remain visible, not hidden behind hover-only affordances
+- Any new two-column calculator layout must collapse cleanly to a single column on mobile without horizontal scrolling

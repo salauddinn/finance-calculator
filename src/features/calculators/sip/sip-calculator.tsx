@@ -3,6 +3,7 @@
 import { useMemo, useState, type FormEvent } from "react";
 
 import { Button } from "@/components/primitives/button";
+import { ResultInsightPanel } from "@/components/primitives/result-insight-panel";
 import { ResultSummaryCard } from "@/components/primitives/result-summary-card";
 import { TextInput } from "@/components/primitives/text-input";
 import { useCalculatorPreferences } from "@/features/preferences/use-calculator-preferences";
@@ -109,20 +110,33 @@ export function SipCalculator() {
 
       {result ? (
         <div className="calculator-results">
-          <ResultSummaryCard
-            label="Invested amount"
-            value={formatCurrency(result.investedAmount.value)}
+          <ResultInsightPanel
+            title="What this means for your investing goal"
+            summary={`If returns stay steady, your money could grow to ${formatCurrency(result.maturityValue.value)} over ${inputs.durationMonths} months.`}
+            supportingPoints={[
+              `Your own invested amount would be ${formatCurrency(result.investedAmount.value)}.`,
+              `The projected gain would be ${formatCurrency(result.estimatedReturns.value)}.`
+            ]}
           />
-          <ResultSummaryCard
-            label="Estimated returns"
-            value={formatCurrency(result.estimatedReturns.value)}
-            tone="positive"
-          />
-          <ResultSummaryCard
-            label="Maturity value"
-            value={formatCurrency(result.maturityValue.value)}
-            tone="positive"
-          />
+          <div className="calculator-metric-grid">
+            <ResultSummaryCard
+              caption="Your money contributed"
+              label="Invested amount"
+              value={formatCurrency(result.investedAmount.value)}
+            />
+            <ResultSummaryCard
+              caption="Projected growth on top of your contributions"
+              label="Estimated returns"
+              value={formatCurrency(result.estimatedReturns.value)}
+              tone="positive"
+            />
+            <ResultSummaryCard
+              caption="Total projected value at the end"
+              label="Maturity value"
+              value={formatCurrency(result.maturityValue.value)}
+              tone="positive"
+            />
+          </div>
         </div>
       ) : null}
     </section>

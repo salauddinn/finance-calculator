@@ -18,13 +18,21 @@ describe("HomePage", () => {
         name: /finance calculators for real life decisions/i
       })
     ).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", {
+        level: 2,
+        name: /pick the calculator that matches your next money decision/i
+      })
+    ).toBeInTheDocument();
   });
 
   it("shows trust messaging and calculator navigation", () => {
     render(<HomePage />);
 
     expect(
-      screen.getByText(/built for transparent assumptions, not hidden surprises/i)
+      screen.getByText(
+        /designed for salary earners, first-time investors, and real financial planning/i
+      )
     ).toBeInTheDocument();
     expect(
       screen.getByRole("link", { name: /explore personal loan calculator/i })
@@ -32,6 +40,10 @@ describe("HomePage", () => {
     expect(
       screen.getByRole("link", { name: /explore home loan calculator/i })
     ).toHaveAttribute("href", "/calculators/home-loan");
+    expect(
+      screen.getAllByText(/understand the monthly commitment before you commit/i)
+        .length
+    ).toBeGreaterThan(0);
   });
 
   it("routes users into the chosen calculator entry point", () => {
