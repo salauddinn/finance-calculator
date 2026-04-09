@@ -1,30 +1,32 @@
 :root {
   color-scheme: light;
-  --color-background: #e9e4da;
-  --color-surface: #f8f3ea;
-  --color-surface-strong: rgba(250, 246, 238, 0.9);
-  --color-surface-tint: rgba(255, 252, 247, 0.7);
-  --color-text: #17181b;
-  --color-text-muted: #5e645f;
-  --color-primary: #1c6b5d;
-  --color-primary-strong: #114c42;
-  --color-border: rgba(28, 107, 93, 0.14);
-  --shadow-soft: 0 18px 30px rgba(28, 31, 36, 0.08);
+  --color-background: #ebe6de;
+  --color-surface: #f7f3ed;
+  --color-surface-strong: rgba(249, 245, 238, 0.95);
+  --color-surface-tint: rgba(255, 255, 255, 0.72);
+  --color-text: #111317;
+  --color-text-muted: #66615b;
+  --color-primary: #17191d;
+  --color-primary-strong: #090a0d;
+  --color-accent: #365e56;
+  --color-border: rgba(17, 19, 23, 0.09);
+  --shadow-soft: 0 22px 36px rgba(17, 19, 23, 0.07);
   --shadow-crisp: 0 1px 0 rgba(255, 255, 255, 0.55) inset;
 }
 
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --color-background: #171a1f;
-  --color-surface: #20252d;
-  --color-surface-strong: rgba(28, 33, 41, 0.94);
-  --color-surface-tint: rgba(37, 43, 51, 0.84);
-  --color-text: #f4f0e8;
-  --color-text-muted: #b3bcc3;
-  --color-primary: #81b6ac;
-  --color-primary-strong: #a8d0c8;
-  --color-border: rgba(129, 182, 172, 0.18);
-  --shadow-soft: 0 18px 34px rgba(0, 0, 0, 0.28);
+  --color-background: #14161a;
+  --color-surface: #1c2026;
+  --color-surface-strong: rgba(24, 28, 34, 0.96);
+  --color-surface-tint: rgba(31, 36, 43, 0.86);
+  --color-text: #f5f1ea;
+  --color-text-muted: #b7bfc6;
+  --color-primary: #f4f1eb;
+  --color-primary-strong: #ffffff;
+  --color-accent: #8eb9b0;
+  --color-border: rgba(245, 241, 234, 0.1);
+  --shadow-soft: 0 22px 36px rgba(0, 0, 0, 0.34);
   --shadow-crisp: 0 1px 0 rgba(255, 255, 255, 0.04) inset;
 }
 
@@ -42,9 +44,9 @@ body {
   position: relative;
   font-family: "Avenir Next", "Segoe UI", sans-serif;
   background:
-    radial-gradient(circle at top left, rgba(119, 158, 149, 0.22), transparent 34%),
-    radial-gradient(circle at top right, rgba(192, 157, 92, 0.2), transparent 28%),
-    linear-gradient(180deg, rgba(255, 252, 246, 0.18), transparent 28%),
+    radial-gradient(circle at 18% 0%, rgba(255, 255, 255, 0.72), transparent 28%),
+    radial-gradient(circle at 88% 0%, rgba(205, 195, 176, 0.4), transparent 26%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.14), transparent 24%),
     var(--color-background);
   color: var(--color-text);
   letter-spacing: -0.01em;
@@ -55,10 +57,8 @@ body::before {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  background:
-    linear-gradient(rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.08)) top/100% 1px no-repeat,
-    linear-gradient(90deg, rgba(255, 255, 255, 0.06), transparent 22%, transparent 78%, rgba(255, 255, 255, 0.06));
-  opacity: 0.45;
+  background: radial-gradient(circle at center, transparent 58%, rgba(0, 0, 0, 0.04));
+  opacity: 0.22;
 }
 
 .app-body {
@@ -87,20 +87,20 @@ body::before {
 
 .landing-shell {
   min-height: 100vh;
-  max-width: 1200px;
+  max-width: 1240px;
   margin: 0 auto;
-  padding: 56px 24px 72px;
+  padding: 64px 28px 88px;
   display: grid;
-  gap: 24px;
+  gap: 26px;
 }
 
 .landing-hero {
   display: grid;
   grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.9fr);
-  gap: 20px;
-  padding: 46px;
+  gap: 28px;
+  padding: 56px;
   border: 1px solid var(--color-border);
-  border-radius: 32px;
+  border-radius: 36px;
   background: var(--color-surface-strong);
   box-shadow: var(--shadow-soft), var(--shadow-crisp);
 }
@@ -113,9 +113,9 @@ body::before {
 
 .landing-hero__spotlight {
   align-content: start;
-  padding: 26px;
+  padding: 28px;
   border: 1px solid var(--color-border);
-  border-radius: 28px;
+  border-radius: 30px;
   background: var(--color-surface-tint);
   box-shadow: var(--shadow-crisp);
 }
@@ -126,17 +126,17 @@ body::before {
 .calculator-entry__summary-label,
 .result-insight-panel__eyebrow {
   margin: 0;
-  color: var(--color-primary);
+  color: var(--color-accent);
   font-size: 0.78rem;
   font-weight: 800;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
 }
 
 .landing-hero__spotlight-copy {
   margin: 0;
-  font-size: 1.18rem;
-  line-height: 1.45;
+  font-size: 1.16rem;
+  line-height: 1.48;
 }
 
 .landing-hero__spotlight-grid {
@@ -148,10 +148,10 @@ body::before {
 .landing-hero__spotlight-grid div {
   display: grid;
   gap: 4px;
-  padding: 14px;
-  border-radius: 20px;
+  padding: 16px;
+  border-radius: 22px;
   border: 1px solid var(--color-border);
-  background: rgba(255, 255, 255, 0.32);
+  background: rgba(255, 255, 255, 0.38);
 }
 
 .landing-hero__spotlight-grid strong {
@@ -166,7 +166,7 @@ body::before {
 
 .eyebrow {
   margin: 0 0 16px;
-  color: var(--color-primary);
+  color: var(--color-accent);
   font-size: 0.82rem;
   font-weight: 800;
   letter-spacing: 0.12em;
@@ -176,27 +176,28 @@ body::before {
 .landing-hero h1 {
   margin: 0;
   font-family: "Iowan Old Style", "Palatino Linotype", "Times New Roman", serif;
-  font-size: clamp(2.7rem, 4.8vw, 4.35rem);
-  line-height: 0.92;
-  letter-spacing: -0.045em;
+  font-size: clamp(2.9rem, 5vw, 4.65rem);
+  line-height: 0.9;
+  letter-spacing: -0.052em;
+  max-width: 10ch;
 }
 
 .hero-copy {
   max-width: 56ch;
   margin: 20px 0 0;
   color: var(--color-text-muted);
-  font-size: 1.1rem;
-  line-height: 1.65;
+  font-size: 1.08rem;
+  line-height: 1.7;
 }
 
 .trust-strip {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 16px;
-  padding: 24px 28px;
+  padding: 28px 30px;
   border: 1px solid var(--color-border);
   border-radius: 28px;
-  background: rgba(248, 243, 234, 0.9);
+  background: rgba(247, 243, 237, 0.9);
   color: var(--color-text-muted);
   box-shadow: var(--shadow-soft), var(--shadow-crisp);
 }
@@ -229,27 +230,38 @@ body::before {
 .section-heading h2 {
   margin: 0;
   font-family: "Iowan Old Style", "Palatino Linotype", "Times New Roman", serif;
-  font-size: clamp(1.95rem, 3vw, 2.8rem);
-  line-height: 1;
-  letter-spacing: -0.035em;
+  font-size: clamp(2.05rem, 3vw, 3rem);
+  line-height: 0.98;
+  letter-spacing: -0.04em;
+  max-width: 11ch;
 }
 
 .category-card {
   display: grid;
   gap: 12px;
-  padding: 26px;
+  padding: 28px;
   border: 1px solid var(--color-border);
-  border-radius: 28px;
+  border-radius: 30px;
   background: var(--color-surface-strong);
   box-shadow: var(--shadow-soft), var(--shadow-crisp);
   min-height: 220px;
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.category-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(17, 19, 23, 0.14);
+  box-shadow: 0 26px 42px rgba(17, 19, 23, 0.08), var(--shadow-crisp);
 }
 
 .category-card__title {
   margin: 0;
-  font-size: 1.48rem;
+  font-size: 1.5rem;
   line-height: 1.2;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.03em;
 }
 
 .category-card__description {
@@ -288,14 +300,14 @@ body::before {
   min-height: 100vh;
   max-width: 1180px;
   margin: 0 auto;
-  padding: 48px 24px;
+  padding: 56px 28px 88px;
 }
 
 .calculator-entry__panel {
   margin: 20px auto 0;
-  padding: 40px;
+  padding: 42px;
   border: 1px solid var(--color-border);
-  border-radius: 32px;
+  border-radius: 34px;
   background: var(--color-surface-strong);
   box-shadow: var(--shadow-soft), var(--shadow-crisp);
 }
@@ -307,9 +319,9 @@ body::before {
 }
 
 .calculator-entry__summary {
-  padding: 20px;
+  padding: 24px;
   border: 1px solid var(--color-border);
-  border-radius: 24px;
+  border-radius: 28px;
   background: var(--color-surface-tint);
 }
 
@@ -322,7 +334,7 @@ body::before {
 .calculator-panel {
   display: grid;
   gap: 20px;
-  padding: 28px;
+  padding: 32px;
   border: 1px solid var(--color-border);
   border-radius: 32px;
   background: var(--color-surface-strong);
@@ -336,9 +348,9 @@ body::before {
 
 .calculator-copy h2 {
   margin: 0;
-  font-size: 1.75rem;
+  font-size: 1.86rem;
   line-height: 1.05;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.04em;
 }
 
 .calculator-grid {
@@ -388,7 +400,7 @@ body::before {
   padding: 12px 16px;
   border: 1px solid var(--color-border);
   border-radius: 9999px;
-  background: rgba(255, 250, 242, 0.85);
+  background: rgba(255, 250, 242, 0.86);
   color: var(--color-text);
   box-shadow: var(--shadow-soft), var(--shadow-crisp);
   cursor: pointer;
@@ -418,17 +430,20 @@ body::before {
   transition:
     transform 160ms ease,
     background-color 160ms ease,
-    border-color 160ms ease;
+    border-color 160ms ease,
+    box-shadow 160ms ease;
 }
 
 .button--primary {
   background: var(--color-primary);
   color: var(--color-surface);
+  box-shadow: 0 14px 24px rgba(17, 19, 23, 0.14);
 }
 
 .button--primary:hover {
   transform: translateY(-1px);
   background: var(--color-primary-strong);
+  box-shadow: 0 18px 28px rgba(17, 19, 23, 0.18);
 }
 
 .button--secondary {
@@ -457,6 +472,7 @@ body::before {
 .field__label {
   font-size: 0.96rem;
   font-weight: 800;
+  letter-spacing: -0.02em;
 }
 
 .field__hint {
@@ -470,7 +486,7 @@ body::before {
   padding: 15px 16px;
   border: 1px solid var(--color-border);
   border-radius: 20px;
-  background: rgba(255, 255, 255, 0.34);
+  background: rgba(255, 255, 255, 0.42);
   color: var(--color-text);
   font: inherit;
   box-shadow: var(--shadow-crisp);
@@ -508,31 +524,32 @@ body::before {
 
 .result-summary-card__value {
   margin: 0;
-  font-family: "IBM Plex Mono", "SFMono-Regular", monospace;
-  font-size: 1.72rem;
-  font-weight: 600;
+  font-family: "Avenir Next", "Segoe UI", sans-serif;
+  font-size: 1.84rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
 }
 
 .result-insight-panel {
   display: grid;
   gap: 12px;
-  padding: 26px;
+  padding: 28px;
   border: 1px solid var(--color-border);
   border-radius: 28px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.4), transparent), var(--color-surface);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.26), transparent), var(--color-surface);
   box-shadow: var(--shadow-soft), var(--shadow-crisp);
 }
 
 .result-insight-panel__title {
   margin: 0;
-  font-size: 1.7rem;
+  font-size: 1.78rem;
   line-height: 1.06;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.04em;
 }
 
 .result-insight-panel__summary {
-  font-size: 1.12rem;
-  line-height: 1.55;
+  font-size: 1.08rem;
+  line-height: 1.62;
 }
 
 .result-insight-panel__list {
@@ -589,7 +606,7 @@ body::before {
   }
 
   .landing-hero {
-    padding: 32px 24px;
+    padding: 36px 26px;
   }
 
   .landing-hero__spotlight-grid {
@@ -597,6 +614,6 @@ body::before {
   }
 
   .calculator-entry__panel {
-    padding: 28px;
+    padding: 30px 24px;
   }
 }
