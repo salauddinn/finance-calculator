@@ -9,7 +9,7 @@ describe("HomePage", () => {
   });
 
   it("shows the primary finance calculator heading", () => {
-    render(<HomePage />);
+    const { container } = render(<HomePage />);
 
     expect(screen.getByRole("main")).toHaveAttribute("id", "main-content");
     expect(
@@ -18,6 +18,7 @@ describe("HomePage", () => {
         name: /finance calculators for real life decisions/i
       })
     ).toBeInTheDocument();
+    expect(container.querySelector(".landing-hero")).toHaveClass("motion-fade-up");
     expect(
       screen.getByRole("heading", {
         level: 2,
@@ -27,7 +28,7 @@ describe("HomePage", () => {
   });
 
   it("shows trust messaging and calculator navigation", () => {
-    render(<HomePage />);
+    const { container } = render(<HomePage />);
 
     expect(
       screen.getByText(
@@ -44,6 +45,11 @@ describe("HomePage", () => {
       screen.getAllByText(/understand the monthly commitment before you commit/i)
         .length
     ).toBeGreaterThan(0);
+    expect(container.querySelector(".trust-strip")).toHaveClass("motion-fade-up");
+    expect(container.querySelectorAll(".category-card")[0]).toHaveClass(
+      "motion-fade-up",
+      "motion-stagger-1"
+    );
   });
 
   it("routes users into the chosen calculator entry point", () => {

@@ -35,7 +35,7 @@ const CALCULATOR_CARDS = [
 export default function HomePage() {
   return (
     <main className="landing-shell" id="main-content" tabIndex={-1}>
-      <section className="landing-hero">
+      <section className="landing-hero motion-fade-up motion-stagger-1">
         <div className="landing-hero__content">
           <p className="eyebrow">India-first finance planning</p>
           <h1>Finance calculators for real life decisions</h1>
@@ -67,7 +67,10 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="trust-strip" aria-label="Trust messaging">
+      <section
+        className="trust-strip motion-fade-up motion-stagger-2"
+        aria-label="Trust messaging"
+      >
         <div className="trust-strip__block">
           <p className="trust-strip__eyebrow">What makes this different</p>
           <p>Built for transparent assumptions, not hidden surprises.</p>
@@ -84,7 +87,7 @@ export default function HomePage() {
       </section>
 
       <section className="category-grid" aria-label="Calculator categories">
-        <div className="section-heading">
+        <div className="section-heading motion-fade-up motion-stagger-3">
           <p className="eyebrow">Choose a starting point</p>
           <h2>Pick the calculator that matches your next money decision</h2>
           <p className="hero-copy">
@@ -92,8 +95,12 @@ export default function HomePage() {
             explain the supporting numbers in plain language.
           </p>
         </div>
-        {CALCULATOR_CARDS.map((card) => (
-          <CalculatorCategoryCard key={card.href} {...card} />
+        {CALCULATOR_CARDS.map((card, index) => (
+          <CalculatorCategoryCard
+            key={card.href}
+            motionClassName={`motion-fade-up motion-stagger-${index + 1}`}
+            {...card}
+          />
         ))}
       </section>
     </main>
