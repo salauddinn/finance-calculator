@@ -1,8 +1,15 @@
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import type { ReactNode } from "react";
 
 import { ThemeProvider } from "@/features/preferences/theme/theme-provider";
 import "@/styles/globals.css";
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap"
+});
 
 export const metadata: Metadata = {
   title: "Finance Calculator India",
@@ -24,7 +31,7 @@ type RootLayoutProps = Readonly<{
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="en">
+    <html lang="en" className={inter.variable}>
       <body className="app-body">
         <a className="skip-link" href="#main-content">
           Skip to main content

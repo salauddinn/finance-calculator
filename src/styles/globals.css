@@ -1,33 +1,24 @@
 :root {
-  color-scheme: light;
-  --color-background: #ebe6de;
-  --color-surface: #f7f3ed;
-  --color-surface-strong: rgba(249, 245, 238, 0.95);
-  --color-surface-tint: rgba(255, 255, 255, 0.72);
-  --color-text: #111317;
-  --color-text-muted: #66615b;
-  --color-primary: #17191d;
-  --color-primary-strong: #090a0d;
-  --color-accent: #365e56;
-  --color-border: rgba(17, 19, 23, 0.09);
-  --shadow-soft: 0 22px 36px rgba(17, 19, 23, 0.07);
-  --shadow-crisp: 0 1px 0 rgba(255, 255, 255, 0.55) inset;
-}
-
-:root[data-theme="dark"] {
   color-scheme: dark;
-  --color-background: #14161a;
-  --color-surface: #1c2026;
-  --color-surface-strong: rgba(24, 28, 34, 0.96);
-  --color-surface-tint: rgba(31, 36, 43, 0.86);
-  --color-text: #f5f1ea;
-  --color-text-muted: #b7bfc6;
-  --color-primary: #f4f1eb;
-  --color-primary-strong: #ffffff;
-  --color-accent: #8eb9b0;
-  --color-border: rgba(245, 241, 234, 0.1);
-  --shadow-soft: 0 22px 36px rgba(0, 0, 0, 0.34);
-  --shadow-crisp: 0 1px 0 rgba(255, 255, 255, 0.04) inset;
+  --color-background: #0b1224;
+  --color-surface: rgba(255, 255, 255, 0.05);
+  --color-surface-strong: rgba(255, 255, 255, 0.08);
+  --color-surface-tint: rgba(255, 255, 255, 0.1);
+  --color-text: #f0f4f8;
+  --color-text-muted: #8ea4c0;
+  --color-primary: #64B5F6;
+  --color-primary-strong: #90CAF9;
+  --color-accent: #64B5F6;
+  --color-border: rgba(255, 255, 255, 0.12);
+  --color-bg-surface-hover: rgba(255, 255, 255, 0.08);
+  --color-glass-border-hover: rgba(100, 181, 246, 0.25);
+  --color-primary-glow: rgba(100, 181, 246, 0.15);
+  --glass-blur: blur(16px);
+  --glass-blur-heavy: blur(24px);
+  --aurora-blue-1: rgba(100, 181, 246, 0.10);
+  --aurora-blue-2: rgba(21, 101, 192, 0.08);
+  --shadow-soft: 0 8px 32px rgba(0, 0, 0, 0.3);
+  --shadow-crisp: 0 1px 0 rgba(255, 255, 255, 0.06) inset;
 }
 
 * {
@@ -42,11 +33,11 @@ body {
 
 body {
   position: relative;
-  font-family: "Avenir Next", "Segoe UI", sans-serif;
+  font-family: var(--font-inter), "Segoe UI", sans-serif;
   background:
-    radial-gradient(circle at 18% 0%, rgba(255, 255, 255, 0.72), transparent 28%),
-    radial-gradient(circle at 88% 0%, rgba(205, 195, 176, 0.4), transparent 26%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.14), transparent 24%),
+    radial-gradient(circle at 18% 0%, var(--aurora-blue-1), transparent 30%),
+    radial-gradient(circle at 88% 0%, var(--aurora-blue-2), transparent 28%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 24%),
     var(--color-background);
   color: var(--color-text);
   letter-spacing: -0.01em;
@@ -114,7 +105,7 @@ body::before {
 
 .skip-link:focus-visible {
   transform: translateY(0);
-  outline: 3px solid #3a8cff;
+  outline: 3px solid var(--color-primary);
   outline-offset: 3px;
 }
 
@@ -184,7 +175,7 @@ body::before {
   padding: 16px;
   border-radius: 22px;
   border: 1px solid var(--color-border);
-  background: rgba(255, 255, 255, 0.38);
+  background: var(--color-surface-tint);
 }
 
 .landing-hero__spotlight-grid strong {
@@ -208,8 +199,9 @@ body::before {
 
 .landing-hero h1 {
   margin: 0;
-  font-family: "Iowan Old Style", "Palatino Linotype", "Times New Roman", serif;
+  font-family: inherit;
   font-size: clamp(2.9rem, 5vw, 4.65rem);
+  font-weight: 800;
   line-height: 0.9;
   letter-spacing: -0.052em;
   max-width: 10ch;
@@ -230,7 +222,7 @@ body::before {
   padding: 28px 30px;
   border: 1px solid var(--color-border);
   border-radius: 28px;
-  background: rgba(247, 243, 237, 0.9);
+  background: var(--color-surface-strong);
   color: var(--color-text-muted);
   box-shadow: var(--shadow-soft), var(--shadow-crisp);
 }
@@ -262,8 +254,9 @@ body::before {
 
 .section-heading h2 {
   margin: 0;
-  font-family: "Iowan Old Style", "Palatino Linotype", "Times New Roman", serif;
+  font-family: inherit;
   font-size: clamp(2.05rem, 3vw, 3rem);
+  font-weight: 800;
   line-height: 0.98;
   letter-spacing: -0.04em;
   max-width: 11ch;
@@ -286,8 +279,8 @@ body::before {
 
 .category-card:hover {
   transform: translateY(-2px);
-  border-color: rgba(17, 19, 23, 0.14);
-  box-shadow: 0 26px 42px rgba(17, 19, 23, 0.08), var(--shadow-crisp);
+  border-color: var(--color-glass-border-hover);
+  box-shadow: 0 26px 42px rgba(0, 0, 0, 0.32), 0 0 0 1px var(--color-primary-glow), var(--shadow-crisp);
 }
 
 .category-card__title {
@@ -325,7 +318,7 @@ body::before {
 .category-card__link:focus-visible,
 .back-link:focus-visible,
 .continue-link:focus-visible {
-  outline: 3px solid #3a8cff;
+  outline: 3px solid var(--color-primary);
   outline-offset: 3px;
 }
 
@@ -413,7 +406,7 @@ body::before {
 
 .calculator-shell__error {
   margin: 0;
-  color: #b7483a;
+  color: #ff8f8f;
   font-weight: 700;
 }
 
@@ -433,14 +426,14 @@ body::before {
   padding: 12px 16px;
   border: 1px solid var(--color-border);
   border-radius: 9999px;
-  background: rgba(255, 250, 242, 0.86);
+  background: var(--color-surface-strong);
   color: var(--color-text);
   box-shadow: var(--shadow-soft), var(--shadow-crisp);
   cursor: pointer;
 }
 
 .theme-toggle:focus-visible {
-  outline: 3px solid #3a8cff;
+  outline: 3px solid var(--color-primary);
   outline-offset: 3px;
 }
 
@@ -493,7 +486,7 @@ body::before {
 .button:focus-visible,
 .text-input:focus-visible,
 .segmented-control__input:focus-visible + span {
-  outline: 3px solid #3a8cff;
+  outline: 3px solid var(--color-primary);
   outline-offset: 3px;
 }
 
@@ -519,7 +512,7 @@ body::before {
   padding: 15px 16px;
   border: 1px solid var(--color-border);
   border-radius: 20px;
-  background: rgba(255, 255, 255, 0.42);
+  background: var(--color-surface-tint);
   color: var(--color-text);
   font: inherit;
   box-shadow: var(--shadow-crisp);
@@ -557,7 +550,7 @@ body::before {
 
 .result-summary-card__value {
   margin: 0;
-  font-family: "Avenir Next", "Segoe UI", sans-serif;
+  font-family: inherit;
   font-size: 1.84rem;
   font-weight: 800;
   letter-spacing: -0.04em;
@@ -569,7 +562,7 @@ body::before {
   padding: 28px;
   border: 1px solid var(--color-border);
   border-radius: 28px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.26), transparent), var(--color-surface);
+  background: linear-gradient(180deg, rgba(100, 181, 246, 0.12), transparent), var(--color-surface);
   box-shadow: var(--shadow-soft), var(--shadow-crisp);
 }
 
