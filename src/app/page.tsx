@@ -30,7 +30,7 @@ const CALCULATOR_CARDS = [
 
 export default function HomePage() {
   return (
-    <main className="landing-shell">
+    <main className="landing-shell" id="main-content" tabIndex={-1}>
       <section className="landing-hero">
         <p className="eyebrow">India-first finance planning</p>
         <h1>Finance calculators for real life decisions</h1>

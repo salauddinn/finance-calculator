@@ -47,7 +47,7 @@ export default async function CalculatorEntryPage({
   const calculator = CALCULATOR_COPY[slug as CalculatorSlug];
 
   return (
-    <main className="calculator-entry">
+    <main className="calculator-entry" id="main-content" tabIndex={-1}>
       <Link className="back-link" href="/">
         Back to all calculators
       </Link>

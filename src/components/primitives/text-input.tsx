@@ -14,6 +14,7 @@ export function TextInput({ id, label, hint, className = "", ...props }: TextInp
       </label>
       <input
         id={id}
+        aria-describedby={hint ? `${id}-hint` : undefined}
         className={`text-input ${className}`.trim()}
         {...props}
       />

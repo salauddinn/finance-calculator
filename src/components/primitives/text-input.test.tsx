@@ -12,7 +12,10 @@ describe("TextInput", () => {
       />
     );
 
-    expect(screen.getByLabelText(/loan amount/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/loan amount/i)).toHaveAttribute(
+      "aria-describedby",
+      "principal-hint"
+    );
     expect(screen.getByText(/enter the principal in rupees/i)).toBeInTheDocument();
   });
 });

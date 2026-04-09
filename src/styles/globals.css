@@ -44,6 +44,26 @@ body {
   min-height: 100vh;
 }
 
+.skip-link {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  z-index: 20;
+  padding: 12px 16px;
+  border-radius: 9999px;
+  background: var(--color-primary);
+  color: var(--color-surface);
+  font-weight: 700;
+  text-decoration: none;
+  transform: translateY(-200%);
+}
+
+.skip-link:focus-visible {
+  transform: translateY(0);
+  outline: 3px solid #3a8cff;
+  outline-offset: 3px;
+}
+
 .landing-shell {
   min-height: 100vh;
   padding: 48px 24px;
@@ -138,8 +158,15 @@ body {
   text-decoration: none;
 }
 
+.continue-link {
+  color: var(--color-primary);
+  font-weight: 700;
+  text-decoration: none;
+}
+
 .category-card__link:focus-visible,
-.back-link:focus-visible {
+.back-link:focus-visible,
+.continue-link:focus-visible {
   outline: 3px solid #3a8cff;
   outline-offset: 3px;
 }

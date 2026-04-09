@@ -11,6 +11,7 @@ describe("HomePage", () => {
   it("shows the primary finance calculator heading", () => {
     render(<HomePage />);
 
+    expect(screen.getByRole("main")).toHaveAttribute("id", "main-content");
     expect(
       screen.getByRole("heading", {
         level: 1,
