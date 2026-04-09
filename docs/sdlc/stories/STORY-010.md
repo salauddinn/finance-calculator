@@ -1,5 +1,5 @@
 ---
-status: TO_DO
+status: DONE
 milestone: M3
 track: C
 depends_on: STORY-004, STORY-007

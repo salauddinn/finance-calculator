@@ -159,3 +159,21 @@
 ## Review verdict
 
 - [x] PASS — no P0/P1 findings
+
+# Critical review — STORY-010 — 2026-04-09
+
+## P0 findings (block release)
+
+- None.
+
+## P1 findings (fix before merge)
+
+- None.
+
+## P2 findings (tech debt — log and continue)
+
+- None. The advanced engine handles the approved event types deterministically and the UI presents a clear impact summary without changing the locked contracts.
+
+## Review verdict
+
+- [x] PASS — no P0/P1 findings
