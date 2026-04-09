@@ -1,4 +1,5 @@
 import { CalculatorCategoryCard } from "@/components/layout/calculator-category-card";
+import { ContinueCalculatorLink } from "@/components/layout/continue-calculator-link";
 
 const CALCULATOR_CARDS = [
   {
@@ -42,6 +43,7 @@ export default function HomePage() {
       <section className="trust-strip" aria-label="Trust messaging">
         <p>Built for transparent assumptions, not hidden surprises.</p>
         <p>Every result is designed to feel readable, reviewable, and calm.</p>
+        <ContinueCalculatorLink />
       </section>
 
       <section className="category-grid" aria-label="Calculator categories">

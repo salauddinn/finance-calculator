@@ -5,6 +5,7 @@ import { useMemo, useState } from "react";
 import { Button } from "@/components/primitives/button";
 import { ResultSummaryCard } from "@/components/primitives/result-summary-card";
 import { TextInput } from "@/components/primitives/text-input";
+import { useCalculatorPreferences } from "@/features/preferences/use-calculator-preferences";
 import { calculateAdvancedHomeLoan } from "@/lib/calculations/home-loan-advanced/home-loan-advanced";
 
 function formatCurrency(value: number) {
@@ -16,10 +17,10 @@ function formatCurrency(value: number) {
 }
 
 export function HomeLoanAdvancedCalculator() {
-  const [strategy, setStrategy] = useState<
-    "keep-emi-adjust-tenure" | "keep-tenure-adjust-emi"
-  >("keep-emi-adjust-tenure");
-  const [prepaymentAmount, setPrepaymentAmount] = useState("200000");
+  const [inputs, setInputs] = useCalculatorPreferences("home-loan-advanced", {
+    strategy: "keep-emi-adjust-tenure",
+    prepaymentAmount: "200000"
+  });
   const [refreshKey, setRefreshKey] = useState(0);
 
   const result = useMemo(
@@ -31,20 +32,22 @@ export function HomeLoanAdvancedCalculator() {
         },
         annualRatePct: 8.75,
         tenureMonths: 240,
-        strategy,
+        strategy: inputs.strategy as
+          | "keep-emi-adjust-tenure"
+          | "keep-tenure-adjust-emi",
         events: [
           {
             id: "prepay-6",
             monthIndex: 6,
             type: "prepayment",
             amount: {
-              value: Number(prepaymentAmount),
+              value: Number(inputs.prepaymentAmount),
               currency: "INR"
             }
           }
         ]
       }),
-    [prepaymentAmount, refreshKey, strategy]
+    [inputs, refreshKey]
   );
 
   return (
@@ -67,13 +70,12 @@ export function HomeLoanAdvancedCalculator() {
             <select
               id="advanced-home-loan-strategy"
               className="text-input"
-              value={strategy}
+              value={inputs.strategy}
               onChange={(event) =>
-                setStrategy(
-                  event.target.value as
-                    | "keep-emi-adjust-tenure"
-                    | "keep-tenure-adjust-emi"
-                )
+                setInputs((current) => ({
+                  ...current,
+                  strategy: event.target.value
+                }))
               }
             >
               <option value="keep-emi-adjust-tenure">
@@ -88,8 +90,13 @@ export function HomeLoanAdvancedCalculator() {
           <TextInput
             id="advanced-home-loan-prepayment"
             label="Prepayment amount"
-            value={prepaymentAmount}
-            onChange={(event) => setPrepaymentAmount(event.target.value)}
+            value={inputs.prepaymentAmount}
+            onChange={(event) =>
+              setInputs((current) => ({
+                ...current,
+                prepaymentAmount: event.target.value
+              }))
+            }
           />
         </div>
 

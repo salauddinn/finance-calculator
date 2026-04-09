@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { CalculatorRoute } from "@/app/calculators/[slug]/calculator-route";
+
 const CALCULATOR_COPY = {
   "personal-loan": {
     title: "Personal Loan Calculator",
@@ -26,12 +28,17 @@ type CalculatorPageProps = {
   params: Promise<{
     slug: string;
   }>;
+  searchParams?: Promise<{
+    mode?: string;
+  }>;
 };
 
 export default async function CalculatorEntryPage({
-  params
+  params,
+  searchParams
 }: CalculatorPageProps) {
   const { slug } = await params;
+  const resolvedSearchParams = searchParams ? await searchParams : undefined;
 
   if (!(slug in CALCULATOR_COPY)) {
     notFound();
@@ -48,6 +55,9 @@ export default async function CalculatorEntryPage({
         <p className="eyebrow">Calculator entry</p>
         <h1>{calculator.title}</h1>
         <p className="hero-copy">{calculator.description}</p>
+      </section>
+      <section className="calculator-entry__panel">
+        <CalculatorRoute slug={slug} mode={resolvedSearchParams?.mode} />
       </section>
     </main>
   );

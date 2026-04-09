@@ -1,10 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
 
 import { ResultSummaryCard } from "@/components/primitives/result-summary-card";
 import { TextInput } from "@/components/primitives/text-input";
+import { useCalculatorPreferences } from "@/features/preferences/use-calculator-preferences";
 import { calculateSimpleHomeLoan } from "@/lib/calculations/home-loan-simple/home-loan-simple";
 import {
   parseSimpleLoanInput,
@@ -30,7 +30,10 @@ function getErrorMessage(issues: ValidationIssue[], field: string) {
 }
 
 export function HomeLoanSimpleCalculator() {
-  const [inputs, setInputs] = useState(DEFAULT_INPUTS);
+  const [inputs, setInputs] = useCalculatorPreferences(
+    "home-loan-simple",
+    DEFAULT_INPUTS
+  );
 
   const validation = parseSimpleLoanInput(inputs);
   const result = validation.ok

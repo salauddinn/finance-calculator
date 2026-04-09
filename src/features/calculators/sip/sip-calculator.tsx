@@ -5,6 +5,7 @@ import { useMemo, useState, type FormEvent } from "react";
 import { Button } from "@/components/primitives/button";
 import { ResultSummaryCard } from "@/components/primitives/result-summary-card";
 import { TextInput } from "@/components/primitives/text-input";
+import { useCalculatorPreferences } from "@/features/preferences/use-calculator-preferences";
 import { calculateSip, type SipResult } from "@/lib/calculations/sip/calculate-sip";
 
 const currencyFormatter = new Intl.NumberFormat("en-IN", {
@@ -22,9 +23,11 @@ function toNumber(value: string) {
 }
 
 export function SipCalculator() {
-  const [monthlyContribution, setMonthlyContribution] = useState("10000");
-  const [annualReturnPct, setAnnualReturnPct] = useState("12");
-  const [durationMonths, setDurationMonths] = useState("24");
+  const [inputs, setInputs] = useCalculatorPreferences("sip", {
+    monthlyContribution: "10000",
+    annualReturnPct: "12",
+    durationMonths: "24"
+  });
   const [result, setResult] = useState<SipResult | null>(null);
 
   const assumptions = useMemo(
@@ -37,9 +40,9 @@ export function SipCalculator() {
 
     setResult(
       calculateSip({
-        monthlyContribution: toNumber(monthlyContribution),
-        annualReturnPct: toNumber(annualReturnPct),
-        durationMonths: toNumber(durationMonths)
+        monthlyContribution: toNumber(inputs.monthlyContribution),
+        annualReturnPct: toNumber(inputs.annualReturnPct),
+        durationMonths: toNumber(inputs.durationMonths)
       })
     );
   }
@@ -57,8 +60,13 @@ export function SipCalculator() {
           <TextInput
             id="sip-monthly-contribution"
             label="Monthly contribution"
-            value={monthlyContribution}
-            onChange={(event) => setMonthlyContribution(event.target.value)}
+            value={inputs.monthlyContribution}
+            onChange={(event) =>
+              setInputs((current) => ({
+                ...current,
+                monthlyContribution: event.target.value
+              }))
+            }
             inputMode="decimal"
             type="number"
             step="any"
@@ -67,8 +75,13 @@ export function SipCalculator() {
           <TextInput
             id="sip-annual-return"
             label="Expected annual return"
-            value={annualReturnPct}
-            onChange={(event) => setAnnualReturnPct(event.target.value)}
+            value={inputs.annualReturnPct}
+            onChange={(event) =>
+              setInputs((current) => ({
+                ...current,
+                annualReturnPct: event.target.value
+              }))
+            }
             inputMode="decimal"
             type="number"
             step="any"
@@ -77,8 +90,13 @@ export function SipCalculator() {
           <TextInput
             id="sip-duration-months"
             label="Duration in months"
-            value={durationMonths}
-            onChange={(event) => setDurationMonths(event.target.value)}
+            value={inputs.durationMonths}
+            onChange={(event) =>
+              setInputs((current) => ({
+                ...current,
+                durationMonths: event.target.value
+              }))
+            }
             inputMode="numeric"
             type="number"
             step="1"

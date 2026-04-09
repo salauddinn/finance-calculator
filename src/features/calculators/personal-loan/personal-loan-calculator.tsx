@@ -1,10 +1,9 @@
 "use client";
 
-import { useState } from "react";
-
 import { Button } from "@/components/primitives/button";
 import { ResultSummaryCard } from "@/components/primitives/result-summary-card";
 import { TextInput } from "@/components/primitives/text-input";
+import { useCalculatorPreferences } from "@/features/preferences/use-calculator-preferences";
 import {
   parseSimpleLoanInput,
   type ValidationIssue
@@ -30,7 +29,10 @@ function getErrorMessage(issues: ValidationIssue[], field: string) {
 }
 
 export function PersonalLoanCalculator() {
-  const [inputs, setInputs] = useState(DEFAULT_INPUTS);
+  const [inputs, setInputs] = useCalculatorPreferences(
+    "personal-loan",
+    DEFAULT_INPUTS
+  );
 
   const validation = parseSimpleLoanInput(inputs);
   const result = validation.ok

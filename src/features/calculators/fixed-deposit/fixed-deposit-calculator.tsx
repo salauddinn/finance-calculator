@@ -1,7 +1,8 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 
+import { useCalculatorPreferences } from "@/features/preferences/use-calculator-preferences";
 import {
   calculateFixedDeposit,
   type CompoundingFrequency
@@ -18,21 +19,22 @@ function formatCurrency(value: number) {
 }
 
 export function FixedDepositCalculator() {
-  const [depositAmount, setDepositAmount] = useState("100000");
-  const [annualRatePct, setAnnualRatePct] = useState("7.5");
-  const [tenureMonths, setTenureMonths] = useState("24");
-  const [compoundingFrequency, setCompoundingFrequency] =
-    useState<CompoundingFrequency>("yearly");
+  const [inputs, setInputs] = useCalculatorPreferences("fixed-deposit", {
+    depositAmount: "100000",
+    annualRatePct: "7.5",
+    tenureMonths: "24",
+    compoundingFrequency: "yearly"
+  });
 
   const result = useMemo(
     () =>
       calculateFixedDeposit({
-        depositAmount: Number(depositAmount),
-        annualRatePct: Number(annualRatePct),
-        tenureMonths: Number(tenureMonths),
-        compoundingFrequency
+        depositAmount: Number(inputs.depositAmount),
+        annualRatePct: Number(inputs.annualRatePct),
+        tenureMonths: Number(inputs.tenureMonths),
+        compoundingFrequency: inputs.compoundingFrequency as CompoundingFrequency
       }),
-    [annualRatePct, compoundingFrequency, depositAmount, tenureMonths]
+    [inputs]
   );
 
   return (
@@ -44,8 +46,13 @@ export function FixedDepositCalculator() {
         <input
           id="fd-deposit"
           className="text-input"
-          value={depositAmount}
-          onChange={(event) => setDepositAmount(event.target.value)}
+          value={inputs.depositAmount}
+          onChange={(event) =>
+            setInputs((current) => ({
+              ...current,
+              depositAmount: event.target.value
+            }))
+          }
         />
       </div>
 
@@ -56,8 +63,13 @@ export function FixedDepositCalculator() {
         <input
           id="fd-rate"
           className="text-input"
-          value={annualRatePct}
-          onChange={(event) => setAnnualRatePct(event.target.value)}
+          value={inputs.annualRatePct}
+          onChange={(event) =>
+            setInputs((current) => ({
+              ...current,
+              annualRatePct: event.target.value
+            }))
+          }
         />
       </div>
 
@@ -68,8 +80,13 @@ export function FixedDepositCalculator() {
         <input
           id="fd-tenure"
           className="text-input"
-          value={tenureMonths}
-          onChange={(event) => setTenureMonths(event.target.value)}
+          value={inputs.tenureMonths}
+          onChange={(event) =>
+            setInputs((current) => ({
+              ...current,
+              tenureMonths: event.target.value
+            }))
+          }
         />
       </div>
 
@@ -80,9 +97,12 @@ export function FixedDepositCalculator() {
         <select
           id="fd-compounding"
           className="text-input"
-          value={compoundingFrequency}
+          value={inputs.compoundingFrequency}
           onChange={(event) =>
-            setCompoundingFrequency(event.target.value as CompoundingFrequency)
+            setInputs((current) => ({
+              ...current,
+              compoundingFrequency: event.target.value
+            }))
           }
         >
           <option value="monthly">Monthly</option>
