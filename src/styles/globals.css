@@ -159,6 +159,49 @@ body {
   box-shadow: var(--shadow-soft);
 }
 
+.calculator-shell {
+  display: grid;
+  gap: 24px;
+}
+
+.calculator-panel {
+  display: grid;
+  gap: 20px;
+  padding: 28px;
+  border: 1px solid var(--color-border);
+  border-radius: 28px;
+  background: var(--color-surface-strong);
+  box-shadow: var(--shadow-soft);
+}
+
+.calculator-copy {
+  display: grid;
+  gap: 8px;
+}
+
+.calculator-copy h2 {
+  margin: 0;
+  font-size: 1.6rem;
+}
+
+.calculator-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.calculator-results {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.calculator-shell__error {
+  margin: 0;
+  color: #b7483a;
+  font-weight: 700;
+}
+
 .theme-toggle {
   position: fixed;
   top: 20px;
