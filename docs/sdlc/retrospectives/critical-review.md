@@ -70,6 +70,24 @@
 
 - [x] PASS — no P0/P1 findings
 
+# Critical review — STORY-006 — 2026-04-09
+
+## P0 findings (block release)
+
+- None.
+
+## P1 findings (fix before merge)
+
+- None.
+
+## P2 findings (tech debt — log and continue)
+
+- None. The personal-loan calculator stays within scope, passes the focused UI and math tests, and the full suite/build remain green.
+
+## Review verdict
+
+- [x] PASS — no P0/P1 findings
+
 # Critical review — STORY-009 — 2026-04-09
 
 ## P0 findings (block release)
