@@ -155,9 +155,42 @@ Allow users to enter loan and financial simulation values interactively with a s
 ### Dependencies
 - Existing `TextInput` styles and `globals.css` grid structure.
 
-### Scope risks
-- Vertical layout could look un-optimized on wide screens. Ensure max-width limits stretching.
-
 ### Existing behavior check
 - `TextInput` is currently manually updated.
 - `.calculator-shell` creates a two-column grid.
+
+## Story: STORY-015 — Advanced Calculator Modes — 2026-04-11
+
+### User job-to-be-done
+Allow power users to simulate realistic, complex financial scenarios (e.g., prepayments, rate changes, step-up contributions, taxation) for personal loans, home loans, SIPs, and fixed deposits, without cluttering the interface for casual users.
+
+### Business outcome
+- Increase engagement and session length from power users analyzing their exact financial situations.
+- Position the application as a professional, high-trust tool compared to basic generic calculators.
+
+### User personas affected
+- Salaried Sam (can now plan prepayments on his home loan).
+
+### Acceptance criteria
+- Given a user is on any calculator
+- When they toggle to "Advanced" mode
+- Then they see additional inputs (e.g., prepayments, moratorium for loans; step-up, inflation for SIP; TDS, payout frequency for FD)
+- Given a user enters advanced parameters
+- When the calculator processes the values
+- Then the outputs accurately reflect the complex scenario month-by-month, and update the summary metrics instantly.
+
+### Definition of done (story level)
+- [ ] Acceptance criteria verified with passing tests
+- [ ] Amortization schedule logic thoroughly tested for accuracy against known datasets
+- [ ] UI gracefully handles the transition between Simple and Advanced modes
+- [ ] No performance regression on simple calculations
+
+### Dependencies
+- Existing `TextInput` and `Slider` components (from STORY-014).
+
+### Scope risks
+- Complex interest accrual math (e.g., varying days in a month vs standard 30/360) could lead to discrepancy with banking systems if not explicitly documented.
+- Displaying full amortization tables might bloat the DOM; pagination or lazy loading may be required if shown.
+
+### Existing behavior check
+- Calculators currently use fixed, simple mathematical formulas (e.g., standard PMT). They will need to be refactored to support iterative monthly schedules for advanced modes.

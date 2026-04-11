@@ -5,8 +5,8 @@
 | Component | Technology | Version | Notes |
 |---|---|---|---|
 | Language | TypeScript | 5.9.3 | Strict mode via Next.js defaults |
-| Runtime | Node.js | v24.13.0 locally | Project target is Node 22 via `.nvmrc` and `package.json` engines |
-| Framework | Next.js | 16.2.2 | App Router |
+| Runtime | Node.js | v24.13.0 | Project targets Node 24 via `.nvmrc` and `package.json` engines |
+| Framework | Next.js | 16.2.3 | App Router |
 | UI library | React | 19.2.0 | Client/server component mix |
 | Styling | Global CSS | N/A | Token-like CSS custom properties in `src/styles/globals.css` |
 | Persistence | browser localStorage | schema version 1 | Preferences only, no backend |
@@ -16,12 +16,12 @@
 
 ## Test coverage baseline
 
-- Total test files: 22
-- Total tests: 39
-- Passing: 39
+- Total test files: ~23
+- Total tests: ~51
+- Passing: 51
 - Failing: 0
 - Coverage: not currently measured by repo tooling; no coverage report is configured yet
-- Last run: 2026-04-09 08:39 IST
+- Last run: 2026-04-11 (After STORY-014-slider execution)
 
 **Baseline constraint:** total passing suite must remain green and no existing automated coverage may be removed during the redesign.
 
@@ -37,10 +37,8 @@
 
 ## Known tech debt
 
-- Landing and calculator UI are functionally correct but visually basic relative to the approved premium design direction.
 - Result presentation is accurate but not sufficiently guided for non-expert users; outputs read like raw metrics rather than decision support.
 - Test pyramid is integration-heavy, with only a minimal e2e smoke layer.
-- Some calculator components duplicate local formatting and input wiring patterns that could be composed more intentionally during a redesign.
 
 ## Integration points
 

@@ -10,13 +10,15 @@ India-first consumer finance calculator web app for personal loans, home loans, 
 - Home loan calculator with simple and advanced planning modes
 - SIP growth calculator
 - Fixed deposit maturity calculator
+- Interactive range sliders for fast numeric input
+- Vertical, mobile-friendly component layouts
 - Light and dark themes
 - Local preference persistence for recent inputs
 - Accessible navigation and production security headers
 
 ## Stack
 
-- Next.js 16
+- Next.js 16.2.3
 - React 19
 - TypeScript 5
 - Vitest for unit and integration tests
@@ -56,4 +58,5 @@ GitHub Actions CI now runs the same checks from [`.github/workflows/ci.yml`](/Us
 - Product requirements: [docs/product/features/brd.md](/Users/salauddin/Projects/learning/Personal%20Projects/finace-calculator/docs/product/features/brd.md)
 - Design system: [docs/product/design-system.md](/Users/salauddin/Projects/learning/Personal%20Projects/finace-calculator/docs/product/design-system.md)
 - Architecture: [docs/architecture/tech-architecture.md](/Users/salauddin/Projects/learning/Personal%20Projects/finace-calculator/docs/architecture/tech-architecture.md)
+- Existing System state: [docs/architecture/existing-system.md](/Users/salauddin/Projects/learning/Personal%20Projects/finace-calculator/docs/architecture/existing-system.md)
 - Implementation plan: [docs/sdlc/epics/implementation-plan.md](/Users/salauddin/Projects/learning/Personal%20Projects/finace-calculator/docs/sdlc/epics/implementation-plan.md)
