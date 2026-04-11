@@ -92,7 +92,8 @@ describe("global styling foundation", () => {
     expect(entryHeroBlock).toContain("grid-template-columns: 1fr;");
     expect(entryHeroBlock).toContain("justify-items: center;");
     expect(entryPanelBlock).toContain("backdrop-filter: var(--glass-blur);");
-    expect(shellBlock).toContain("grid-template-columns: minmax(320px, 0.95fr) minmax(0, 1.05fr);");
+    expect(shellBlock).toContain("display: flex;");
+    expect(shellBlock).toContain("flex-direction: column;");
     expect(formBlock).toContain("background: var(--color-surface-strong);");
     expect(formBlock).toContain("backdrop-filter: var(--glass-blur);");
     expect(resultsBlock).toContain("background: var(--color-surface-strong);");

@@ -9,12 +9,12 @@ describe("HomeLoanSimpleCalculator", () => {
 
     render(<HomeLoanSimpleCalculator />);
 
-    await user.clear(screen.getByLabelText(/home loan amount/i));
-    await user.type(screen.getByLabelText(/home loan amount/i), "4500000");
-    await user.clear(screen.getByLabelText(/annual interest rate/i));
-    await user.type(screen.getByLabelText(/annual interest rate/i), "8.75");
-    await user.clear(screen.getByLabelText(/tenure in months/i));
-    await user.type(screen.getByLabelText(/tenure in months/i), "240");
+    await user.clear(screen.getByRole("textbox", { name: /home loan amount/i }));
+    await user.type(screen.getByRole("textbox", { name: /home loan amount/i }), "4500000");
+    await user.clear(screen.getByRole("textbox", { name: /annual interest rate/i }));
+    await user.type(screen.getByRole("textbox", { name: /annual interest rate/i }), "8.75");
+    await user.clear(screen.getByRole("textbox", { name: /tenure in months/i }));
+    await user.type(screen.getByRole("textbox", { name: /tenure in months/i }), "240");
 
     expect(screen.getByText(/monthly emi/i)).toBeInTheDocument();
     expect(screen.getAllByText(/₹39,767/i).length).toBeGreaterThan(0);

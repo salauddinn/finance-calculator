@@ -180,3 +180,19 @@ None.
 
 ### Accessibility additions
 - Slider element within the `SliderInput` must use the native `input type="range"` for robust keyboard support, focus management, and standard ARIA traits without custom logic.
+
+## Story delta — STORY-015: Advanced Calculator Modes — 2026-04-11
+
+### New components introduced
+
+| Component | States | Reuses existing | Notes |
+|---|---|---|---|
+| ModeToggle | default, focus, checked | Button/Segmented control | A pill-shaped segmented control to switch between Simple and Advanced modes. |
+| AdvancedOptionsAccordion | collapsed, expanded | Accordion | Groups advanced inputs together to avoid cluttering the primary view. |
+
+### New design tokens
+None.
+
+### Accessibility additions
+- The `ModeToggle` must correctly manage `aria-pressed` or behave as standard radio inputs so screen readers understand the active mode.
+- The `AdvancedOptionsAccordion` must handle focus correctly when expanded and use `aria-expanded` and `aria-controls`.

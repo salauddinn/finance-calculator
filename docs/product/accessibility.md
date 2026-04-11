@@ -68,3 +68,8 @@ WCAG 2.2 AA minimum across light and dark themes.
 - Redesigned calculator pages must expose one clear primary result before secondary metrics
 - Supporting “what this means” copy must be readable in sequence after the primary result cards
 - Landing page trust and category sections must preserve semantic headings and link clarity during the visual overhaul
+
+## Story delta — STORY-015: Advanced Calculator Modes — 2026-04-11
+
+- When toggling between Simple and Advanced modes, focus should remain logical and screen readers should be notified of the contextual change if needed.
+- Complex amortization tables shown in advanced mode must be navigable with standard table semantics (th and scope).

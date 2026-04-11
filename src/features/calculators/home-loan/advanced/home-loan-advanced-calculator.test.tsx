@@ -10,8 +10,8 @@ describe("HomeLoanAdvancedCalculator", () => {
     render(<HomeLoanAdvancedCalculator />);
 
     await user.selectOptions(screen.getByLabelText(/strategy/i), "keep-tenure-adjust-emi");
-    await user.clear(screen.getByLabelText(/prepayment amount/i));
-    await user.type(screen.getByLabelText(/prepayment amount/i), "200000");
+    await user.clear(screen.getByRole("textbox", { name: /prepayment amount/i }));
+    await user.type(screen.getByRole("textbox", { name: /prepayment amount/i }), "200000");
     await user.click(screen.getByRole("button", { name: /recalculate advanced plan/i }));
 
     expect(screen.getByText(/final monthly emi/i)).toBeInTheDocument();

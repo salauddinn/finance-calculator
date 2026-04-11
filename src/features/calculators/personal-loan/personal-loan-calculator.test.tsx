@@ -9,12 +9,12 @@ describe("PersonalLoanCalculator", () => {
 
     render(<PersonalLoanCalculator />);
 
-    await user.clear(screen.getByLabelText(/loan amount/i));
-    await user.type(screen.getByLabelText(/loan amount/i), "500000");
-    await user.clear(screen.getByLabelText(/annual interest rate/i));
-    await user.type(screen.getByLabelText(/annual interest rate/i), "10");
-    await user.clear(screen.getByLabelText(/tenure in months/i));
-    await user.type(screen.getByLabelText(/tenure in months/i), "24");
+    await user.clear(screen.getByRole("textbox", { name: /loan amount/i }));
+    await user.type(screen.getByRole("textbox", { name: /loan amount/i }), "500000");
+    await user.clear(screen.getByRole("textbox", { name: /annual interest rate/i }));
+    await user.type(screen.getByRole("textbox", { name: /annual interest rate/i }), "10");
+    await user.clear(screen.getByRole("textbox", { name: /tenure in months/i }));
+    await user.type(screen.getByRole("textbox", { name: /tenure in months/i }), "24");
 
     expect(screen.getByText(/monthly emi/i)).toBeInTheDocument();
     expect(screen.getAllByText(/₹23,072/i).length).toBeGreaterThan(0);
@@ -31,8 +31,8 @@ describe("PersonalLoanCalculator", () => {
 
     render(<PersonalLoanCalculator />);
 
-    await user.clear(screen.getByLabelText(/loan amount/i));
-    await user.type(screen.getByLabelText(/loan amount/i), "-1");
+    await user.clear(screen.getByRole("textbox", { name: /loan amount/i }));
+    await user.type(screen.getByRole("textbox", { name: /loan amount/i }), "-1");
 
     expect(screen.getByText(/principal must be greater than zero/i)).toBeInTheDocument();
   });

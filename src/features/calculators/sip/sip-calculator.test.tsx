@@ -9,12 +9,12 @@ describe("SipCalculator", () => {
 
     render(<SipCalculator />);
 
-    await user.clear(screen.getByLabelText(/monthly contribution/i));
-    await user.type(screen.getByLabelText(/monthly contribution/i), "10000");
-    await user.clear(screen.getByLabelText(/expected annual return/i));
-    await user.type(screen.getByLabelText(/expected annual return/i), "12");
-    await user.clear(screen.getByLabelText(/duration in months/i));
-    await user.type(screen.getByLabelText(/duration in months/i), "24");
+    await user.clear(screen.getByRole("textbox", { name: /monthly contribution/i }));
+    await user.type(screen.getByRole("textbox", { name: /monthly contribution/i }), "10000");
+    await user.clear(screen.getByRole("textbox", { name: /expected annual return/i }));
+    await user.type(screen.getByRole("textbox", { name: /expected annual return/i }), "12");
+    await user.clear(screen.getByRole("textbox", { name: /duration in months/i }));
+    await user.type(screen.getByRole("textbox", { name: /duration in months/i }), "24");
 
     expect(screen.getAllByText(/invested amount/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/estimated returns/i).length).toBeGreaterThan(0);

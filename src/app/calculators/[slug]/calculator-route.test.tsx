@@ -25,7 +25,7 @@ describe("CalculatorRoute", () => {
     render(<CalculatorRoute slug="personal-loan" />);
 
     await waitFor(() => {
-      expect(screen.getByLabelText(/loan amount/i)).toHaveValue("765432");
+      expect(screen.getByRole("textbox", { name: /loan amount/i })).toHaveValue("765432");
     });
   });
 
