@@ -9,7 +9,7 @@ describe("performance budgets", () => {
     const personalLoanRun = measureAgainstBudget("personal-loan", () => {
       for (let index = 0; index < 200; index += 1) {
         calculatePersonalLoan({
-          principal: { value: 2500000, currency: "INR" },
+          principal: 2500000,
           annualRatePct: 8.5,
           tenureMonths: 240
         });

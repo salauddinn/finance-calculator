@@ -6,3 +6,8 @@ vi.mock("next/font/google", () => ({
     variable: "font-inter"
   })
 }));
+
+vi.mock("next/navigation", () => ({
+  notFound: vi.fn(),
+  useSearchParams: () => new URLSearchParams()
+}));

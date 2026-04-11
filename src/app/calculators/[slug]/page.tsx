@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 
 import { CalculatorRoute } from "@/app/calculators/[slug]/calculator-route";
 
@@ -24,21 +25,22 @@ const CALCULATOR_COPY = {
 
 type CalculatorSlug = keyof typeof CALCULATOR_COPY;
 
+const VALID_SLUGS = Object.keys(CALCULATOR_COPY) as CalculatorSlug[];
+
+export function generateStaticParams() {
+  return VALID_SLUGS.map((slug) => ({ slug }));
+}
+
 type CalculatorPageProps = {
   params: Promise<{
     slug: string;
   }>;
-  searchParams?: Promise<{
-    mode?: string;
-  }>;
 };
 
 export default async function CalculatorEntryPage({
-  params,
-  searchParams
+  params
 }: CalculatorPageProps) {
   const { slug } = await params;
-  const resolvedSearchParams = searchParams ? await searchParams : undefined;
 
   if (!(slug in CALCULATOR_COPY)) {
     notFound();
@@ -59,7 +61,9 @@ export default async function CalculatorEntryPage({
         </div>
       </section>
       <section className="calculator-entry__panel">
-        <CalculatorRoute slug={slug} mode={resolvedSearchParams?.mode} />
+        <Suspense>
+          <CalculatorRoute slug={slug} />
+        </Suspense>
       </section>
     </main>
   );
