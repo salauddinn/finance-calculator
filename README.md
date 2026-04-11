@@ -1,5 +1,7 @@
 # Finance Calculator India
 
+**Live at:** [https://salauddinn.github.io/finance-calculator/](https://salauddinn.github.io/finance-calculator/)
+
 India-first consumer finance calculator web app for personal loans, home loans, SIP growth, and fixed deposits. The app is built for fast calculations, clear assumptions, and browser-local preference persistence without user accounts.
 
 ## Features
