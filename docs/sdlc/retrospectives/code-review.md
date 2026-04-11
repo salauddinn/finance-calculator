@@ -77,3 +77,14 @@
 ## Result
 
 - [x] PASS
+
+# Code Review — Node 24 Upgrade — 2026-04-11
+
+## Findings
+
+- [x] `.nvmrc` updated to 24.
+- [x] `package.json` engine version updated to 24.x.
+
+## Result
+
+- [x] PASS
