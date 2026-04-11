@@ -1,5 +1,5 @@
 ---
-status: TO_DO
+status: DONE
 milestone: M3
 track: A
 depends_on: STORY-014a, STORY-014b
@@ -35,13 +35,13 @@ parent: STORY-014
 - Then it still renders somewhere accessible on the homepage
 
 **Tasks:**
-- [ ] Rewrite `src/app/page.tsx` with new centered hero layout matching mockup
-- [ ] Update `calculator-category-card.tsx` to accept and render a `category` pill badge prop and arrow icon
-- [ ] Add stat strip section with 3 glass stat blocks
-- [ ] Add homepage-specific CSS rules to `globals.css` (hero centering, pill badge, stat strip grid, CTA button row)
-- [ ] Ensure `ContinueCalculatorLink` is preserved in the new layout
-- [ ] Verify responsive layout at 900px breakpoint
-- [ ] Verify `npm run build` passes
+- [x] Rewrite `src/app/page.tsx` with new centered hero layout matching mockup
+- [x] Update `calculator-category-card.tsx` to accept and render a `category` pill badge prop and arrow icon
+- [x] Add stat strip section with 3 glass stat blocks
+- [x] Add homepage-specific CSS rules to `globals.css` (hero centering, pill badge, stat strip grid, CTA button row)
+- [x] Ensure `ContinueCalculatorLink` is preserved in the new layout
+- [x] Verify responsive layout at 900px breakpoint
+- [x] Verify `npm run build` passes
 
 **Files owned:** `src/app/page.tsx`, `src/components/layout/calculator-category-card.tsx`, `src/styles/globals.css` (homepage section CSS only)
 **Merge strategy:** Feature branch, squash merge to main

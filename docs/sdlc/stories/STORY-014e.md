@@ -1,5 +1,5 @@
 ---
-status: TO_DO
+status: DONE
 milestone: M5
 track: B
 depends_on: STORY-014a, STORY-014d
@@ -39,12 +39,14 @@ parent: STORY-014
 - Then all tests pass (no formula or prop changes)
 
 **Tasks:**
-- [ ] Update `src/app/calculators/[slug]/page.tsx` — remove "How to use" sidebar, simplify hero to single-column with pill badge
-- [ ] Update `calculator-entry__hero` CSS to single-column centered layout
-- [ ] Update `calculator-entry__panel` CSS for glass effect
-- [ ] Update `calculator-shell`, `calculator-panel`, `calculator-results` CSS for glass styling
-- [ ] Verify all 5 calculator feature components render correctly with new glass classes (class names unchanged, just CSS updates)
-- [ ] Verify `npm test` passes
+- [x] Update `src/app/calculators/[slug]/page.tsx` — remove "How to use" sidebar, simplify hero to single-column with pill badge
+- [x] Update `calculator-entry__hero` CSS to single-column centered layout
+- [x] Update `calculator-entry__panel` CSS for glass effect
+- [x] Update `calculator-shell`, `calculator-panel`, `calculator-results` CSS for glass styling
+- [x] Verify all 5 calculator feature components render correctly with new glass classes (class names unchanged, just CSS updates)
+- [x] Verify `npm test` passes
+
+**Verification note:** Calculator routes keep the existing class contracts, and the full regression suite stayed green after the layout refresh.
 
 **Files owned:** `src/app/calculators/[slug]/page.tsx`, `src/styles/globals.css` (calculator layout CSS sections only)
 **Merge strategy:** Feature branch, squash merge to main

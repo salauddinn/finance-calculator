@@ -1,8 +1,13 @@
 "use client";
 
-import { useEffect, useState, type ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  type ReactNode
+} from "react";
 
-import { ThemeToggle } from "@/components/layout/theme-toggle";
 import {
   DEFAULT_PREFERENCES,
   createPreferencesStorageAdapter,
@@ -15,8 +20,25 @@ type ThemeProviderProps = Readonly<{
   children: ReactNode;
 }>;
 
+type ThemeContextValue = {
+  theme: ThemeMode;
+  toggleTheme: () => void;
+};
+
+const ThemeContext = createContext<ThemeContextValue | null>(null);
+
 function resolveTheme(theme: StoredPreferences["theme"]): ThemeMode {
   return theme === "dark" ? "dark" : "light";
+}
+
+export function useTheme() {
+  const context = useContext(ThemeContext);
+
+  if (context === null) {
+    throw new Error("useTheme must be used within ThemeProvider.");
+  }
+
+  return context;
 }
 
 export function ThemeProvider({ children }: ThemeProviderProps) {
@@ -53,10 +75,10 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
     });
   }
 
-  return (
-    <>
-      <ThemeToggle theme={resolveTheme(preferences.theme)} onToggle={handleToggle} />
-      {children}
-    </>
-  );
+  const value: ThemeContextValue = {
+    theme: resolveTheme(preferences.theme),
+    toggleTheme: handleToggle
+  };
+
+  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
 }

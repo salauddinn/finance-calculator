@@ -8,44 +8,46 @@ describe("HomePage", () => {
     window.localStorage.clear();
   });
 
-  it("shows the primary finance calculator heading", () => {
+  it("shows the centered hero heading, badge, and call-to-action buttons", () => {
     const { container } = render(<HomePage />);
 
     expect(screen.getByRole("main")).toHaveAttribute("id", "main-content");
+    expect(screen.getByText(/india-first finance tools/i)).toBeInTheDocument();
     expect(
       screen.getByRole("heading", {
         level: 1,
-        name: /finance calculators for real life decisions/i
+        name: /money decisions, made clear/i
       })
     ).toBeInTheDocument();
-    expect(container.querySelector(".landing-hero")).toHaveClass("motion-fade-up");
     expect(
-      screen.getByRole("heading", {
-        level: 2,
-        name: /pick the calculator that matches your next money decision/i
-      })
-    ).toBeInTheDocument();
+      screen.getByRole("link", { name: /explore calculators/i })
+    ).toHaveAttribute("href", "#calculator-categories");
+    expect(screen.getByRole("link", { name: /learn more/i })).toHaveAttribute(
+      "href",
+      "#homepage-stats"
+    );
+    expect(container.querySelector(".landing-hero")).toHaveClass("motion-fade-up");
   });
 
-  it("shows trust messaging and calculator navigation", () => {
+  it("shows category cards with pill badges and a glass stat strip", () => {
     const { container } = render(<HomePage />);
 
     expect(
-      screen.getByText(
-        /designed for salary earners, first-time investors, and real financial planning/i
-      )
-    ).toBeInTheDocument();
-    expect(
-      screen.getByRole("link", { name: /explore personal loan calculator/i })
+      screen.getByRole("link", { name: /explore personal loan calculator ↗/i })
     ).toHaveAttribute("href", "/calculators/personal-loan");
     expect(
-      screen.getByRole("link", { name: /explore home loan calculator/i })
+      screen.getByRole("link", { name: /explore home loan calculator ↗/i })
     ).toHaveAttribute("href", "/calculators/home-loan");
-    expect(
-      screen.getAllByText(/understand the monthly commitment before you commit/i)
-        .length
-    ).toBeGreaterThan(0);
-    expect(container.querySelector(".trust-strip")).toHaveClass("motion-fade-up");
+    expect(screen.getAllByText(/loan/i).length).toBeGreaterThan(0);
+    expect(screen.getByText(/investment/i)).toBeInTheDocument();
+    expect(screen.getByText(/^Savings$/i)).toBeInTheDocument();
+    expect(screen.getByText(/^5$/)).toBeInTheDocument();
+    expect(screen.getByText(/^Calculators$/)).toBeInTheDocument();
+    expect(screen.getByText(/^2$/)).toBeInTheDocument();
+    expect(screen.getByText(/^Home Loan Modes$/)).toBeInTheDocument();
+    expect(screen.getByText(/^0$/)).toBeInTheDocument();
+    expect(screen.getByText(/^Accounts Required$/)).toBeInTheDocument();
+    expect(container.querySelector(".landing-stats")).toHaveClass("motion-fade-up");
     expect(container.querySelectorAll(".category-card")[0]).toHaveClass(
       "motion-fade-up",
       "motion-stagger-1"
@@ -56,7 +58,7 @@ describe("HomePage", () => {
     render(<HomePage />);
 
     const fixedDepositLink = screen.getByRole("link", {
-      name: /explore fixed deposit calculator/i
+      name: /explore fixed deposit calculator ↗/i
     });
 
     expect(fixedDepositLink).toHaveAttribute("href", "/calculators/fixed-deposit");

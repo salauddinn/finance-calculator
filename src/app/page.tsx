@@ -3,29 +3,29 @@ import { ContinueCalculatorLink } from "@/components/layout/continue-calculator-
 
 const CALCULATOR_CARDS = [
   {
+    category: "Loan",
     title: "Personal Loan Calculator",
-    highlight: "Borrowing clarity",
     description:
       "Understand the monthly commitment before you commit, with totals that are easy to review.",
     href: "/calculators/personal-loan"
   },
   {
+    category: "Loan",
     title: "Home Loan Calculator",
-    highlight: "Big-decision planning",
     description:
       "Start with a simple EMI check, then move into advanced prepayment and rate-change scenarios.",
     href: "/calculators/home-loan"
   },
   {
+    category: "Investment",
     title: "SIP Calculator",
-    highlight: "Long-term investing",
     description:
       "See how regular monthly investing could grow over time without needing finance jargon.",
     href: "/calculators/sip"
   },
   {
+    category: "Savings",
     title: "Fixed Deposit Calculator",
-    highlight: "Low-risk savings",
     description:
       "Check what you get back at maturity and how much of that is earned interest.",
     href: "/calculators/fixed-deposit"
@@ -36,63 +36,36 @@ export default function HomePage() {
   return (
     <main className="landing-shell" id="main-content" tabIndex={-1}>
       <section className="landing-hero motion-fade-up motion-stagger-1">
+        <p className="landing-badge">India-first finance tools</p>
         <div className="landing-hero__content">
-          <p className="eyebrow">India-first finance planning</p>
-          <h1>Finance calculators for real life decisions</h1>
+          <h1>Money decisions, made clear</h1>
           <p className="hero-copy">
-            Plan loans, SIP growth, and fixed deposits with clearer assumptions,
-            calmer visuals, and numbers that are easier to act on.
+            Explore calculators for loans, investing, and savings with a calmer
+            interface that helps the important numbers stand out quickly.
           </p>
-        </div>
-        <div className="landing-hero__spotlight">
-          <p className="landing-hero__spotlight-label">Built for everyday clarity</p>
-          <p className="landing-hero__spotlight-copy">
-            Designed for salary earners, first-time investors, and real financial
-            planning.
-          </p>
-          <div className="landing-hero__spotlight-grid">
-            <div>
-              <strong>5</strong>
-              <span>Core calculators</span>
-            </div>
-            <div>
-              <strong>2</strong>
-              <span>Home loan modes</span>
-            </div>
-            <div>
-              <strong>0</strong>
-              <span>Accounts required</span>
-            </div>
+          <div className="landing-hero__actions">
+            <a className="button button--primary" href="#calculator-categories">
+              Explore Calculators
+            </a>
+            <a className="button button--secondary" href="#homepage-stats">
+              Learn more
+            </a>
           </div>
+          <ContinueCalculatorLink />
         </div>
       </section>
 
       <section
-        className="trust-strip motion-fade-up motion-stagger-2"
-        aria-label="Trust messaging"
+        className="category-grid"
+        id="calculator-categories"
+        aria-label="Calculator categories"
       >
-        <div className="trust-strip__block">
-          <p className="trust-strip__eyebrow">What makes this different</p>
-          <p>Built for transparent assumptions, not hidden surprises.</p>
-        </div>
-        <div className="trust-strip__block">
-          <p className="trust-strip__eyebrow">Why people use it</p>
-          <p>Every result is designed to feel readable, reviewable, and calm.</p>
-        </div>
-        <div className="trust-strip__block">
-          <p className="trust-strip__eyebrow">Where to start</p>
-          <p>Understand the monthly commitment before you commit.</p>
-        </div>
-        <ContinueCalculatorLink />
-      </section>
-
-      <section className="category-grid" aria-label="Calculator categories">
         <div className="section-heading motion-fade-up motion-stagger-3">
           <p className="eyebrow">Choose a starting point</p>
-          <h2>Pick the calculator that matches your next money decision</h2>
+          <h2>Find the calculator that matches your next move</h2>
           <p className="hero-copy">
-            Each calculator is designed to show the main answer first, then
-            explain the supporting numbers in plain language.
+            Each card opens a focused calculator with the main answer first and
+            the supporting context close behind it.
           </p>
         </div>
         {CALCULATOR_CARDS.map((card, index) => (
@@ -102,6 +75,25 @@ export default function HomePage() {
             {...card}
           />
         ))}
+      </section>
+
+      <section
+        className="landing-stats motion-fade-up motion-stagger-2"
+        id="homepage-stats"
+        aria-label="Calculator highlights"
+      >
+        <article className="landing-stats__card">
+          <strong>5</strong>
+          <span>Calculators</span>
+        </article>
+        <article className="landing-stats__card">
+          <strong>2</strong>
+          <span>Home Loan Modes</span>
+        </article>
+        <article className="landing-stats__card">
+          <strong>0</strong>
+          <span>Accounts Required</span>
+        </article>
       </section>
     </main>
   );

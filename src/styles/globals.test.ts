@@ -45,4 +45,87 @@ describe("global styling foundation", () => {
     expect(themeToggleBlock).toBeDefined();
     expect(themeToggleBlock).not.toContain("position: fixed");
   });
+
+  it("styles buttons and segmented controls for the dark glass theme", () => {
+    const stylesheet = readStylesheet();
+    const primaryButtonBlock = stylesheet.match(/\.button--primary\s*{[\s\S]*?}/)?.[0];
+    const primaryButtonHoverBlock = stylesheet.match(/\.button--primary:hover\s*{[\s\S]*?}/)?.[0];
+    const secondaryButtonBlock = stylesheet.match(/\.button--secondary\s*{[\s\S]*?}/)?.[0];
+    const segmentedControlBlock = stylesheet.match(/\.segmented-control\s*{[\s\S]*?}/)?.[0];
+    const segmentedActiveBlock =
+      stylesheet.match(/\.segmented-control__option--active span\s*{[\s\S]*?}/)?.[0];
+
+    expect(primaryButtonBlock).toContain("background: var(--color-primary);");
+    expect(primaryButtonBlock).toContain("color: #ffffff;");
+    expect(primaryButtonHoverBlock).toContain("var(--color-primary-glow)");
+    expect(secondaryButtonBlock).toContain("border-color: var(--color-border);");
+    expect(secondaryButtonBlock).toContain("color: var(--color-text);");
+    expect(segmentedControlBlock).toContain("backdrop-filter: var(--glass-blur);");
+    expect(segmentedActiveBlock).toContain("background: var(--color-primary);");
+    expect(segmentedActiveBlock).toContain("color: #ffffff;");
+  });
+
+  it("styles result cards and panels with glass blur and blue-tinted highlights", () => {
+    const stylesheet = readStylesheet();
+    const summaryCardBlock = stylesheet.match(/\.result-summary-card\s*{[\s\S]*?}/)?.[0];
+    const positiveCardBlock = stylesheet.match(/\.result-summary-card--positive\s*{[\s\S]*?}/)?.[0];
+    const cautionCardBlock = stylesheet.match(/\.result-summary-card--caution\s*{[\s\S]*?}/)?.[0];
+    const valueBlock = stylesheet.match(/\.result-summary-card__value\s*{[\s\S]*?}/)?.[0];
+    const insightPanelBlock = stylesheet.match(/\.result-insight-panel\s*{[\s\S]*?}/)?.[0];
+
+    expect(summaryCardBlock).toContain("backdrop-filter: var(--glass-blur);");
+    expect(summaryCardBlock).toContain("background: var(--color-surface-strong);");
+    expect(positiveCardBlock).toContain("var(--color-glass-border-hover)");
+    expect(cautionCardBlock).toContain("rgba(144, 202, 249, 0.28)");
+    expect(valueBlock).toContain("color: var(--color-text);");
+    expect(insightPanelBlock).toContain("backdrop-filter: var(--glass-blur);");
+    expect(insightPanelBlock).toContain("linear-gradient(180deg, rgba(100, 181, 246, 0.12), transparent)");
+  });
+
+  it("styles calculator entry pages as centered glass layouts", () => {
+    const stylesheet = readStylesheet();
+    const entryHeroBlock = stylesheet.match(/\.calculator-entry__hero\s*{[\s\S]*?}/)?.[0];
+    const entryPanelBlock = stylesheet.match(/\.calculator-entry__panel\s*{[\s\S]*?}/)?.[0];
+    const shellBlock = stylesheet.match(/\.calculator-shell\s*{[\s\S]*?}/)?.[0];
+    const formBlock = stylesheet.match(/\.calculator-shell__form,\s*[\s\S]*?}/)?.[0];
+    const resultsBlock = stylesheet.match(/\.calculator-results\s*{[\s\S]*?}/)?.[0];
+
+    expect(entryHeroBlock).toContain("grid-template-columns: 1fr;");
+    expect(entryHeroBlock).toContain("justify-items: center;");
+    expect(entryPanelBlock).toContain("backdrop-filter: var(--glass-blur);");
+    expect(shellBlock).toContain("grid-template-columns: minmax(320px, 0.95fr) minmax(0, 1.05fr);");
+    expect(formBlock).toContain("background: var(--color-surface-strong);");
+    expect(formBlock).toContain("backdrop-filter: var(--glass-blur);");
+    expect(resultsBlock).toContain("background: var(--color-surface-strong);");
+    expect(resultsBlock).toContain("backdrop-filter: var(--glass-blur);");
+  });
+
+  it("provides opaque fallbacks when backdrop-filter is unavailable", () => {
+    const stylesheet = readStylesheet();
+    const fallbackBlock =
+      stylesheet.match(/@supports not \(backdrop-filter: blur\(1px\)\)\s*{[\s\S]*?}\s*}/)?.[0];
+
+    expect(fallbackBlock).toBeDefined();
+    expect(fallbackBlock).toContain(".site-navbar__inner");
+    expect(fallbackBlock).toContain(".landing-hero");
+    expect(fallbackBlock).toContain(".calculator-panel");
+    expect(fallbackBlock).toContain(".calculator-results");
+    expect(fallbackBlock).toContain("background: var(--color-background);");
+  });
+
+  it("disables hover transforms and transitions for reduced motion", () => {
+    const stylesheet = readStylesheet();
+    const reducedMotionBlock =
+      stylesheet.match(/@media \(prefers-reduced-motion: reduce\)\s*{[\s\S]*?}\s*}/)?.[0];
+
+    expect(reducedMotionBlock).toBeDefined();
+    expect(reducedMotionBlock).toContain(".motion-fade-up");
+    expect(reducedMotionBlock).toContain("animation: none;");
+    expect(reducedMotionBlock).toContain(".category-card");
+    expect(reducedMotionBlock).toContain(".button");
+    expect(reducedMotionBlock).toContain(".theme-toggle");
+    expect(reducedMotionBlock).toContain(".site-navbar__inner");
+    expect(reducedMotionBlock).toContain("transition: none;");
+    expect(reducedMotionBlock).toContain("transform: none;");
+  });
 });

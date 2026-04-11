@@ -1,5 +1,5 @@
 ---
-status: IN_PROGRESS
+status: DONE
 milestone: M2
 track: A
 depends_on: STORY-014a
@@ -39,13 +39,13 @@ parent: STORY-014
 - Then all existing tests pass
 
 **Tasks:**
-- [ ] Create `src/components/layout/navbar.tsx` with glass navbar markup (logo, nav link, theme toggle slot)
-- [ ] Add navbar CSS rules to `globals.css` (glass effect, layout, responsive)
-- [ ] Update `theme-toggle.tsx` to render as an icon button (moon/sun icons via inline SVG or unicode) suitable for navbar
-- [ ] Update `layout.tsx` to render `<Navbar>` wrapping or containing `<ThemeProvider>`
-- [ ] Update `ThemeProvider` default preference to `"dark"`
-- [ ] Remove old floating `.theme-toggle` fixed-position CSS
-- [ ] Verify `npm test` passes
+- [x] Create `src/components/layout/navbar.tsx` with glass navbar markup (logo, nav link, theme toggle slot)
+- [x] Add navbar CSS rules to `globals.css` (glass effect, layout, responsive)
+- [x] Update `theme-toggle.tsx` to render as an icon button (moon/sun icons via inline SVG or unicode) suitable for navbar
+- [x] Update `layout.tsx` to render `<Navbar>` wrapping or containing `<ThemeProvider>`
+- [x] Update `ThemeProvider` default preference to `"dark"`
+- [x] Remove old floating `.theme-toggle` fixed-position CSS
+- [x] Verify `npm test` passes
 
 **Files owned:** `src/components/layout/navbar.tsx` (new), `src/components/layout/theme-toggle.tsx`, `src/features/preferences/theme/theme-provider.tsx`, `src/app/layout.tsx` (navbar integration), `src/styles/globals.css` (navbar + toggle CSS sections only)
 **Merge strategy:** Feature branch, squash merge to main

@@ -2,7 +2,7 @@
 
 ## Scope
 
-Final release verification for the V1 calculator platform covering STORY-001 through STORY-012, including calculator correctness, navigation, accessibility hardening, persistence, production headers, and one end-to-end browser smoke path.
+Final release verification for the V1 calculator platform covering STORY-001 through STORY-014, including calculator correctness, navigation, accessibility hardening, persistence, the Midnight Ocean visual overhaul, production headers, and one end-to-end browser smoke path.
 
 ## Environment
 
@@ -26,6 +26,9 @@ Final release verification for the V1 calculator platform covering STORY-001 thr
 | TC-008 | STORY-012 | Integration | Production config is inspected | Metadata and security headers are loaded | App exposes release-ready metadata and response hardening headers | Pass |
 | TC-009 | STORY-012 | Unit | Representative calculator engines are benchmarked | Each engine runs its budget loop | All runs remain under the approved in-test budget | Pass |
 | TC-010 | STORY-012 | E2E | User lands on the homepage in Chromium | User opens the personal loan calculator | Homepage renders and the calculator route loads with default input values | Pass |
+| TC-011 | STORY-014b, STORY-014c | Integration | User lands on the redesigned homepage | Navbar, hero, stat strip, and calculator cards render | Glass navbar, new hero copy, CTA anchors, and category cards appear as specified | Pass |
+| TC-012 | STORY-014e, STORY-014f | Unit + integration | User opens a calculator entry page or uses reduced-motion / no-backdrop environments | Layout and CSS contracts are evaluated | Calculator hero is centered, glass panels render, fallback backgrounds exist, and reduced-motion disables animations/transitions | Pass |
+| TC-013 | STORY-014g | Regression | The app runs on the patched dependency set | Full suite, build, and smoke e2e execute | All automated checks pass on Next.js 16.2.3 with the updated homepage selector | Pass |
 
 ## Regression scope
 
@@ -49,15 +52,15 @@ Final release verification for the V1 calculator platform covering STORY-001 thr
 
 ## Results summary
 
-- Total automated tests: 40
-- Passing: 40
+- Total automated tests: 51
+- Passing: 51
 - Failing: 0
-- Test pyramid: Unit 38% / Integration 60% / E2E 2%
-- Test pyramid deviation: documented. V1 prioritized deterministic formula coverage and route-level UI integration coverage; a smoke e2e layer is present and should expand in the next cycle.
+- Test pyramid: Unit 55% / Integration 41% / E2E 2%
+- Test pyramid deviation: documented. The project still undershoots the 70/20/10 target because V1 relies on a mix of deterministic calculator unit tests and story-level route/component integration checks, while e2e remains a smoke layer. This does not block release but should be improved in a future cycle.
 - Performance targets: Pass
 - HITL test cases resolved: 1/1
 - Evidence:
-  - `npm test` -> 39/39 passing on 2026-04-09
-  - `npm run test:e2e` -> 1/1 passing on 2026-04-09
-  - `npm run build` -> passing on 2026-04-09
-  - `npm audit --audit-level=high` -> 0 vulnerabilities on 2026-04-09
+  - `npm test` -> 50/50 passing on 2026-04-10
+  - `npm run test:e2e` -> 1/1 passing on 2026-04-10
+  - `npm run build` -> passing on 2026-04-10
+  - `npm audit --audit-level=high` -> 0 vulnerabilities on 2026-04-10

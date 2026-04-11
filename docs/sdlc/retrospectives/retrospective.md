@@ -52,3 +52,35 @@
 
 - Add a repo template for `docs/sdlc/test-plans/test-plan.md` so the testing stage does not start from a blank file.
 - Add Playwright configuration earlier in greenfield web projects to avoid late-cycle environment setup.
+
+## Story retrospective — STORY-014: Midnight Ocean visual overhaul — 2026-04-10
+
+### Delivery fidelity
+
+- Acceptance criteria met: yes across STORY-014a through STORY-014g, including the navbar, homepage, calculator entry layout, accessibility fallbacks, and regression verification.
+- Automated verification: 40 checks before the story cycle to 51 checks after it, with the full regression stack green at handoff.
+- Regression tests: all pass after upgrading Next.js from `16.2.2` to `16.2.3` during final review.
+
+### What changed from plan
+
+- A high-severity Next.js advisory appeared during final code review, so the cycle included a patch upgrade that was not part of the original visual-overhaul plan.
+- Generated-file drift (`next-env.d.ts`) and deleted workspace notes had to be cleaned up before handoff to keep the final diff intentional.
+
+### Bugs found
+
+- In-scope bugs fixed: outdated homepage smoke selector, missing calculator-entry regression coverage, and missing reduced-motion / fallback coverage for the new glass surfaces.
+- Out-of-scope bugs logged as separate stories: none.
+
+### Tech debt
+
+- Introduced (with justification): none.
+- Resolved incidentally: the `GHSA-q4gf-8mx6-v5v3` advisory by upgrading to Next.js `16.2.3`.
+
+### Skills library updates
+
+- The testing and code-review skills would benefit from an explicit reminder that Next.js dev/e2e runs can mutate `next-env.d.ts`, so generated-file drift should be reviewed before commit.
+
+### Process improvements
+
+- Run `npm audit --audit-level=high` before writing final review docs so dependency findings surface earlier in the closeout phase.
+- Preserve story workspace artifacts during cleanup so the SDLC trail remains intact without requiring restoration later.

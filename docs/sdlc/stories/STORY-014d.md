@@ -1,5 +1,5 @@
 ---
-status: TO_DO
+status: DONE
 milestone: M4
 track: B
 depends_on: STORY-014a
@@ -47,15 +47,15 @@ parent: STORY-014
 - Then all tests pass without modification (no prop contract changes)
 
 **Tasks:**
-- [ ] Update `.text-input` CSS for dark glass appearance
-- [ ] Update `.button--primary` CSS for sky blue background and glow hover
-- [ ] Update `.button--secondary` CSS for glass appearance
-- [ ] Update `.result-summary-card` CSS for glass effect with `backdrop-filter`
-- [ ] Update `.result-summary-card--positive` and `--caution` border tones for dark palette
-- [ ] Update `.result-insight-panel` CSS for glass gradient overlay
-- [ ] Update `.segmented-control` CSS for glass container and blue active state
-- [ ] Update focus-visible rules to use outline that contrasts on glass surfaces
-- [ ] Verify `npm test` passes — no prop contract changes
+- [x] Update `.text-input` CSS for dark glass appearance
+- [x] Update `.button--primary` CSS for sky blue background and glow hover
+- [x] Update `.button--secondary` CSS for glass appearance
+- [x] Update `.result-summary-card` CSS for glass effect with `backdrop-filter`
+- [x] Update `.result-summary-card--positive` and `--caution` border tones for dark palette
+- [x] Update `.result-insight-panel` CSS for glass gradient overlay
+- [x] Update `.segmented-control` CSS for glass container and blue active state
+- [x] Update focus-visible rules to use outline that contrasts on glass surfaces
+- [x] Verify `npm test` passes — no prop contract changes
 
 **Files owned:** `src/styles/globals.css` (primitive component CSS sections only)
 **Merge strategy:** Feature branch, squash merge to main

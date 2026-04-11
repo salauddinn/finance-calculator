@@ -8,7 +8,7 @@ test("users can open the homepage and move into a calculator flow", async ({
   await expect(
     page.getByRole("heading", {
       level: 1,
-      name: /finance calculators for real life decisions/i
+      name: /money decisions, made clear/i
     })
   ).toBeVisible();
 

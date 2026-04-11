@@ -53,18 +53,9 @@ export default async function CalculatorEntryPage({
       </Link>
       <section className="calculator-entry__panel">
         <div className="calculator-entry__hero">
-          <div>
-            <p className="eyebrow">Calculator entry</p>
-            <h1>{calculator.title}</h1>
-            <p className="hero-copy">{calculator.description}</p>
-          </div>
-          <div className="calculator-entry__summary">
-            <p className="calculator-entry__summary-label">How to use this page</p>
-            <p>
-              Start with the inputs on the left, look for the main answer first,
-              then review the supporting numbers and plain-language explanation.
-            </p>
-          </div>
+          <p className="landing-badge">Calculator entry</p>
+          <h1>{calculator.title}</h1>
+          <p className="hero-copy">{calculator.description}</p>
         </div>
       </section>
       <section className="calculator-entry__panel">

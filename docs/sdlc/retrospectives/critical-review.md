@@ -231,3 +231,21 @@
 ## Review verdict
 
 - [x] PASS — no P0/P1 findings
+
+# Critical review — STORY-014 — 2026-04-10
+
+## P0 findings (block release)
+
+- None.
+
+## P1 findings (fix before merge)
+
+- None.
+
+## P2 findings (tech debt — log and continue)
+
+- None. The Midnight Ocean overhaul stayed inside the approved presentation and preference-default scope, and the full regression stack remained green after the Playwright selector update.
+
+## Review verdict
+
+- [x] PASS — no P0/P1 findings
