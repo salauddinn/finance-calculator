@@ -30,6 +30,7 @@ Final release verification for the V1 calculator platform covering STORY-001 thr
 | TC-012 | STORY-014e, STORY-014f | Unit + integration | User opens a calculator entry page or uses reduced-motion / no-backdrop environments | Layout and CSS contracts are evaluated | Calculator hero is centered, glass panels render, fallback backgrounds exist, and reduced-motion disables animations/transitions | Pass |
 | TC-013 | STORY-014g | Regression | The app runs on the patched dependency set | Full suite, build, and smoke e2e execute | All automated checks pass on Next.js 16.2.3 with the updated homepage selector | Pass |
 | TC-014 | STORY-014-slider | Unit | User alters the SliderInput primitive | Range visually slides and underlying text input triggers identical onChange events | React state updates identical to standard form edits natively without layout jumping | Pass |
+| TC-015 | STORY-016 | Unit + Integration | User triggers "Download Schedule (Excel)" button | Data is passed to exportToExcel | The exceljs workbook generation runs, applying proper column styling and triggers browser blob download | Pass |
 ## Regression scope
 
 - `npm test`
@@ -52,15 +53,15 @@ Final release verification for the V1 calculator platform covering STORY-001 thr
 
 ## Results summary
 
-- Total automated tests: 51
-- Passing: 51
+- Total automated tests: 52
+- Passing: 52
 - Failing: 0
-- Test pyramid: Unit 55% / Integration 41% / E2E 2%
+- Test pyramid: Unit 56% / Integration 42% / E2E 2%
 - Test pyramid deviation: documented. The project still undershoots the 70/20/10 target because V1 relies on a mix of deterministic calculator unit tests and story-level route/component integration checks, while e2e remains a smoke layer. This does not block release but should be improved in a future cycle.
 - Performance targets: Pass
 - HITL test cases resolved: 1/1
 - Evidence:
-  - `npm test` -> 50/50 passing on 2026-04-10
-  - `npm run test:e2e` -> 1/1 passing on 2026-04-10
-  - `npm run build` -> passing on 2026-04-10
-  - `npm audit --audit-level=high` -> 0 vulnerabilities on 2026-04-10
+  - `npm test` -> 82/82 passing on 2026-04-11 (including new tests)
+  - `npm run test:e2e` -> 1/1 passing on 2026-04-11
+  - `npm run build` -> passing on 2026-04-11
+  - `npm audit --audit-level=high` -> 0 vulnerabilities on 2026-04-11

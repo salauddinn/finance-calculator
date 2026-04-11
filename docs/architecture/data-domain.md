@@ -368,6 +368,44 @@ interface AmortizationRow {
 }
 ```
 
+## Excel Export Utility Contracts
+
+### Column Definition
+
+```ts
+interface ExcelColumn<T> {
+  header: string;
+  key: keyof T;
+  width?: number;
+  format?: 'currency' | 'percent' | 'number' | 'text';
+  color?: string; // ARGB format, e.g., 'FFD1FAE5'
+}
+```
+
+### Export Interface
+
+```ts
+/**
+ * Generates an ExcelJS Workbook from data and column definitions.
+ * Separated from download logic for testability.
+ */
+function generateWorkbook<T>(
+  worksheetName: string,
+  data: T[],
+  columns: ExcelColumn<T>[]
+): ExcelJS.Workbook;
+
+/**
+ * Triggers a browser download of the generated Excel file.
+ */
+async function exportToExcel<T>(
+  filename: string,
+  worksheetName: string,
+  data: T[],
+  columns: ExcelColumn<T>[]
+): Promise<void>;
+```
+
 ## External Interfaces
 
 V2 remains a frontend-first product with no server-side user data storage. All FOIR analysis runs locally. Any future integrations require a superseding ADR and updated contracts in this document before implementation.

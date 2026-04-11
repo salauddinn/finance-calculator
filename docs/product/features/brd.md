@@ -195,40 +195,42 @@ Allow power users to simulate realistic, complex financial scenarios (e.g., prep
 ### Existing behavior check
 - Calculators currently use fixed, simple mathematical formulas (e.g., standard PMT). They will need to be refactored to support iterative monthly schedules for advanced modes.
 
-## Story: STORY-016 — CSV Export for Loan Schedules — 2026-04-11
+## Story: STORY-016 — Styled Excel (.xlsx) Export for Loan Schedules — 2026-04-11
 
 ### User job-to-be-done
-Download the month-by-month calculation break-down as an Excel-compatible spreadsheet so I can save it, manipulate it, or share it with an accountant/agent.
+Download the month-by-month calculation break-down as a beautifully styled native Excel (.xlsx) file, so I can save it, manipulate it, or share a premium, color-coded version with my family or agent.
 
 ### Business outcome
-- Increase perceived utility and professional trust by offering power-user capabilities.
+- Increase perceived utility, premium feel, and professional trust by offering beautifully formatted exports.
 - Encourage users to perform complex calculations on this site rather than switching entirely to a desktop spreadsheet.
 
 ### User personas affected
 - Salaried Sam (power user doing advanced modeling).
+- Starter Sneha (checking basic stuff, loves the visual clarity of colors).
 
 ### Acceptance criteria
 - Given a user has calculated their results on any calculator
 - When they look at the results section
-- Then they see an option to download their amortization/payment schedule as a CSV
-- Given a user clicks "Download Schedule (CSV)"
+- Then they see an option to download their amortization/payment schedule as Excel
+- Given a user clicks "Download Schedule (Excel)"
 - When the data is generated
-- Then a CSV file is dynamically generated in the browser and triggers a native download
-- Then the CSV columns correctly map to the month, opening balance, EMI/payment, principal, interest, closing balance, and any applied events
+- Then an `.xlsx` file is dynamically generated in the browser and triggers a native download
+- Then the Excel document contains bold headers, color-coded sections (e.g. distinct coloring for Interest vs Principal), and proper numeric/currency formatting for valid cells
 
 ### Definition of done (story level)
 - [ ] Acceptance criteria verified computationally
-- [ ] CSV generates entirely on client-side (no server round trips)
-- [ ] Regression tests still passing
-- [ ] UI button matches existing design-system tokens and placement best practices
+- [ ] Sheet generation happens entirely on the client-side (no server round trips)
+- [ ] `xlsx` (sheetjs) or equivalent lightweight library added to dependencies safely
+- [ ] UI button matches existing design-system tokens and says "Download Schedule (Excel)"
 
 ### Dependencies
 - Existing `calculate` logic needs to securely expose schedule objects.
+- New third-party dependency for Excel generation (e.g., `xlsx`).
 
 ### Scope risks
-- PDF generation or image generation is explicitly out of scope for this story.
-- Attempting to perfectly map to proprietary Excel formats (.xlsx) is out of scope; stick to universal text/csv.
+- PDF generation or image generation remain explicitly out of scope for this story.
+- Advanced multi-sheet reporting is out of scope; keep it to a single styled amortization schedule sheet.
 
 ### Existing behavior check
-- Currently, the results are just top-level summary metrics. Advanced calculators now return `schedule: LoanScheduleRow[]`, which is ready for export.
+- Currently, the results are just top-level summary metrics. Advanced calculators now return `schedule: LoanScheduleRow[]`, which is ready for Excel export.
 

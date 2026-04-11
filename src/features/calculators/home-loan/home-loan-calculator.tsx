@@ -9,9 +9,10 @@ import { ModeToggle } from "@/components/primitives/mode-toggle";
 import { AdvancedOptionsAccordion } from "@/components/primitives/advanced-options-accordion";
 import { useCalculatorPreferences } from "@/features/preferences/use-calculator-preferences";
 import { calculateSimpleHomeLoan } from "@/lib/calculations/home-loan-simple/home-loan-simple";
-import { calculateAdvancedHomeLoan } from "@/lib/calculations/home-loan-advanced/home-loan-advanced";
+import { calculateAdvancedHomeLoan, type LoanScheduleRow } from "@/lib/calculations/home-loan-advanced/home-loan-advanced";
 import { parseSimpleLoanInput, type ValidationIssue } from "@/lib/validation/calculator-inputs";
-
+import { Button } from "@/components/primitives/button";
+import { exportToExcel, type ExcelColumn } from "@/lib/export/excel-export";
 const DEFAULT_INPUTS = {
   principal: "4500000",
   annualRatePct: "8.75",
@@ -81,6 +82,33 @@ export function HomeLoanCalculator() {
   }, [validation, inputs, isAdvanced]);
 
   const validatedTenureMonths = result ? result.finalTenureMonths : inputs.tenureMonths;
+
+  const handleExport = async () => {
+    if (!result || !('schedule' in result)) return;
+    const schedule = (result as { schedule: LoanScheduleRow[] }).schedule;
+    
+    const data = schedule.map((row) => ({
+      month: row.monthIndex,
+      opening: row.openingBalance.value,
+      emi: row.emi.value,
+      principal: row.principalPaid.value,
+      interest: row.interestPaid.value,
+      closing: row.closingBalance.value,
+      event: row.eventApplied || '-'
+    }));
+
+    const columns: ExcelColumn<typeof data[0]>[] = [
+      { header: 'Month', key: 'month', width: 10, format: 'number' },
+      { header: 'Opening Balance', key: 'opening', width: 20, format: 'currency' },
+      { header: 'EMI', key: 'emi', width: 15, format: 'currency' },
+      { header: 'Principal Paid', key: 'principal', width: 15, format: 'currency', color: 'FFD1FAE5' }, // Tailwind orange-100 (FFD1FAE5) or green-100 (D1FAE5) -> wait, actually D1FAE5 is green-100.
+      { header: 'Interest Paid', key: 'interest', width: 15, format: 'currency', color: 'FFFEE2E2' }, // Tailwind red-100 (FEE2E2)
+      { header: 'Closing Balance', key: 'closing', width: 20, format: 'currency' },
+      { header: 'Event', key: 'event', width: 15, format: 'text' },
+    ];
+
+    await exportToExcel('home-loan-schedule', 'Schedule', data, columns);
+  };
 
   return (
     <section className="calculator-shell">
@@ -239,6 +267,14 @@ export function HomeLoanCalculator() {
                 ))}
               </ul>
             </section>
+          )}
+
+          {isAdvanced && 'schedule' in result && (
+            <div style={{ marginTop: "24px", display: "flex", justifyContent: "flex-end" }}>
+              <Button onClick={handleExport} variant="primary">
+                Download Schedule (Excel)
+              </Button>
+            </div>
           )}
         </>
       ) : null}

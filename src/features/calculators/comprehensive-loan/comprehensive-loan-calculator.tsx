@@ -7,6 +7,8 @@ import { ResultSummaryCard } from "@/components/primitives/result-summary-card";
 import { SliderInput } from "@/components/primitives/slider-input";
 import { ModeToggle } from "@/components/primitives/mode-toggle";
 import { AdvancedOptionsAccordion } from "@/components/primitives/advanced-options-accordion";
+import { Button } from "@/components/primitives/button";
+import { exportToExcel } from "@/lib/export/excel-export";
 import { useCalculatorPreferences } from "@/features/preferences/use-calculator-preferences";
 import { calculatePersonalLoan } from "@/lib/calculations/personal-loan/personal-loan";
 import {
@@ -197,6 +199,25 @@ export function ComprehensiveLoanCalculator() {
       ...current,
       [field]: event.target.checked ? "true" : "false",
     }));
+
+  const handleExport = async () => {
+    if (!result || !isAdvanced || !('schedule' in result) || result.schedule.length === 0) return;
+    
+    await exportToExcel(
+      "Comprehensive_Loan_Schedule",
+      "Amortization",
+      result.schedule,
+      [
+        { header: "Month", key: "month", format: "number" },
+        { header: "EMI", key: "emi", format: "currency", width: 18 },
+        { header: "Principal Paid", key: "principal", format: "currency", width: 18, color: 'FFD1FAE5' },
+        { header: "Interest Paid", key: "interest", format: "currency", width: 18, color: 'FFFEE2E2' },
+        { header: "Closing Balance", key: "balance", format: "currency", width: 20 },
+        { header: "Cumulative Interest", key: "cumulativeInterest", format: "currency", width: 20 },
+        { header: "Cumulative Principal", key: "cumulativePrincipal", format: "currency", width: 20 }
+      ]
+    );
+  };
 
   return (
     <section className="calculator-shell">

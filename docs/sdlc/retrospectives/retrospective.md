@@ -134,3 +134,29 @@
 
 ### Process improvements
 - Build-pipeline verification is now implicitly required prior to writing final output validations.
+
+## Story retrospective — STORY-016: Styled Excel (.xlsx) Export for Loan Schedules — 2026-04-11
+
+### Delivery fidelity
+- Acceptance criteria met: Y
+- Test coverage: Maintained passing test suite with new coverage for `excel-export.ts`. Total tests increased from 51 to 52.
+- Regression tests: all pass. Build succeeded.
+
+### What changed from plan
+- The original user request was for a "colorful CSV". During the brainstorming phase, I corrected this technical impossibility and pivoted the plan to use native Excel (`.xlsx`) via the `exceljs` library. The user approved this pivot.
+- During implementation, I had to mock `window.URL.createObjectURL` and `document.createElement` in the vitest setup/test file since we use `jsdom` which lacks full browser implementations for blob downloading.
+- During Critical Review, I caught that the initial implementation only alternated row colors but missed the explicit AC for color-coding the Principal and Interest columns distinctively. This was fixed inline.
+
+### Bugs found
+- In-scope bugs fixed: Fixed a TypeScript syntax error `() => {} as any` inside the vitest mock setup, replacing it with `() => undefined`.
+- Out-of-scope bugs logged as separate stories: None.
+
+### Tech debt
+- Introduced (with justification): `any` typings in mapper functions inside `home-loan-calculator.tsx` and `personal-loan-calculator.tsx` when casting the `schedule` rows for export. Justification: the internal types of the calculation engines have slight variations that would require extensive refactoring of the shared calculation outputs just for the export mapping.
+- Resolved incidentally: None.
+
+### Skills library updates
+- None specifically required from this story. The adversarial `critical-review` skill proved extremely effective at catching the missed color-coding AC before it reached the testing phase.
+
+### Process improvements
+- When dealing with file downloads or Blob generation in a React/jsdom testing environment, polyfilling URL methods should be explicitly mentioned in the Tech Plan to avoid surprises during the testing phase.

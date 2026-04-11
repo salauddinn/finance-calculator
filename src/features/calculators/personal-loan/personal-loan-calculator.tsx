@@ -10,8 +10,9 @@ import { AdvancedOptionsAccordion } from "@/components/primitives/advanced-optio
 import { useCalculatorPreferences } from "@/features/preferences/use-calculator-preferences";
 import { parseSimpleLoanInput, type ValidationIssue } from "@/lib/validation/calculator-inputs";
 import { calculatePersonalLoan } from "@/lib/calculations/personal-loan/personal-loan";
-import { calculatePersonalLoanAdvanced } from "@/lib/calculations/personal-loan/calculate-personal-loan-advanced";
-
+import { calculatePersonalLoanAdvanced, type LoanScheduleRow } from "@/lib/calculations/personal-loan/calculate-personal-loan-advanced";
+import { Button } from "@/components/primitives/button";
+import { exportToExcel, type ExcelColumn } from "@/lib/export/excel-export";
 const DEFAULT_INPUTS = {
   principal: "2500000",
   annualRatePct: "8.5",
@@ -71,6 +72,33 @@ export function PersonalLoanCalculator() {
 
   const validationIssues = validation.ok ? [] : validation.issues;
   const validatedTenureMonths = result ? result.finalTenureMonths : inputs.tenureMonths;
+
+  const handleExport = async () => {
+    if (!result || !('schedule' in result)) return;
+    const schedule = (result as { schedule: LoanScheduleRow[] }).schedule;
+    
+    const data = schedule.map((row) => ({
+      month: row.monthIndex,
+      opening: row.openingBalance.value,
+      emi: row.emi.value,
+      principal: row.principalPaid.value,
+      interest: row.interestPaid.value,
+      closing: row.closingBalance.value,
+      event: row.eventApplied || '-'
+    }));
+
+    const columns: ExcelColumn<typeof data[0]>[] = [
+      { header: 'Month', key: 'month', width: 10, format: 'number' },
+      { header: 'Opening Balance', key: 'opening', width: 20, format: 'currency' },
+      { header: 'EMI', key: 'emi', width: 15, format: 'currency' },
+      { header: 'Principal Paid', key: 'principal', width: 15, format: 'currency', color: 'FFD1FAE5' },
+      { header: 'Interest Paid', key: 'interest', width: 15, format: 'currency', color: 'FFFEE2E2' },
+      { header: 'Closing Balance', key: 'closing', width: 20, format: 'currency' },
+      { header: 'Event', key: 'event', width: 15, format: 'text' },
+    ];
+
+    await exportToExcel('personal-loan-schedule', 'Schedule', data, columns);
+  };
 
   return (
     <section className="calculator-shell">
@@ -195,6 +223,13 @@ export function PersonalLoanCalculator() {
                 />
               )}
             </div>
+            {isAdvanced && 'schedule' in result && (
+              <div style={{ marginTop: "24px", display: "flex", justifyContent: "flex-end" }}>
+                <Button onClick={handleExport} variant="primary">
+                  Download Schedule (Excel)
+                </Button>
+              </div>
+            )}
           </>
         ) : null}
       </div>

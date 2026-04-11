@@ -35,7 +35,7 @@ type AdvancedHomeLoanInput = {
   strategy: "keep-emi-adjust-tenure" | "keep-tenure-adjust-emi";
 };
 
-type LoanScheduleRow = {
+export type LoanScheduleRow = {
   monthIndex: number;
   openingBalance: CurrencyAmount;
   emi: CurrencyAmount;
@@ -45,7 +45,7 @@ type LoanScheduleRow = {
   eventApplied?: "prepayment" | "rate-change" | "moratorium";
 };
 
-type AdvancedHomeLoanResult = {
+export type AdvancedHomeLoanResult = {
   finalMonthlyEmi: CurrencyAmount;
   finalTenureMonths: number;
   totalRepayment: CurrencyAmount;
