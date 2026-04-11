@@ -12,6 +12,7 @@
 | M2 | Core calculator flows | Build personal loan, simple home loan, SIP, and fixed deposit calculators with immediate updates and local preference persistence | FR-001, FR-002, FR-005, FR-006, FR-007, FR-008, and FR-010 verified with passing tests | M1 |
 | M3 | Advanced home loan scenarios | Build advanced home loan mode with prepayment, repo-rate changes, and moratorium modeling plus clear explanatory output | FR-003 and advanced home loan aspects of FR-004, FR-006, and FR-007 verified with deterministic scenario tests | M2 |
 | M4 | Polish, accessibility, and production readiness | Finish landing experience, responsive UX, accessibility, performance, and deployment readiness | FR-009 and all NFR targets verified, e2e flows pass, production build is deployable | M3 |
+| M5 | Interactive UI Update | Implement premium range slider capabilities directly bound to user loan inputs. Updates vertical grid structures. | FR-007, FR-008 enhanced UI parameters enabled using `input type='range'` securely | M4 |
 
 ## FR Traceability
 

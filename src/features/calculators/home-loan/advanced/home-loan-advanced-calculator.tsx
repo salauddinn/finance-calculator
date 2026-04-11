@@ -5,7 +5,7 @@ import { useMemo, useState } from "react";
 import { Button } from "@/components/primitives/button";
 import { ResultInsightPanel } from "@/components/primitives/result-insight-panel";
 import { ResultSummaryCard } from "@/components/primitives/result-summary-card";
-import { TextInput } from "@/components/primitives/text-input";
+import { SliderInput } from "@/components/primitives/slider-input";
 import { useCalculatorPreferences } from "@/features/preferences/use-calculator-preferences";
 import { calculateAdvancedHomeLoan } from "@/lib/calculations/home-loan-advanced/home-loan-advanced";
 
@@ -88,10 +88,13 @@ export function HomeLoanAdvancedCalculator() {
             </select>
           </div>
 
-          <TextInput
+          <SliderInput
             id="advanced-home-loan-prepayment"
             label="Prepayment amount"
             value={inputs.prepaymentAmount}
+            min={0}
+            max={5000000}
+            step={10000}
             onChange={(event) =>
               setInputs((current) => ({
                 ...current,

@@ -4,7 +4,7 @@ import { useMemo } from "react";
 
 import { ResultInsightPanel } from "@/components/primitives/result-insight-panel";
 import { ResultSummaryCard } from "@/components/primitives/result-summary-card";
-import { TextInput } from "@/components/primitives/text-input";
+import { SliderInput } from "@/components/primitives/slider-input";
 import { useCalculatorPreferences } from "@/features/preferences/use-calculator-preferences";
 import { calculateSip } from "@/lib/calculations/sip/calculate-sip";
 
@@ -45,7 +45,7 @@ export function SipCalculator() {
         </div>
 
         <div className="calculator-grid">
-          <TextInput
+          <SliderInput
             id="sip-monthly-contribution"
             label="Monthly contribution"
             value={inputs.monthlyContribution}
@@ -55,14 +55,13 @@ export function SipCalculator() {
                 monthlyContribution: event.target.value
               }))
             }
-            inputMode="decimal"
-            type="number"
-            step="any"
-            min="0"
+            min={500}
+            max={500000}
+            step={500}
           />
-          <TextInput
+          <SliderInput
             id="sip-annual-return"
-            label="Expected annual return"
+            label="Expected annual return (%)"
             value={inputs.annualReturnPct}
             onChange={(event) =>
               setInputs((current) => ({
@@ -70,12 +69,11 @@ export function SipCalculator() {
                 annualReturnPct: event.target.value
               }))
             }
-            inputMode="decimal"
-            type="number"
-            step="any"
-            min="0"
+            min={1}
+            max={50}
+            step={0.5}
           />
-          <TextInput
+          <SliderInput
             id="sip-duration-months"
             label="Duration in months"
             value={inputs.durationMonths}
@@ -85,10 +83,9 @@ export function SipCalculator() {
                 durationMonths: event.target.value
               }))
             }
-            inputMode="numeric"
-            type="number"
-            step="1"
-            min="1"
+            min={6}
+            max={360}
+            step={6}
           />
 
         </div>

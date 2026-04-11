@@ -29,7 +29,7 @@ Final release verification for the V1 calculator platform covering STORY-001 thr
 | TC-011 | STORY-014b, STORY-014c | Integration | User lands on the redesigned homepage | Navbar, hero, stat strip, and calculator cards render | Glass navbar, new hero copy, CTA anchors, and category cards appear as specified | Pass |
 | TC-012 | STORY-014e, STORY-014f | Unit + integration | User opens a calculator entry page or uses reduced-motion / no-backdrop environments | Layout and CSS contracts are evaluated | Calculator hero is centered, glass panels render, fallback backgrounds exist, and reduced-motion disables animations/transitions | Pass |
 | TC-013 | STORY-014g | Regression | The app runs on the patched dependency set | Full suite, build, and smoke e2e execute | All automated checks pass on Next.js 16.2.3 with the updated homepage selector | Pass |
-
+| TC-014 | STORY-014-slider | Unit | User alters the SliderInput primitive | Range visually slides and underlying text input triggers identical onChange events | React state updates identical to standard form edits natively without layout jumping | Pass |
 ## Regression scope
 
 - `npm test`

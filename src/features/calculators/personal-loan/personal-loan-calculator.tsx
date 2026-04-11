@@ -2,7 +2,7 @@
 
 import { ResultInsightPanel } from "@/components/primitives/result-insight-panel";
 import { ResultSummaryCard } from "@/components/primitives/result-summary-card";
-import { TextInput } from "@/components/primitives/text-input";
+import { SliderInput } from "@/components/primitives/slider-input";
 import { useCalculatorPreferences } from "@/features/preferences/use-calculator-preferences";
 import {
   parseSimpleLoanInput,
@@ -51,22 +51,31 @@ export function PersonalLoanCalculator() {
   return (
     <section className="calculator-shell">
       <div className="calculator-shell__form">
-        <TextInput
+        <SliderInput
           id="personal-loan-principal"
           label="Loan amount"
           value={inputs.principal}
+          min={10000}
+          max={5000000}
+          step={10000}
           onChange={(event) => setInputs((current) => ({ ...current, principal: event.target.value }))}
         />
-        <TextInput
+        <SliderInput
           id="personal-loan-rate"
           label="Annual interest rate"
           value={inputs.annualRatePct}
+          min={1}
+          max={30}
+          step={0.1}
           onChange={(event) => setInputs((current) => ({ ...current, annualRatePct: event.target.value }))}
         />
-        <TextInput
+        <SliderInput
           id="personal-loan-tenure"
           label="Tenure in months"
           value={inputs.tenureMonths}
+          min={6}
+          max={120}
+          step={6}
           onChange={(event) => setInputs((current) => ({ ...current, tenureMonths: event.target.value }))}
         />
 

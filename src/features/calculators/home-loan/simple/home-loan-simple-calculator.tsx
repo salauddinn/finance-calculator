@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import { ResultInsightPanel } from "@/components/primitives/result-insight-panel";
 import { ResultSummaryCard } from "@/components/primitives/result-summary-card";
-import { TextInput } from "@/components/primitives/text-input";
+import { SliderInput } from "@/components/primitives/slider-input";
 import { useCalculatorPreferences } from "@/features/preferences/use-calculator-preferences";
 import { calculateSimpleHomeLoan } from "@/lib/calculations/home-loan-simple/home-loan-simple";
 import {
@@ -60,10 +60,13 @@ export function HomeLoanSimpleCalculator() {
         </div>
 
         <div className="calculator-grid">
-          <TextInput
+          <SliderInput
             id="home-loan-principal"
             label="Home loan amount"
             value={inputs.principal}
+            min={100000}
+            max={50000000}
+            step={100000}
             onChange={(event) =>
               setInputs((current) => ({
                 ...current,
@@ -71,10 +74,13 @@ export function HomeLoanSimpleCalculator() {
               }))
             }
           />
-          <TextInput
+          <SliderInput
             id="home-loan-rate"
             label="Annual interest rate"
             value={inputs.annualRatePct}
+            min={1}
+            max={20}
+            step={0.1}
             onChange={(event) =>
               setInputs((current) => ({
                 ...current,
@@ -82,10 +88,13 @@ export function HomeLoanSimpleCalculator() {
               }))
             }
           />
-          <TextInput
+          <SliderInput
             id="home-loan-tenure"
             label="Tenure in months"
             value={inputs.tenureMonths}
+            min={12}
+            max={360}
+            step={12}
             onChange={(event) =>
               setInputs((current) => ({
                 ...current,

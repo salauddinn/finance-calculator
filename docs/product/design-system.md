@@ -165,3 +165,18 @@ The brand will be defined from scratch for this product. V1 includes both light 
 - Result interpretation blocks must preserve clear heading structure and meaningful reading order
 - Supporting copy that explains financial outcomes must remain visible, not hidden behind hover-only affordances
 - Any new two-column calculator layout must collapse cleanly to a single column on mobile without horizontal scrolling
+- With STORY-014, the primary calculator layout shifts to a single column vertically stacked structure on all breakpoints, bounded by a maximum width.
+
+## Story delta — STORY-014: Calculator vertical layout & slider inputs — 2026-04-11
+
+### New components introduced
+
+| Component | States | Reuses existing | Notes |
+|---|---|---|---|
+| SliderInput | default, focus, sliding, disabled | TextInput styles | Adds interactive range slider coupled with a text input. |
+
+### New design tokens
+None.
+
+### Accessibility additions
+- Slider element within the `SliderInput` must use the native `input type="range"` for robust keyboard support, focus management, and standard ARIA traits without custom logic.

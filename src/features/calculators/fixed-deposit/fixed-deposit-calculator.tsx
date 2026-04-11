@@ -4,6 +4,7 @@ import { useMemo } from "react";
 
 import { ResultInsightPanel } from "@/components/primitives/result-insight-panel";
 import { ResultSummaryCard } from "@/components/primitives/result-summary-card";
+import { SliderInput } from "@/components/primitives/slider-input";
 import { useCalculatorPreferences } from "@/features/preferences/use-calculator-preferences";
 import {
   calculateFixedDeposit,
@@ -52,56 +53,50 @@ export function FixedDepositCalculator() {
         </div>
 
         <div className="calculator-grid">
-          <div className="field">
-            <label className="field__label" htmlFor="fd-deposit">
-              Deposit amount
-            </label>
-            <input
-              id="fd-deposit"
-              className="text-input"
-              value={inputs.depositAmount}
-              onChange={(event) =>
-                setInputs((current) => ({
-                  ...current,
-                  depositAmount: event.target.value
-                }))
-              }
-            />
-          </div>
+          <SliderInput
+            id="fd-deposit"
+            label="Deposit amount"
+            value={inputs.depositAmount}
+            min={10000}
+            max={10000000}
+            step={10000}
+            onChange={(event) =>
+              setInputs((current) => ({
+                ...current,
+                depositAmount: event.target.value
+              }))
+            }
+          />
 
-          <div className="field">
-            <label className="field__label" htmlFor="fd-rate">
-              Annual rate
-            </label>
-            <input
-              id="fd-rate"
-              className="text-input"
-              value={inputs.annualRatePct}
-              onChange={(event) =>
-                setInputs((current) => ({
-                  ...current,
-                  annualRatePct: event.target.value
-                }))
-              }
-            />
-          </div>
+          <SliderInput
+            id="fd-rate"
+            label="Annual rate"
+            value={inputs.annualRatePct}
+            min={1}
+            max={15}
+            step={0.1}
+            onChange={(event) =>
+              setInputs((current) => ({
+                ...current,
+                annualRatePct: event.target.value
+              }))
+            }
+          />
 
-          <div className="field">
-            <label className="field__label" htmlFor="fd-tenure">
-              Tenure in months
-            </label>
-            <input
-              id="fd-tenure"
-              className="text-input"
-              value={inputs.tenureMonths}
-              onChange={(event) =>
-                setInputs((current) => ({
-                  ...current,
-                  tenureMonths: event.target.value
-                }))
-              }
-            />
-          </div>
+          <SliderInput
+            id="fd-tenure"
+            label="Tenure in months"
+            value={inputs.tenureMonths}
+            min={6}
+            max={120}
+            step={6}
+            onChange={(event) =>
+              setInputs((current) => ({
+                ...current,
+                tenureMonths: event.target.value
+              }))
+            }
+          />
 
           <div className="field">
             <label className="field__label" htmlFor="fd-compounding">

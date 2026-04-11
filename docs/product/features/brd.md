@@ -124,3 +124,40 @@ Help users feel confident and oriented while using the app by making the landing
 - Landing page exists in `src/app/page.tsx`
 - Calculator route shell exists in `src/app/calculators/[slug]/page.tsx`
 - Result summaries currently rely on `src/components/primitives/result-summary-card.tsx`
+
+## Story: STORY-014 — Calculator vertical layout & slider inputs — 2026-04-11
+
+### User job-to-be-done
+Allow users to enter loan and financial simulation values interactively with a slider for real-word scenario testing, while keeping results vertically below inputs for better readability and a step-by-step UX workflow.
+
+### Business outcome
+- Improved user interaction rate for calculations through modern UX elements.
+- Increased readability due to a linear focus order (enter inputs first, view results below).
+
+### User personas affected
+- Salaried Sam
+- Starter Sneha
+
+### Acceptance criteria
+- Given a user on any of the four calculators
+- When they interact with numeric input fields
+- Then they have a slider option linked to the text input for immediate changes
+- Given a user viewing a calculator
+- When they view the screen
+- Then the calculator inputs appear vertically stacked and results appear below them.
+
+### Definition of done (story level)
+- [ ] Acceptance criteria verified with passing tests
+- [ ] Regression tests still passing
+- [ ] Layout flows properly on mobile and desktop
+- [ ] No new tech debt introduced
+
+### Dependencies
+- Existing `TextInput` styles and `globals.css` grid structure.
+
+### Scope risks
+- Vertical layout could look un-optimized on wide screens. Ensure max-width limits stretching.
+
+### Existing behavior check
+- `TextInput` is currently manually updated.
+- `.calculator-shell` creates a two-column grid.
