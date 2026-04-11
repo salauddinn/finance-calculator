@@ -34,13 +34,18 @@ Do NOT write any frontend code or select UI frameworks until design tokens, comp
 7. **Write `docs/product/design-system.md`** — using the format below
 8. **Self-review** — check for missing components, incomplete token definitions
 9. **Present to user** — get approval section by section
-10. **Gate evaluation** — read `skills/stage-gates/SKILL.md`
+10. **Gate evaluation** — invoke `stage-gates` skill
 
 ## Design Tokens Format
 
 In `docs/product/design-system.md`:
 
 ```markdown
+# Design system
+
+> **Status:** Draft | Approved
+> **Version:** 0.1.0
+
 ## Color palette
 | Token | Value | Usage |
 |---|---|---|
@@ -85,6 +90,9 @@ In `docs/product/design-system.md`:
 
 ```markdown
 # Accessibility requirements
+
+> **Status:** Draft | Approved
+> **Version:** 0.1.0
 
 ## Target
 WCAG 2.2 AA minimum

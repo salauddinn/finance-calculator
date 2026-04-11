@@ -21,5 +21,5 @@ test("users can open the homepage and move into a calculator flow", async ({
     })
   ).toBeVisible();
 
-  await expect(page.getByLabel("Loan amount")).toHaveValue("2500000");
+  await expect(page.getByRole("textbox", { name: "Loan amount", exact: true })).toHaveValue("500000");
 });

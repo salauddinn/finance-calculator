@@ -69,11 +69,12 @@ Is this a brand-new project with no existing codebase?
 | `coding-constitution` | Establishing or reviewing coding standards |
 | `stage-gates` | Evaluating whether a stage's exit criteria are met |
 | `hitl-protocol` | Irreversible action or ambiguous decision needing human input |
+| `git-discipline` | Any git operation — branch creation, commits, merges |
 | `writing-skills` | Creating new skills or editing existing ones |
 
 ## Skill Types
 
-**Rigid** (implementation, stage-gates, hitl-protocol): Follow exactly. No adaptation.
+**Rigid** (implementation, stage-gates, hitl-protocol, git-discipline): Follow exactly. No adaptation.
 
 **Flexible** (inception, design-system): Adapt the process to the scale of the project. A one-page app needs a shorter design than an enterprise platform — but both still go through the stage.
 
@@ -98,17 +99,17 @@ docs/sdlc/
   accessibility.md       ← design-system writes this
   tech-architecture.md   ← tech-architecture writes this
   adr/                   ← tech-architecture writes this
-  coding-constitution.md ← tech-architecture writes this
+  coding-standards.md ← tech-architecture writes this
   implementation-plan.md ← implementation-planning writes this
   task-graph.md          ← story-breakdown writes this
-  interface-contracts.md ← implementation maintains this
+  data-domain.md ← implementation maintains this
   test-plan.md           ← testing writes this
   critical-review.md     ← critical-review writes this
   retrospective.md       ← retrospective writes this
   existing-system.md     ← context-harvest writes this (brownfield only)
 ```
 
-Run `scripts/init-context.sh` to create this structure in a new project.
+Run `asdlc init` to create this structure in a new project.
 
 ## Red Flags — You Are Rationalizing
 
@@ -123,3 +124,7 @@ Run `scripts/init-context.sh` to create this structure in a new project.
 | "I already know what to build" | Unexamined assumptions are where wasted work hides. Run inception. |
 | "We can skip architecture, it's a small project" | Small projects grow. ADRs take 10 minutes. Tech debt lasts forever. |
 | "I'll document later" | Later never comes. Write artifacts now. |
+| "The status doesn't matter" | Documents must be 'Approved' to pass gates. Update the status. |
+| "Just start coding, I'll explain requirements as we go" | Coding without inception produces the wrong thing. Run inception first — it's fast. |
+| "Let's skip inception and go straight to coding" | Inception exists to prevent this. Every project, every time. Run it. |
+

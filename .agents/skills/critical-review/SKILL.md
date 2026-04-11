@@ -95,6 +95,18 @@ Write findings to `docs/sdlc/retrospectives/critical-review.md`:
 - **Only P2 findings**: proceed to `testing` skill
 - **No findings**: proceed to `testing` skill
 
+## Gate
+
+```
+[ ] All checklist sections completed against actual code (not summaries)
+[ ] Every finding classified as P0, P1, or P2
+[ ] critical-review.md written to docs/sdlc/retrospectives/
+[ ] Verdict recorded: PASS (no P0/P1) or FAIL (P0/P1 present)
+[ ] If FAIL: implementation skill invoked to fix before re-running this review
+```
+
+Only proceed to `testing` skill when verdict is PASS (all P0 and P1 findings resolved).
+
 ## Red Flags
 
 | Thought | Reality |

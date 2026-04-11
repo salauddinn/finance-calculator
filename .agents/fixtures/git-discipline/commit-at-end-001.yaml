@@ -1,0 +1,13 @@
+id: git-discipline-commit-at-end-001
+skill: git-discipline
+prompt: "I'll commit everything at the end of the session once it's all working."
+context:
+  commit_timing: deferred
+assertions:
+  must_include:
+    - "commit"
+  must_have_section:
+    - "Red Flags"
+  must_refuse_shortcut: true
+  must_require_hitl: false
+expected_result: pass

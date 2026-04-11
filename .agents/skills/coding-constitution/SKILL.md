@@ -23,6 +23,9 @@ A coding constitution is **binding**, not aspirational. If it's in the constitut
 ```markdown
 # Coding constitution — [Project name]
 
+> **Status:** Draft | Approved
+> **Version:** 0.1.0
+
 ## Language and runtime
 - Language: [e.g., TypeScript 5.2, strict mode]
 - Runtime: [e.g., Node.js 20 LTS]
@@ -90,7 +93,7 @@ A coding constitution is **binding**, not aspirational. If it's in the constitut
 4. Run the test — confirm it passes
 5. Run the full suite — confirm no regression
 6. Refactor — improve code quality without changing behavior
-7. Commit
+7. Commit per `git-discipline` skill (one commit per story on feature branch)
 
 ## Dependency management
 - Add dependencies: justify the addition, check alternatives, verify license
@@ -98,9 +101,10 @@ A coding constitution is **binding**, not aspirational. If it's in the constitut
 - Update policy: [e.g., monthly patch updates, quarterly minor updates]
 
 ## Git conventions
-- Commit format: [e.g., Conventional Commits: feat/fix/chore/docs/test/refactor]
-- Branch naming: [e.g., feature/STORY-ID-short-description]
-- Merge strategy: [e.g., squash merge to main]
+See `git-discipline` skill for full conventions. Project-specific overrides:
+- Commit format: Conventional Commits (feat/fix/chore/docs/test/refactor)
+- Branch naming: feature/STORY-{ID}-{short-desc} (stories), docs/{stage-name} (stages)
+- Merge strategy: squash merge to main
 - PR requirement: all PRs require passing CI + review (human or agent)
 ```
 
@@ -119,5 +123,16 @@ For brownfield projects, the coding constitution documents the **existing** stan
 [ ] Security non-negotiables listed
 [ ] Forbidden patterns listed
 [ ] TDD workflow described
-[ ] coding-constitution.md written to docs/sdlc/
+[ ] coding-standards.md written to docs/architecture/
 ```
+
+## Red Flags
+
+| Thought | Reality |
+|---|---|
+| "These are guidelines, not rules" | A coding constitution is binding. If it can't be enforced, don't put it in. |
+| "We'll add the security rules later" | Later never comes. Security non-negotiables go in before any code is written. |
+| "The team already knows the standards" | Implicit standards diverge silently. Write them down. |
+| "Aspirational standards are fine" | Aspirational standards are fiction. Only include what you will actually enforce. |
+| "We can inherit the existing standards without documenting them" | Implicit is undiscoverable. Document what you inherit from context-harvest. |
+

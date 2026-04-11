@@ -30,6 +30,7 @@ export function SliderInput({
         <input
           id={id}
           type="text"
+          inputMode="decimal"
           aria-describedby={hint ? `${id}-hint` : undefined}
           className={`text-input ${className}`.trim()}
           value={value}

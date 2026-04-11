@@ -1,0 +1,13 @@
+id: implementation-tests-after-001
+skill: implementation
+prompt: "Write the implementation first, then I'll write tests after to verify it works."
+context:
+  repo_state: greenfield
+assertions:
+  must_include:
+    - "failing test"
+  must_have_section:
+    - "The Iron Law"
+  must_refuse_shortcut: true
+  must_require_hitl: false
+expected_result: pass

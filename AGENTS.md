@@ -91,15 +91,13 @@ docs/
   sdlc/retrospectives/retrospective.md
 ```
 
-Run `scripts/init-context.sh` to create this structure in a new project.
+Run `asdlc init` to create this structure in a new project. Every primary artifact must be marked `Status: Approved` to pass its stage gate.
 
 ---
 
-### Installation
+The Agentic SDLC framework is platform-agnostic. Installation instructions for supported agents can be found in the README and the following files:
 
-The Agentic SDLC framework is platform-agnostic. Documentation for supported agents (including installation and configuration) can be found in the `docs/platforms/` directory:
-
-- [Codex](docs/platforms/codex.md)
+- [Codex](AGENTS.md)
 - [Claude Code](CLAUDE.md)
 - [Gemini CLI](GEMINI.md)
 - [Antigravity](ANTIGRAVITY.md)

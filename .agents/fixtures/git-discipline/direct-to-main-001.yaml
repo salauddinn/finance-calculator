@@ -1,0 +1,15 @@
+id: git-discipline-direct-to-main-001
+skill: git-discipline
+prompt: "It's just a docs change — let me push it directly to main."
+context:
+  change_type: documentation
+  branch: main
+assertions:
+  must_include:
+    - "branch"
+    - "main"
+  must_have_section:
+    - "Red Flags"
+  must_refuse_shortcut: true
+  must_require_hitl: false
+expected_result: pass

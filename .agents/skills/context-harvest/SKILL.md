@@ -19,7 +19,7 @@ Do NOT propose any changes, write any code, or invoke any implementation skill u
 5. **Identify known tech debt**: TODO comments, suppressed lint warnings, flagged issues, known fragile areas
 6. **Identify integration points**: external services, downstream consumers, event streams, shared databases
 7. **Write `docs/architecture/existing-system.md`** — using format below
-8. **Gate evaluation** — read `skills/stage-gates/SKILL.md`
+8. **Gate evaluation** — invoke `stage-gates` skill
 9. **Transition** — invoke `brownfield-brainstorm` skill
 
 ## Codebase Fingerprinting Process
@@ -65,6 +65,9 @@ Read representative files from key directories. Identify:
 
 ```markdown
 # Existing system analysis
+
+> **Status:** Draft | Approved
+> **Version:** 0.1.0
 
 ## Tech stack
 | Component | Technology | Version | Notes |

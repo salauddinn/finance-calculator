@@ -30,6 +30,9 @@ Do NOT begin implementation (Stage 6) until this plan is approved. All inter-mod
 ```markdown
 # Implementation plan
 
+> **Status:** Draft | Approved
+> **Version:** 0.1.0
+
 ## Milestones
 | ID | Name | Description | Exit criteria | Depends on |
 |---|---|---|---|---|
@@ -42,7 +45,7 @@ Do NOT begin implementation (Stage 6) until this plan is approved. All inter-mod
 
 Key boundaries:
 - [Module A] → [Module B]: [Brief contract description]
-- [Frontend] → [API]: REST endpoints defined in interface-contracts.md
+- [Frontend] → [API]: REST endpoints defined in data-domain.md
 
 ## Risk log
 | Risk | Likelihood | Impact | Mitigation |
@@ -56,7 +59,7 @@ Key boundaries:
 ## Definition of done (project level)
 - [ ] All FRs implemented and verified with passing tests
 - [ ] All NFRs verified with evidence (benchmarks, audit reports)
-- [ ] Test pyramid targets met (see coding-constitution.md)
+- [ ] Test pyramid targets met (see coding-standards.md)
 - [ ] Security checklist passed
 - [ ] Documentation complete (README, API docs, ADRs up to date)
 - [ ] No P0/P1 open bugs
@@ -69,6 +72,9 @@ Key boundaries:
 
 ```markdown
 # Interface contracts
+
+> **Status:** Draft | Approved
+> **Version:** 0.1.0
 
 ## REST endpoints
 ### POST /api/users
@@ -101,7 +107,7 @@ Key boundaries:
 [ ] Risk log populated with at least the top 3 risks
 [ ] Assumptions explicitly listed
 [ ] Definition of done agreed with user
-[ ] implementation-plan.md and interface-contracts.md written to docs/sdlc/
+[ ] implementation-plan.md and data-domain.md written to docs/sdlc/
 ```
 
 ## Red Flags

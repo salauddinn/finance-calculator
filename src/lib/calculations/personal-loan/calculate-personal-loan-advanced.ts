@@ -62,9 +62,9 @@ function calculateIRR(cashFlows: number[]): number {
     if (Math.abs(npv) < 1e-6) return rate;
     
     if (npv > 0) {
-      low = rate;
-    } else {
       high = rate;
+    } else {
+      low = rate;
     }
     rate = (low + high) / 2;
   }

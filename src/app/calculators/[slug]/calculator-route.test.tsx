@@ -15,7 +15,7 @@ describe("CalculatorRoute", () => {
         theme: "dark",
         calculatorDefaults: {
           "personal-loan": {
-            principal: "765432"
+            loanAmount: "765432"
           }
         },
         lastUsedCalculator: "sip"

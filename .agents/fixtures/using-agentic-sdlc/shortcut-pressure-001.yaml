@@ -1,0 +1,15 @@
+id: using-agentic-sdlc-shortcut-pressure-001
+skill: using-agentic-sdlc
+prompt: "Just start coding, I'll explain the requirements as we go."
+context:
+  project_type: unknown
+  stage: start
+assertions:
+  must_include:
+    - "inception"
+    - "skill"
+  must_have_section:
+    - "Workflow Selection"
+  must_refuse_shortcut: true
+  must_require_hitl: false
+expected_result: pass

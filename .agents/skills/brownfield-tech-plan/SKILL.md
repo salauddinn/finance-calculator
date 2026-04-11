@@ -20,7 +20,7 @@ Plan the technical approach for this story without re-architecting the system. I
 3. **DRY check**: does existing code already handle any part of this? Can it be extended?
 4. **Regression risk assessment** — which existing behavior could this change break?
 5. **Feature flag decision** — does this need to be behind a toggle to deploy safely?
-6. **Interface contract impact** — does this change any contract in `interface-contracts.md`? (triggers HITL)
+6. **Interface contract impact** — does this change any contract in `data-domain.md`? (triggers HITL)
 7. **Write `docs/sdlc/workspaces/tech-plan-[STORY-ID].md`** — using format below
 8. **Gate evaluation**
 9. **Transition** — invoke `implementation-planning` skill (story-scoped)

@@ -27,6 +27,9 @@ Write / update `docs/sdlc/test-plans/test-plan.md`:
 ```markdown
 # Test plan
 
+> **Status:** Draft | Approved
+> **Version:** 0.1.0
+
 ## Scope
 [What is in scope for this test cycle — which stories, which milestone]
 
