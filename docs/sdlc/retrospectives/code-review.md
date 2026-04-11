@@ -65,3 +65,15 @@
 ## Overall verdict: APPROVED
 
 - STORY-014 is ready for handoff with no open P0 or P1 findings.
+
+# Code Review — STORY-014-fix — 2026-04-11
+
+## Findings
+
+- [x] Correct target `/finance-calculator` explicitly used in E2E tests.
+- [x] `baseURL` correctly strips path to avoid duplicate folder segments.
+- [x] `EPIC-001` test updates are syntactically and structurally sound.
+
+## Result
+
+- [x] PASS

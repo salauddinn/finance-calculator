@@ -249,3 +249,21 @@
 ## Review verdict
 
 - [x] PASS — no P0/P1 findings
+
+# Critical review — STORY-014-fix — 2026-04-11
+
+## P0 findings (block release)
+
+- None.
+
+## P1 findings (fix before merge)
+
+- None.
+
+## P2 findings (tech debt — log and continue)
+
+- None. The E2E test navigation incorrectly assumed that playwright started at `http://localhost:3000/finance-calculator` while configuring URLs at `http://localhost:3000/finance-calculator` directly within the baseURL. The fix aligns tests with the explicit `basePath` configuration, and the minor pending tests/wip files are fully isolated and do not break functionality.
+
+## Review verdict
+
+- [x] PASS — no P0/P1 findings

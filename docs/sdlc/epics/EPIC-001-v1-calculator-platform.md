@@ -55,7 +55,7 @@ STORY-011
 ## Parallel Track Rules
 
 - Track A owns `src/app/*`, `src/styles/*`, and `src/components/layout/*`
-- Track B owns `src/components/primitives/*` and `src/features/calculators/*` except advanced scenario engine files reserved for Track C
+- Track B owns `src/components/primitives/*` and `src/features/calculators/*` except advanced scenario engine files reserved for Track C  
 - Track C owns `src/lib/validation/*`, `src/lib/storage/*`, and `src/lib/calculations/home-loan-advanced/*`
 - Track D owns cross-app integration files, accessibility refinements, and deployment-readiness updates
 - Merge strategy for all stories: feature branch per story, squash merge to main

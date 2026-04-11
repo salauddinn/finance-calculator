@@ -3,7 +3,7 @@ import { expect, test } from "@playwright/test";
 test("users can open the homepage and move into a calculator flow", async ({
   page
 }) => {
-  await page.goto("/");
+  await page.goto("/finance-calculator");
 
   await expect(
     page.getByRole("heading", {

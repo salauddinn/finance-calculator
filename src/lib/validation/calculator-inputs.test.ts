@@ -12,20 +12,22 @@ describe("parseSimpleLoanInput", () => {
     });
 
     expect(result.ok).toBe(false);
-    expect(result.issues).toEqual([
-      {
-        field: "principal",
-        message: "Principal must be greater than zero."
-      },
-      {
-        field: "annualRatePct",
-        message: "Rate must be greater than zero and at most 100."
-      },
-      {
-        field: "tenureMonths",
-        message: "Tenure must be a whole number of months."
-      }
-    ]);
+    if (!result.ok) {
+      expect(result.issues).toEqual([
+        {
+          field: "principal",
+          message: "Principal must be greater than zero."
+        },
+        {
+          field: "annualRatePct",
+          message: "Rate must be greater than zero and at most 100."
+        },
+        {
+          field: "tenureMonths",
+          message: "Tenure must be a whole number of months."
+        }
+      ]);
+    }
   });
 
   it("normalizes valid loan inputs", () => {

@@ -5,7 +5,7 @@ import CalculatorEntryPage from "@/app/calculators/[slug]/page";
 describe("CalculatorEntryPage", () => {
   it("renders a single-column calculator hero without the old how-to sidebar", async () => {
     const result = await CalculatorEntryPage({
-      params: Promise.resolve({ slug: "personal-loan" })
+      params: Promise.resolve({ slug: "personal-loan" }),
     });
 
     render(result);
