@@ -1,5 +1,5 @@
 ---
-status: TO_DO
+status: DONE
 milestone: M1
 track: B
 depends_on: STORY-015-1
@@ -12,9 +12,9 @@ depends_on: STORY-015-1
 - Given FD TDS/payout configuration, when calculated, the net return maps properly across the tenure.
 
 **Tasks:**
-- [ ] Update `calculate-sip.ts`
-- [ ] Update `calculate-fixed-deposit.ts`
-- [ ] Write unit tests for step-up and TDS
+- [x] Update `calculate-sip.ts`
+- [x] Update `calculate-fixed-deposit.ts`
+- [x] Write unit tests for step-up and TDS
 
 **Files owned:** 
 - `src/lib/calculations/sip/calculate-sip.ts`

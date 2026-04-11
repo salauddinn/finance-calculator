@@ -10,6 +10,7 @@ import {
 
 type CalculatorId =
   | "personal-loan"
+  | "home-loan"
   | "home-loan-simple"
   | "home-loan-advanced"
   | "sip"

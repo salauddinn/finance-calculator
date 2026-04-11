@@ -1,6 +1,8 @@
 import {
   parseAdvancedHomeLoanInput,
-  parseSimpleLoanInput
+  parseSimpleLoanInput,
+  parseSipInput,
+  parseFixedDepositInput
 } from "@/lib/validation/calculator-inputs";
 
 describe("parseSimpleLoanInput", () => {
@@ -78,6 +80,81 @@ describe("parseAdvancedHomeLoanInput", () => {
     expect(result.issues).toContainEqual({
       field: "events",
       message: "Events must be ordered by month."
+    });
+  });
+});
+
+describe("parseSipInput", () => {
+  it("rejects invalid inputs", () => {
+    const result = parseSipInput({
+      monthlyContribution: "-1000",
+      annualReturnPct: "0",
+      durationMonths: "1.5"
+    });
+    
+    expect(result.ok).toBe(false);
+  });
+
+  it("normalizes valid advanced SIP inputs", () => {
+    const result = parseSipInput({
+      monthlyContribution: "10000",
+      annualReturnPct: "12",
+      durationMonths: "120",
+      stepUpPercentage: "10",
+      inflationRate: "6",
+      taxationEnabled: true
+    });
+
+    expect(result).toEqual({
+      ok: true,
+      data: {
+        monthlyContribution: { value: 10000, currency: "INR" },
+        annualReturnPct: 12,
+        durationMonths: 120,
+        advancedConfig: {
+          stepUpPercentage: 10,
+          inflationRate: 6,
+          taxationEnabled: true
+        }
+      }
+    });
+  });
+});
+
+describe("parseFixedDepositInput", () => {
+  it("rejects invalid inputs", () => {
+    const result = parseFixedDepositInput({
+      principal: "-100",
+      annualRatePct: "200",
+      durationMonths: "1.5"
+    });
+    expect(result.ok).toBe(false);
+  });
+
+  it("normalizes valid advanced FD inputs", () => {
+    const result = parseFixedDepositInput({
+      principal: "100000",
+      annualRatePct: "7.1",
+      durationMonths: "60",
+      compoundingFrequency: "quarterly",
+      payoutFrequency: "cumulative",
+      seniorCitizen: true,
+      tdsEnabled: true
+    });
+
+    expect(result).toEqual({
+      ok: true,
+      data: {
+        principal: { value: 100000, currency: "INR" },
+        annualRatePct: 7.1,
+        durationMonths: 60,
+        compoundingFrequency: "quarterly",
+        advancedConfig: {
+          payoutFrequency: "cumulative",
+          seniorCitizen: true,
+          tdsEnabled: true
+        }
+      }
     });
   });
 });

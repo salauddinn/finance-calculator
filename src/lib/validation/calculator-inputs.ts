@@ -139,6 +139,52 @@ function issueOrValue<T>(value: ValidationIssue | T, issues: ValidationIssue[]):
   return value as T;
 }
 
+export type RawSipInput = {
+  monthlyContribution: string;
+  annualReturnPct: string;
+  durationMonths: string;
+  stepUpPercentage?: string;
+  inflationRate?: string;
+  taxationEnabled?: boolean;
+};
+
+export type SipAdvancedConfig = {
+  stepUpPercentage?: number;
+  inflationRate?: number;
+  taxationEnabled: boolean;
+};
+
+export type SipInput = {
+  monthlyContribution: CurrencyAmount;
+  annualReturnPct: number;
+  durationMonths: number;
+  advancedConfig?: SipAdvancedConfig;
+};
+
+export type RawFixedDepositInput = {
+  principal: string;
+  annualRatePct: string;
+  durationMonths: string;
+  compoundingFrequency: "monthly" | "quarterly" | "half-yearly" | "yearly";
+  payoutFrequency?: "cumulative" | "monthly" | "quarterly" | "yearly";
+  seniorCitizen?: boolean;
+  tdsEnabled?: boolean;
+};
+
+export type FdAdvancedConfig = {
+  payoutFrequency: "cumulative" | "monthly" | "quarterly" | "yearly";
+  seniorCitizen: boolean;
+  tdsEnabled: boolean;
+};
+
+export type FixedDepositInput = {
+  principal: CurrencyAmount;
+  annualRatePct: number;
+  durationMonths: number;
+  compoundingFrequency: "monthly" | "quarterly" | "half-yearly" | "yearly";
+  advancedConfig?: FdAdvancedConfig;
+};
+
 export function parseSimpleLoanInput(input: RawSimpleLoanInput): ValidationResult<SimpleLoanInput> {
   const issues: ValidationIssue[] = [];
   const principal = issueOrValue(parsePositiveAmount(input.principal, "principal"), issues);
@@ -245,3 +291,69 @@ export function parseAdvancedHomeLoanInput(
     }
   };
 }
+
+export function parseSipInput(input: RawSipInput): ValidationResult<SipInput> {
+  const issues: ValidationIssue[] = [];
+  const monthlyContribution = issueOrValue(parsePositiveAmount(input.monthlyContribution, "monthlyContribution"), issues);
+  const annualReturnPct = issueOrValue(parseRate(input.annualReturnPct, "annualReturnPct"), issues);
+  const durationMonths = issueOrValue(parseWholeMonths(input.durationMonths, "durationMonths"), issues);
+
+  if (issues.length > 0 || monthlyContribution === undefined || annualReturnPct === undefined || durationMonths === undefined) {
+    return { ok: false, issues };
+  }
+
+  const result: SipInput = {
+    monthlyContribution: { value: monthlyContribution, currency: "INR" },
+    annualReturnPct,
+    durationMonths
+  };
+
+  const hasAdvanced = input.stepUpPercentage !== undefined || input.inflationRate !== undefined || input.taxationEnabled !== undefined;
+  
+  if (hasAdvanced) {
+    result.advancedConfig = { taxationEnabled: input.taxationEnabled ?? false };
+    if (input.stepUpPercentage !== undefined) {
+      result.advancedConfig.stepUpPercentage = issueOrValue(parseRate(input.stepUpPercentage, "stepUpPercentage"), issues);
+    }
+    if (input.inflationRate !== undefined) {
+      result.advancedConfig.inflationRate = issueOrValue(parseRate(input.inflationRate, "inflationRate"), issues);
+    }
+  }
+
+  if (issues.length > 0) {
+    return { ok: false, issues };
+  }
+
+  return { ok: true, data: result };
+}
+
+export function parseFixedDepositInput(input: RawFixedDepositInput): ValidationResult<FixedDepositInput> {
+  const issues: ValidationIssue[] = [];
+  const principal = issueOrValue(parsePositiveAmount(input.principal, "principal"), issues);
+  const annualRatePct = issueOrValue(parseRate(input.annualRatePct, "annualRatePct"), issues);
+  const durationMonths = issueOrValue(parseWholeMonths(input.durationMonths, "durationMonths"), issues);
+
+  if (issues.length > 0 || principal === undefined || annualRatePct === undefined || durationMonths === undefined) {
+    return { ok: false, issues };
+  }
+
+  const result: FixedDepositInput = {
+    principal: { value: principal, currency: "INR" },
+    annualRatePct,
+    durationMonths,
+    compoundingFrequency: input.compoundingFrequency
+  };
+
+  const hasAdvanced = input.payoutFrequency !== undefined || input.seniorCitizen !== undefined || input.tdsEnabled !== undefined;
+  
+  if (hasAdvanced) {
+    result.advancedConfig = {
+      payoutFrequency: input.payoutFrequency ?? "cumulative",
+      seniorCitizen: input.seniorCitizen ?? false,
+      tdsEnabled: input.tdsEnabled ?? false
+    };
+  }
+
+  return { ok: true, data: result };
+}
+

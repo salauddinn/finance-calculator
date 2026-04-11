@@ -1,5 +1,5 @@
 ---
-status: TO_DO
+status: DONE
 milestone: M1
 track: A
 depends_on: STORY-015-1
@@ -11,9 +11,9 @@ depends_on: STORY-015-1
 - Given advanced Personal Loan parameters (delay EMI, fees, etc), it generates an accurate month-by-month amortization schedule supporting prepayments.
 
 **Tasks:**
-- [ ] Refactor or reuse `home-loan-advanced.ts` amortization logic to support Personal Loan specifics (EMI delay, variable processing fees vs APR).
-- [ ] Add `personal-loan/calculate-personal-loan-advanced.ts`.
-- [ ] Write unit tests for new iterative logic.
+- [x] Refactor or reuse `home-loan-advanced.ts` amortization logic to support Personal Loan specifics (EMI delay, variable processing fees vs APR).
+- [x] Add `personal-loan/calculate-personal-loan-advanced.ts`.
+- [x] Write unit tests for new iterative logic.
 
 **Files owned:** 
 - `src/lib/calculations/personal-loan/calculate-personal-loan-advanced.ts`

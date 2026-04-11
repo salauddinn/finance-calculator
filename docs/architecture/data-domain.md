@@ -57,6 +57,33 @@ interface SimpleLoanResult {
 }
 ```
 
+### Advanced personal loan input
+
+```ts
+interface AdvancedPersonalLoanInput extends SimpleLoanInput {
+  delayEmiMonths: number;
+  processingFeeAmount: CurrencyAmount;
+  prepayments: {
+    monthIndex: number;
+    amount: CurrencyAmount;
+  }[];
+}
+```
+
+### Advanced personal loan result
+
+```ts
+interface AdvancedPersonalLoanResult {
+  monthlyEmi: CurrencyAmount;
+  finalTenureMonths: number;
+  totalRepayment: CurrencyAmount;
+  totalInterest: CurrencyAmount;
+  effectiveAprPct: number;
+  totalPrepaymentAmount: CurrencyAmount;
+  schedule: LoanScheduleRow[];
+}
+```
+
 ### Advanced home loan event schema
 
 ```ts
@@ -126,10 +153,17 @@ interface AdvancedHomeLoanResult {
 ### SIP input
 
 ```ts
+interface SipAdvancedConfig {
+  stepUpPercentage?: number;
+  inflationRate?: number;
+  taxationEnabled: boolean;
+}
+
 interface SipInput {
   monthlyContribution: CurrencyAmount;
   annualReturnPct: number;
   durationMonths: number;
+  advancedConfig?: SipAdvancedConfig;
 }
 ```
 
@@ -150,11 +184,18 @@ interface SipResult {
 ```ts
 type CompoundingFrequency = "monthly" | "quarterly" | "half-yearly" | "yearly";
 
+interface FdAdvancedConfig {
+  payoutFrequency: "cumulative" | "monthly" | "quarterly" | "yearly";
+  seniorCitizen: boolean;
+  tdsEnabled: boolean;
+}
+
 interface FixedDepositInput {
   depositAmount: CurrencyAmount;
   annualRatePct: number;
-  tenureMonths: number;
+  durationMonths: number;    // NOTE: Code uses `durationMonths` but old docs said `tenureMonths`
   compoundingFrequency: CompoundingFrequency;
+  advancedConfig?: FdAdvancedConfig;
 }
 ```
 
@@ -242,6 +283,91 @@ interface ResultSummaryItem {
 }
 ```
 
+## Comprehensive Underwriting Engine Contracts (V2)
+
+### 11-Group JSON Payload
+
+```ts
+type CalculationMode = "emi" | "loan_amount" | "tenure";
+type InterestCalculationMethod = "reducing" | "flat";
+type CompoundingFrequency = "monthly" | "quarterly" | "daily";
+type EmiType = "standard" | "step_up" | "step_down" | "bullet";
+
+interface MasterUnderwritingInput {
+  loan: {
+    loanAmount: number;
+    interestRateAnnual: number;
+    tenureMonths: number;
+  };
+  interestConfig: {
+    interestType: "fixed" | "floating";
+    interestCalculationMethod: InterestCalculationMethod;
+    compoundingFrequency: CompoundingFrequency;
+  };
+  fees: {
+    processingFeeType: "percentage" | "fixed";
+    processingFeeValue: number;
+    gstRate: number;
+    insuranceAmount: number;
+    otherCharges: number;
+  };
+  emiConfig: {
+    emiType: EmiType;
+    emiStepPercent?: number; // Default: 5. Annual step % for step_up/step_down.
+    emiStartDelayMonths: number;
+    emiFrequency: "monthly" | "biweekly";
+  };
+  prepayment: {
+    prepaymentEnabled: boolean;
+    prepaymentType: "lump_sum" | "recurring";
+    prepaymentAmount: number;
+    prepaymentFrequency: "monthly" | "yearly" | "one_time";
+    prepaymentStartMonth: number;
+    prepaymentChargesPercent: number;
+  };
+  rateChanges: {
+    month: number;
+    newRate: number;
+  }[];
+  moratorium: {
+    moratoriumMonths: number;
+    moratoriumInterestTreatment: "accrue" | "pay_only_interest" | "defer_all";
+  };
+  userProfile?: {
+    monthlyIncome: number;
+    existingEMIs: number;
+    foirLimit: number;
+  };
+  calculation: {
+    calculationMode: CalculationMode;
+  };
+}
+```
+
+### Computed Underwriting Output
+
+```ts
+interface MasterUnderwritingResult {
+  emi: number;
+  totalInterest: number;
+  totalPayment: number;
+  apr: number;
+  interestSaved: number;
+  tenureReduced: number;
+  schedule: AmortizationRow[];
+}
+
+interface AmortizationRow {
+  month: number;
+  emi: number;
+  interest: number;
+  principal: number;
+  balance: number;
+  cumulativeInterest: number;
+  cumulativePrincipal: number;
+}
+```
+
 ## External Interfaces
 
-V1 exposes no backend API and depends on no third-party finance data services. Any future integrations require a superseding ADR and updated contracts in this document before implementation.
+V2 remains a frontend-first product with no server-side user data storage. All FOIR analysis runs locally. Any future integrations require a superseding ADR and updated contracts in this document before implementation.

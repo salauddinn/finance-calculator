@@ -3,6 +3,7 @@ import type { ValidationIssue, ValidationResult } from "@/lib/validation/calcula
 const STORAGE_KEY = "finance-calculator:preferences";
 const CALCULATOR_IDS = [
   "personal-loan",
+  "home-loan",
   "home-loan-simple",
   "home-loan-advanced",
   "sip",

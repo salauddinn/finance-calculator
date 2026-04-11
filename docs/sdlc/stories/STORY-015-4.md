@@ -1,5 +1,5 @@
 ---
-status: TO_DO
+status: DONE
 milestone: M1
 track: Convergence
 depends_on: STORY-015-2, STORY-015-3
@@ -12,9 +12,9 @@ depends_on: STORY-015-2, STORY-015-3
 - Given form inputs change, when the mode is Advanced, the results utilize the advanced logic seamlessly.
 
 **Tasks:**
-- [ ] Add `ModeToggle` to the four `-calculator.tsx` components.
-- [ ] Render `AdvancedOptionsAccordion` showing the correct sliders based on `advancedConfig`.
-- [ ] Connect state to the unified logic layer.
+- [x] Add `ModeToggle` to the four `-calculator.tsx` components.
+- [x] Render `AdvancedOptionsAccordion` showing the correct sliders based on `advancedConfig`.
+- [x] Connect state to the unified logic layer.
 
 **Files owned:** 
 - `src/features/calculators/*/*-calculator.tsx`

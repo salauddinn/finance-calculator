@@ -10,6 +10,10 @@ const CONTINUE_LINKS = {
     href: "/calculators/personal-loan",
     label: "Continue with Personal Loan Calculator"
   },
+  "home-loan": {
+    href: "/calculators/home-loan",
+    label: "Continue with Home Loan Calculator"
+  },
   "home-loan-simple": {
     href: "/calculators/home-loan",
     label: "Continue with Home Loan Calculator"

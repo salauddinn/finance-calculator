@@ -84,3 +84,53 @@
 
 - Run `npm audit --audit-level=high` before writing final review docs so dependency findings surface earlier in the closeout phase.
 - Preserve story workspace artifacts during cleanup so the SDLC trail remains intact without requiring restoration later.
+
+## Story retrospective — STORY-015: Advanced Investment Math & UI Convergence — 2026-04-11
+
+### Delivery fidelity
+- Acceptance criteria met: Yes. Step-up logic, inflation handling, capital gains, senior citizen metrics, and FD payout frequencies were implemented. All configurations accurately persist to UI toggles.
+- Test coverage: Unit testing covered permutations across SIP variations and dynamic compound modeling.
+- Regression tests: Advanced modes successfully branch logic trees away from standard usage to avoid breaking basic configurations.
+
+### What changed from plan
+- Reconfigured the structural route loading for the home loan (`home-loan-calculator.tsx`) mid-flight to utilize the `ModeToggle` system homogeneously so it works correctly with `useCalculatorPreferences`.
+- Substituted `payoutFrequency` over static calculation logic iteratively upon realizing cumulative logic overrides were simpler mathematically than looping static arrays out over durations.
+
+### Bugs found
+- In-scope bugs fixed: State syncing overlap during advanced Home Loan configurations fixed by lifting validation into an isolated useMemo parsing wrapper.
+- Out-of-scope bugs logged as separate stories: none.
+
+### Tech debt
+- Introduced (with justification): Flat standard arrays used for SIP taxation (12.5% fixed) to dodge adding a comprehensive backend tax law rule engine that evaluates varying global constraints.
+- Resolved incidentally: Prepayments arrays inside personal loans streamlined.
+
+### Skills library updates
+- Add to implementation skill: "When modifying mathematical calculation inputs across a shared library, explicitly sync properties like `durationMonths` vs `tenureMonths` back to the shared `data-domain.md` schema early to limit ripple effects throughout rendering arrays."
+
+### Process improvements
+- Always perform Headless Browser snap tests exactly *before* concluding stories. Rendering the UI visually guarantees advanced state controls actually mount perfectly before advancing out of implementation stages.
+
+## Story retrospective — STORY-015-2: Master Underwriting Engine (Loan Advanced Math) — 2026-04-11
+
+### Delivery fidelity
+- Acceptance criteria met: Yes. 11-group schema successfully maps complex underwriting math including dynamic FOIR bounds, reverse computing, variable prepayments, and iterative bounds.
+- Test coverage: Math logic bounded tightly by 10 deterministic static outputs evaluating correct Newton-Raphson approximation.
+- Regression tests: Zero regressions introduced; UI operates via progressive disclosure (Accordions) protecting the simple Mode flow.
+
+### What changed from plan
+- Reverse tenure solver mathematically produces broad floating point arrays; strictly enforced `Math.ceil()` into standard business increments to replicate genuine bank approximations instead of exposing raw calculations.
+- Hardcoded a programmatic 5% baseline onto the Step EMI increment logic while exposing the `emiStepPercent` field safely.
+
+### Bugs found
+- In-scope bugs fixed: The `useCalculatorPreferences` API expects `Record<string, string>`. Injecting native inline booleans directly passed runtime Next checks but forcefully triggered structural build pipeline crashes locally (`Failed to type check: boolean not assignable to string`). Patched directly into strict equality checks `=== "true"`.
+- Out-of-scope bugs logged as separate stories: none.
+
+### Tech debt
+- Introduced (with justification): `comprehensive-loan-calculator.tsx` has scaled into a large single file due to standardizing 50+ configuration states inside complex accordions. Might require extracting out smaller individual Accordion Components later if we intend to reuse underwriting fields elsewhere.
+- Resolved incidentally: Missing `"home-loan"` mapped union type definition fixed in standard preference storage logic alongside `"home-loan-simple"`.
+
+### Skills library updates
+- Add to `code-review` and `critical-review`: Always mandate running the framework compiler manually (`npm run build` / `next build`) *before* green-lighting the module merge, because dynamic typing environments (like Next development servers) often mask strict Type assertion breaks in Hooks that explode solely in production pipelines.
+
+### Process improvements
+- Build-pipeline verification is now implicitly required prior to writing final output validations.

@@ -3,9 +3,8 @@
 import { useSearchParams } from "next/navigation";
 
 import { FixedDepositCalculator } from "@/features/calculators/fixed-deposit/fixed-deposit-calculator";
-import { HomeLoanAdvancedCalculator } from "@/features/calculators/home-loan/advanced/home-loan-advanced-calculator";
-import { HomeLoanSimpleCalculator } from "@/features/calculators/home-loan/simple/home-loan-simple-calculator";
-import { PersonalLoanCalculator } from "@/features/calculators/personal-loan/personal-loan-calculator";
+import { HomeLoanCalculator } from "@/features/calculators/home-loan/home-loan-calculator";
+import { ComprehensiveLoanCalculator } from "@/features/calculators/comprehensive-loan/comprehensive-loan-calculator";
 import { SipCalculator } from "@/features/calculators/sip/sip-calculator";
 
 type CalculatorRouteProps = {
@@ -17,15 +16,11 @@ export function CalculatorRoute({ slug }: CalculatorRouteProps) {
   const mode = searchParams.get("mode");
 
   if (slug === "personal-loan") {
-    return <PersonalLoanCalculator />;
+    return <ComprehensiveLoanCalculator />;
   }
 
   if (slug === "home-loan") {
-    return mode === "advanced" ? (
-      <HomeLoanAdvancedCalculator />
-    ) : (
-      <HomeLoanSimpleCalculator />
-    );
+    return <HomeLoanCalculator />;
   }
 
   if (slug === "sip") {
@@ -38,3 +33,4 @@ export function CalculatorRoute({ slug }: CalculatorRouteProps) {
 
   return null;
 }
+
