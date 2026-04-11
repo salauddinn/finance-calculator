@@ -1,8 +1,8 @@
 # Implementation Plan
 
-> **Status:** Draft complete
-> **Stage:** implementation-planning
-> **Last updated:** 2026-04-08
+> **Status:** Complete ✅
+> **Stage:** done
+> **Last updated:** 2026-04-11
 
 ## Milestones
 
@@ -57,11 +57,11 @@ Key boundaries:
 
 ## Definition of Done (Project Level)
 
-- [ ] All approved FRs are implemented and covered by passing automated tests
-- [ ] All approved NFRs are verified with evidence such as test results, accessibility review notes, and performance checks
-- [ ] Personal loan, home loan, SIP, and fixed deposit calculators work on mobile and desktop layouts
-- [ ] Advanced home loan scenarios support prepayment, repo-rate changes, and moratorium modeling with clear explanations
-- [ ] Theme switching and browser-local preference persistence work reliably
-- [ ] No P0 or P1 defects remain open
-- [ ] Architecture, ADRs, and product docs reflect the shipped solution
-- [ ] Production build is deployable on the chosen hosting platform
+- [x] All approved FRs are implemented and covered by passing automated tests
+- [x] All approved NFRs are verified with evidence such as test results, accessibility review notes, and performance checks
+- [x] Personal loan, home loan, SIP, and fixed deposit calculators work on mobile and desktop layouts
+- [x] Advanced home loan scenarios support prepayment, repo-rate changes, and moratorium modeling with clear explanations
+- [x] Theme switching and browser-local preference persistence work reliably
+- [x] No P0 or P1 defects remain open
+- [x] Architecture, ADRs, and product docs reflect the shipped solution
+- [x] Production build is deployable on the chosen hosting platform
