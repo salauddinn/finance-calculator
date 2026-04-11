@@ -73,10 +73,9 @@ describe("global styling foundation", () => {
     const valueBlock = stylesheet.match(/\.result-summary-card__value\s*{[\s\S]*?}/)?.[0];
     const insightPanelBlock = stylesheet.match(/\.result-insight-panel\s*{[\s\S]*?}/)?.[0];
 
-    expect(summaryCardBlock).toContain("backdrop-filter: var(--glass-blur);");
     expect(summaryCardBlock).toContain("background: var(--color-surface-strong);");
     expect(positiveCardBlock).toContain("var(--color-glass-border-hover)");
-    expect(cautionCardBlock).toContain("rgba(144, 202, 249, 0.28)");
+    expect(cautionCardBlock).toContain("rgba(255, 183, 77, 0.28)");
     expect(valueBlock).toContain("color: var(--color-text);");
     expect(insightPanelBlock).toContain("backdrop-filter: var(--glass-blur);");
     expect(insightPanelBlock).toContain("linear-gradient(180deg, rgba(100, 181, 246, 0.12), transparent)");

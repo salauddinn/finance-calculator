@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/components/primitives/button";
 import { ResultInsightPanel } from "@/components/primitives/result-insight-panel";
 import { ResultSummaryCard } from "@/components/primitives/result-summary-card";
 import { TextInput } from "@/components/primitives/text-input";
@@ -21,7 +20,7 @@ function formatCurrency(value: number) {
   return new Intl.NumberFormat("en-IN", {
     style: "currency",
     currency: "INR",
-    maximumFractionDigits: 2
+    maximumFractionDigits: 0
   }).format(value);
 }
 
@@ -70,8 +69,6 @@ export function PersonalLoanCalculator() {
           value={inputs.tenureMonths}
           onChange={(event) => setInputs((current) => ({ ...current, tenureMonths: event.target.value }))}
         />
-
-        <Button>Calculate now</Button>
 
         {validationIssues?.length ? (
           <p className="calculator-shell__error">

@@ -17,12 +17,12 @@ describe("HomeLoanSimpleCalculator", () => {
     await user.type(screen.getByLabelText(/tenure in months/i), "240");
 
     expect(screen.getByText(/monthly emi/i)).toBeInTheDocument();
-    expect(screen.getAllByText(/₹39,766\.98/i).length).toBeGreaterThan(0);
-    expect(screen.getAllByText(/₹95,44,075\.66/i).length).toBeGreaterThan(0);
-    expect(screen.getAllByText(/₹50,44,075\.66/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/₹39,767/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/₹95,44,076/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/₹50,44,076/i).length).toBeGreaterThan(0);
     expect(screen.getByText(/what this means for your home plan/i)).toBeInTheDocument();
     expect(
-      screen.getByText(/your current estimate is about ₹39,766\.98 per month/i)
+      screen.getByText(/your current estimate is about ₹39,767 per month/i)
     ).toBeInTheDocument();
   });
 

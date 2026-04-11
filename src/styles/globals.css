@@ -297,6 +297,7 @@ body::before {
 
 .section-heading {
   grid-column: 1 / -1;
+  justify-self: center;
   max-width: 640px;
   display: grid;
   gap: 10px;
@@ -391,8 +392,8 @@ body::before {
 }
 
 .calculator-entry__panel {
-  margin: 20px auto 0;
-  padding: 42px;
+  margin: 16px auto 0;
+  padding: 36px;
   border: 1px solid var(--color-border);
   border-radius: 34px;
   background: var(--color-surface-strong);
@@ -472,8 +473,7 @@ body::before {
 
 .calculator-metric-grid {
   display: grid;
-  gap: 16px;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
 }
 
 .calculator-shell__error {
@@ -599,44 +599,62 @@ body::before {
 }
 
 .result-summary-card {
-  padding: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 22px;
   border: 1px solid var(--color-border);
-  border-radius: 28px;
+  border-radius: 16px;
   background: var(--color-surface-strong);
-  box-shadow: var(--shadow-soft), var(--shadow-crisp);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
+  box-shadow: var(--shadow-crisp);
+}
+
+.result-summary-card__info {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
 }
 
 .result-summary-card__caption {
-  margin: 0 0 10px;
+  margin: 0;
   color: var(--color-text-muted);
-  font-size: 0.82rem;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-}
-
-.result-summary-card--positive {
-  border-color: var(--color-glass-border-hover);
-}
-
-.result-summary-card--caution {
-  border-color: rgba(144, 202, 249, 0.28);
+  font-size: 0.75rem;
+  line-height: 1.4;
 }
 
 .result-summary-card__label {
-  margin: 0 0 8px;
-  color: var(--color-text-muted);
+  margin: 0;
+  color: var(--color-text);
   font-size: 0.95rem;
+  font-weight: 700;
 }
 
 .result-summary-card__value {
   margin: 0;
   color: var(--color-text);
   font-family: inherit;
-  font-size: 1.84rem;
+  font-size: 1.5rem;
   font-weight: 800;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+  text-align: right;
+}
+
+.result-summary-card--positive {
+  border-color: var(--color-glass-border-hover);
+}
+
+.result-summary-card--positive .result-summary-card__value {
+  color: var(--color-primary-strong);
+}
+
+.result-summary-card--caution {
+  border-color: rgba(255, 183, 77, 0.28);
+}
+
+.result-summary-card--caution .result-summary-card__value {
+  color: #ffb74d;
 }
 
 .result-insight-panel {

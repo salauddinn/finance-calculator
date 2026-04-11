@@ -1,27 +1,23 @@
 "use client";
 
-import { useMemo, useState, type FormEvent } from "react";
+import { useMemo } from "react";
 
-import { Button } from "@/components/primitives/button";
 import { ResultInsightPanel } from "@/components/primitives/result-insight-panel";
 import { ResultSummaryCard } from "@/components/primitives/result-summary-card";
 import { TextInput } from "@/components/primitives/text-input";
 import { useCalculatorPreferences } from "@/features/preferences/use-calculator-preferences";
-import { calculateSip, type SipResult } from "@/lib/calculations/sip/calculate-sip";
+import { calculateSip } from "@/lib/calculations/sip/calculate-sip";
 
 const currencyFormatter = new Intl.NumberFormat("en-IN", {
   style: "currency",
   currency: "INR",
-  maximumFractionDigits: 2
+  maximumFractionDigits: 0
 });
 
 function formatCurrency(value: number) {
   return currencyFormatter.format(value);
 }
 
-function toNumber(value: string) {
-  return Number(value);
-}
 
 export function SipCalculator() {
   const [inputs, setInputs] = useCalculatorPreferences("sip", {
@@ -29,24 +25,15 @@ export function SipCalculator() {
     annualReturnPct: "12",
     durationMonths: "24"
   });
-  const [result, setResult] = useState<SipResult | null>(null);
-
-  const assumptions = useMemo(
-    () => "We assume you invest the same amount every month and keep the return rate steady.",
-    []
-  );
-
-  function handleCalculate(event?: FormEvent<HTMLFormElement>) {
-    event?.preventDefault();
-
-    setResult(
+  const result = useMemo(
+    () =>
       calculateSip({
-        monthlyContribution: toNumber(inputs.monthlyContribution),
-        annualReturnPct: toNumber(inputs.annualReturnPct),
-        durationMonths: toNumber(inputs.durationMonths)
-      })
-    );
-  }
+        monthlyContribution: Number(inputs.monthlyContribution),
+        annualReturnPct: Number(inputs.annualReturnPct),
+        durationMonths: Number(inputs.durationMonths)
+      }),
+    [inputs]
+  );
 
   return (
     <section className="calculator-shell">
@@ -54,10 +41,10 @@ export function SipCalculator() {
         <div className="calculator-copy">
           <p className="eyebrow">SIP calculator</p>
           <h2>Plan monthly investments with confidence</h2>
-          <p className="hero-copy">{assumptions}</p>
+          <p className="hero-copy">We assume you invest the same amount every month and keep the return rate steady.</p>
         </div>
 
-        <form className="calculator-grid" onSubmit={handleCalculate}>
+        <div className="calculator-grid">
           <TextInput
             id="sip-monthly-contribution"
             label="Monthly contribution"
@@ -104,8 +91,7 @@ export function SipCalculator() {
             min="1"
           />
 
-          <Button type="submit">Calculate SIP</Button>
-        </form>
+        </div>
       </div>
 
       {result ? (

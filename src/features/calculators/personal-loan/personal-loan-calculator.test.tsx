@@ -17,12 +17,12 @@ describe("PersonalLoanCalculator", () => {
     await user.type(screen.getByLabelText(/tenure in months/i), "24");
 
     expect(screen.getByText(/monthly emi/i)).toBeInTheDocument();
-    expect(screen.getAllByText(/₹23,072\.46/i).length).toBeGreaterThan(0);
-    expect(screen.getAllByText(/₹5,53,739\.12/i).length).toBeGreaterThan(0);
-    expect(screen.getAllByText(/₹53,739\.12/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/₹23,072/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/₹5,53,739/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/₹53,739/i).length).toBeGreaterThan(0);
     expect(screen.getByText(/what this means for your budget/i)).toBeInTheDocument();
     expect(
-      screen.getByText(/you would pay around ₹23,072\.46 every month for 24 months/i)
+      screen.getByText(/you would pay around ₹23,072 every month for 24 months/i)
     ).toBeInTheDocument();
   });
 
