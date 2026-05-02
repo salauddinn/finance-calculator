@@ -25,3 +25,28 @@ pnpm workspace monorepo using TypeScript. Each package manages its own dependenc
 - `pnpm --filter @workspace/api-server run dev` — run API server locally
 
 See the `pnpm-workspace` skill for workspace structure, TypeScript setup, and package details.
+
+## Artifacts
+
+### Finance Calculator (`artifacts/finance-calculator`)
+
+India-focused personal finance calculator app. Pure frontend, no backend required.
+
+- **Framework**: React 19 + Vite + wouter (routing)
+- **Styling**: Custom CSS with CSS variables (dark-first design), no Tailwind utilities in app code
+- **Preview path**: `/` (root)
+- **Calculators**: Personal Loan (comprehensive), Home Loan (simple + advanced), SIP, Fixed Deposit
+- **Key features**: localStorage preferences persistence, Excel export (exceljs), simple/advanced mode toggle per calculator
+- **Source**: Ported from Next.js 15 App Router (`output: export`) to Vite+React
+
+#### File structure
+- `src/App.tsx` — wouter Router + ThemeProvider wrapper
+- `src/pages/home.tsx` — landing page with calculator cards
+- `src/pages/calculator.tsx` — individual calculator page (uses `useParams` from wouter)
+- `src/components/calculator-route.tsx` — dispatches slug → calculator component
+- `src/components/layout/` — Navbar, ThemeToggle, CalculatorCategoryCard, ContinueCalculatorLink
+- `src/features/calculators/` — calculator components (comprehensive-loan, home-loan, sip, fixed-deposit)
+- `src/features/preferences/` — theme provider + useCalculatorPreferences hook (localStorage)
+- `src/lib/calculations/` — pure calculation logic
+- `src/lib/export/excel-export.ts` — ExcelJS-based schedule download
+- `src/index.css` — all app CSS (custom properties, layout, components)
