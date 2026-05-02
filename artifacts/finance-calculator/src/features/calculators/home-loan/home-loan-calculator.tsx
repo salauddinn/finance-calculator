@@ -101,8 +101,8 @@ export function HomeLoanCalculator() {
       { header: 'Month', key: 'month', width: 10, format: 'number' },
       { header: 'Opening Balance', key: 'opening', width: 20, format: 'currency' },
       { header: 'EMI', key: 'emi', width: 15, format: 'currency' },
-      { header: 'Principal Paid', key: 'principal', width: 15, format: 'currency', color: 'FFD1FAE5' }, // Tailwind orange-100 (FFD1FAE5) or green-100 (D1FAE5) -> wait, actually D1FAE5 is green-100.
-      { header: 'Interest Paid', key: 'interest', width: 15, format: 'currency', color: 'FFFEE2E2' }, // Tailwind red-100 (FEE2E2)
+      { header: 'Principal Paid', key: 'principal', width: 15, format: 'currency', color: 'FFD1FAE5' },
+      { header: 'Interest Paid', key: 'interest', width: 15, format: 'currency', color: 'FFFEE2E2' },
       { header: 'Closing Balance', key: 'closing', width: 20, format: 'currency' },
       { header: 'Event', key: 'event', width: 15, format: 'text' },
     ];

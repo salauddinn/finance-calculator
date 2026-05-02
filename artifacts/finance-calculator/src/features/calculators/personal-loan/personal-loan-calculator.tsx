@@ -50,11 +50,10 @@ export function PersonalLoanCalculator() {
         tenureMonths: validation.data.tenureMonths,
         delayEmiMonths: Number(inputs.delayEmiMonths),
         processingFeeAmount: { value: Number(inputs.processingFeeAmount), currency: "INR" },
-        prepayments: [] // Full dynamic prepayments list OOS for basic advanced accordion, focus on fees/delay
+        prepayments: []
       });
     }
 
-    // Wrap the simple result to match structure for UI displaying
     const rawResult = calculatePersonalLoan({
       principal: validation.data.principal.value,
       annualRatePct: validation.data.annualRatePct,
