@@ -1,9 +1,7 @@
-
-
 import { useMemo } from "react";
 
-import { ResultInsightPanel } from "@/components/primitives/result-insight-panel";
 import { ResultSummaryCard } from "@/components/primitives/result-summary-card";
+import { BreakdownBar } from "@/components/primitives/breakdown-bar";
 import { SliderInput } from "@/components/primitives/slider-input";
 import { ModeToggle } from "@/components/primitives/mode-toggle";
 import { AdvancedOptionsAccordion } from "@/components/primitives/advanced-options-accordion";
@@ -14,10 +12,10 @@ import { calculateSip } from "@/lib/calculations/sip/calculate-sip";
 const currencyFormatter = new Intl.NumberFormat("en-IN", {
   style: "currency",
   currency: "INR",
-  maximumFractionDigits: 0
+  maximumFractionDigits: 0,
 });
 
-function formatCurrency(value: number) {
+function fmt(value: number) {
   return currencyFormatter.format(value);
 }
 
@@ -29,7 +27,7 @@ export function SipCalculator() {
     mode: "simple",
     stepUpPercentage: "0",
     inflationRate: "0",
-    taxationEnabled: "false"
+    taxationEnabled: "false",
   });
 
   const isAdvanced = inputs.mode === "advanced";
@@ -40,123 +38,96 @@ export function SipCalculator() {
         monthlyContribution: Number(inputs.monthlyContribution),
         annualReturnPct: Number(inputs.annualReturnPct),
         durationMonths: Number(inputs.durationMonths),
-          advancedConfig: isAdvanced
+        advancedConfig: isAdvanced
           ? {
               stepUpPercentage: Number(inputs.stepUpPercentage),
               inflationRate: Number(inputs.inflationRate),
-              taxationEnabled: inputs.taxationEnabled === "true"
+              taxationEnabled: inputs.taxationEnabled === "true",
             }
-          : undefined
+          : undefined,
       }),
     [inputs, isAdvanced]
   );
 
+  const months = Number(inputs.durationMonths);
+  const years = Math.floor(months / 12);
+  const remMonths = months % 12;
+  const durationLabel = years > 0
+    ? `${years}y${remMonths > 0 ? ` ${remMonths}m` : ""}`
+    : `${months}m`;
+
   return (
     <section className="calculator-shell">
+      {/* ── Inputs ── */}
       <div className="calculator-panel">
-        <div className="calculator-copy" style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-          <div>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: "12px" }}>
+          <div className="calculator-copy">
             <p className="eyebrow">SIP calculator</p>
-            <h2>Plan monthly investments with confidence</h2>
-            <p className="hero-copy">We assume you invest the same amount every month and keep the return rate steady.</p>
+            <h2>Monthly investment planner</h2>
           </div>
-          <ModeToggle 
-            mode={inputs.mode as "simple" | "advanced"} 
-            onChange={(mode) => setInputs((current) => ({ ...current, mode }))} 
+          <ModeToggle
+            mode={inputs.mode as "simple" | "advanced"}
+            onChange={(mode) => setInputs((c) => ({ ...c, mode }))}
           />
         </div>
 
         <div className="calculator-grid">
           <SliderInput
-            id="sip-monthly-contribution"
-            label="Monthly contribution"
+            id="sip-monthly"
+            label="Monthly contribution (₹)"
             value={inputs.monthlyContribution as string}
-            onChange={(event) =>
-              setInputs((current) => ({
-                ...current,
-                monthlyContribution: event.target.value
-              }))
-            }
             min={500}
             max={500000}
             step={500}
+            onChange={(e) => setInputs((c) => ({ ...c, monthlyContribution: e.target.value }))}
           />
           <SliderInput
-            id="sip-annual-return"
+            id="sip-return"
             label="Expected annual return (%)"
             value={inputs.annualReturnPct as string}
-            onChange={(event) =>
-              setInputs((current) => ({
-                ...current,
-                annualReturnPct: event.target.value
-              }))
-            }
             min={1}
             max={50}
             step={0.5}
+            onChange={(e) => setInputs((c) => ({ ...c, annualReturnPct: e.target.value }))}
           />
           <SliderInput
-            id="sip-duration-months"
-            label="Duration in months"
+            id="sip-duration"
+            label="Duration (months)"
             value={inputs.durationMonths as string}
-            onChange={(event) =>
-              setInputs((current) => ({
-                ...current,
-                durationMonths: event.target.value
-              }))
-            }
             min={6}
             max={360}
             step={6}
+            onChange={(e) => setInputs((c) => ({ ...c, durationMonths: e.target.value }))}
           />
         </div>
 
         {isAdvanced && (
-          <AdvancedOptionsAccordion title="Advanced SIP Settings">
+          <AdvancedOptionsAccordion title="Advanced options">
             <div className="calculator-grid">
               <SliderInput
                 id="sip-step-up"
-                label="Annual Step-up (%)"
+                label="Annual step-up (%)"
                 value={inputs.stepUpPercentage as string}
-                onChange={(event) =>
-                  setInputs((current) => ({
-                    ...current,
-                    stepUpPercentage: event.target.value
-                  }))
-                }
-                min={0}
-                max={50}
-                step={1}
+                min={0} max={50} step={1}
+                onChange={(e) => setInputs((c) => ({ ...c, stepUpPercentage: e.target.value }))}
               />
               <SliderInput
-                id="sip-inflation-rate"
-                label="Inflation Rate (%)"
+                id="sip-inflation"
+                label="Inflation rate (%)"
                 value={inputs.inflationRate as string}
-                onChange={(event) =>
-                  setInputs((current) => ({
-                    ...current,
-                    inflationRate: event.target.value
-                  }))
-                }
-                min={0}
-                max={15}
-                step={1}
+                min={0} max={15} step={1}
+                onChange={(e) => setInputs((c) => ({ ...c, inflationRate: e.target.value }))}
               />
-              <div className="field" style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "16px" }}>
+              <div className="field" style={{ flexDirection: "row", alignItems: "center", gap: "10px" }}>
                 <input
                   type="checkbox"
-                  id="sip-taxation"
+                  id="sip-tax"
                   checked={inputs.taxationEnabled === "true"}
-                  onChange={(event) =>
-                    setInputs((current) => ({
-                      ...current,
-                      taxationEnabled: event.target.checked ? "true" : "false"
-                    }))
-                  }
-                  style={{ width: "20px", height: "20px" }}
+                  onChange={(e) => setInputs((c) => ({ ...c, taxationEnabled: e.target.checked ? "true" : "false" }))}
+                  style={{ width: "16px", height: "16px", accentColor: "var(--blue)", flexShrink: 0 }}
                 />
-                <label className="field__label" htmlFor="sip-taxation" style={{ margin: 0, fontWeight: 600 }}>
-                  Apply standard LTCG Tax (12.5% on gains)
+                <label className="field__label" htmlFor="sip-tax" style={{ margin: 0 }}>
+                  Apply LTCG tax (12.5% on gains)
                 </label>
               </div>
             </div>
@@ -164,46 +135,57 @@ export function SipCalculator() {
         )}
       </div>
 
+      {/* ── Results ── */}
       {result ? (
         <div className="calculator-results">
-          <ResultInsightPanel
-            title="What this means for your investing goal"
-            summary={`If returns stay steady, your money could grow to ${formatCurrency(result.maturityValue.value)} over ${inputs.durationMonths} months.`}
-            supportingPoints={[
-              `Your own invested amount would be ${formatCurrency(result.investedAmount.value)}.`,
-              `The projected gain would be ${formatCurrency(result.estimatedReturns.value)}.`
-            ]}
+          <ResultSummaryCard
+            isHero
+            label="Maturity value"
+            value={fmt(result.maturityValue.value)}
+            sublabel={`After ${durationLabel} · ₹${Number(inputs.monthlyContribution).toLocaleString("en-IN")}/month`}
+            tone="positive"
           />
+
+          <BreakdownBar
+            valueA={result.investedAmount.value}
+            valueB={result.estimatedReturns.value}
+            labelA="Invested"
+            labelB="Returns"
+            colorA="blue"
+            colorB="green"
+            formattedA={fmt(result.investedAmount.value)}
+            formattedB={fmt(result.estimatedReturns.value)}
+          />
+
           <div className="calculator-metric-grid">
             <ResultSummaryCard
-              caption="Your money contributed"
               label="Invested amount"
-              value={formatCurrency(result.investedAmount.value)}
+              caption="Your total contributions"
+              value={fmt(result.investedAmount.value)}
             />
             <ResultSummaryCard
-              caption="Projected growth on top of your contributions"
               label="Estimated returns"
-              value={formatCurrency(result.estimatedReturns.value)}
-              tone="positive"
-            />
-            <ResultSummaryCard
-              caption="Total projected value at the end"
-              label="Maturity value"
-              value={formatCurrency(result.maturityValue.value)}
+              caption="Projected growth on top"
+              value={fmt(result.estimatedReturns.value)}
               tone="positive"
             />
           </div>
-          <div style={{ marginTop: "1rem" }}>
-            <CopySummaryButton getText={() => [
-              "SIP Summary",
-              `Monthly contribution: ${formatCurrency(Number(inputs.monthlyContribution))}`,
-              `Expected annual return: ${inputs.annualReturnPct}%`,
-              `Duration: ${inputs.durationMonths} months`,
-              `Invested amount: ${formatCurrency(result.investedAmount.value)}`,
-              `Estimated returns: ${formatCurrency(result.estimatedReturns.value)}`,
-              `Maturity value: ${formatCurrency(result.maturityValue.value)}`,
-              "Results are estimates. Actual returns may vary."
-            ].join("\n")} />
+
+          <div className="result-actions">
+            <CopySummaryButton
+              getText={() =>
+                [
+                  "SIP Summary",
+                  `Monthly: ${fmt(Number(inputs.monthlyContribution))}`,
+                  `Return: ${inputs.annualReturnPct}%`,
+                  `Duration: ${inputs.durationMonths} months`,
+                  `Invested: ${fmt(result.investedAmount.value)}`,
+                  `Returns: ${fmt(result.estimatedReturns.value)}`,
+                  `Maturity: ${fmt(result.maturityValue.value)}`,
+                  "Estimates only. Actual returns may vary.",
+                ].join("\n")
+              }
+            />
           </div>
         </div>
       ) : null}

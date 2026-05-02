@@ -1,54 +1,64 @@
-import type { InputHTMLAttributes } from "react";
+import type { CSSProperties, InputHTMLAttributes } from "react";
 
-type SliderInputProps = InputHTMLAttributes<HTMLInputElement> & {
+type SliderInputProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange'> & {
   id: string;
   label: string;
   hint?: string;
   min: string | number;
   max: string | number;
   step?: string | number;
+  value: string | number | readonly string[];
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-export function SliderInput({ 
-  id, 
-  label, 
-  hint, 
-  className = "", 
-  min, 
-  max, 
-  step, 
-  value, 
-  onChange, 
-  ...props 
+export function SliderInput({
+  id,
+  label,
+  hint,
+  min,
+  max,
+  step,
+  value,
+  onChange,
+  ...props
 }: SliderInputProps) {
+  const numValue = Number(value);
+  const numMin = Number(min);
+  const numMax = Number(max);
+  const range = numMax - numMin;
+  const fillPct = range > 0
+    ? `${Math.max(0, Math.min(100, ((numValue - numMin) / range) * 100)).toFixed(1)}%`
+    : "0%";
+
   return (
     <div className="field">
-      <label className="field__label" htmlFor={id}>
-        {label}
-      </label>
-      <div className="slider-input__wrapper">
+      <div className="slider-row">
+        <label className="slider-row__label" htmlFor={id}>
+          {label}
+        </label>
         <input
           id={id}
           type="text"
           inputMode="decimal"
-          aria-describedby={hint ? `${id}-hint` : undefined}
-          className={`text-input ${className}`.trim()}
+          className="slider-row__value-input"
           value={value}
           onChange={onChange}
+          aria-describedby={hint ? `${id}-hint` : undefined}
           {...props}
         />
-        <input 
-          type="range"
-          min={min}
-          max={max}
-          step={step}
-          value={value}
-          onChange={onChange}
-          className="slider-input__range"
-          aria-label={`${label} slider`}
-          tabIndex={-1}
-        />
       </div>
+      <input
+        type="range"
+        min={min}
+        max={max}
+        step={step}
+        value={value}
+        onChange={onChange}
+        className="slider-track"
+        style={{ "--fill": fillPct } as CSSProperties}
+        aria-label={`${label} slider`}
+        tabIndex={-1}
+      />
       {hint ? (
         <p className="field__hint" id={`${id}-hint`}>
           {hint}

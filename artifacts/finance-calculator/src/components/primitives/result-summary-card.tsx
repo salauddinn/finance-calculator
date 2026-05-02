@@ -3,7 +3,9 @@ type ResultSummaryCardProps = {
   label: string;
   value: string;
   valueTestId?: string;
+  sublabel?: string;
   tone?: "default" | "positive" | "caution";
+  isHero?: boolean;
 };
 
 export function ResultSummaryCard({
@@ -11,8 +13,30 @@ export function ResultSummaryCard({
   label,
   value,
   valueTestId,
-  tone = "default"
+  sublabel,
+  tone = "default",
+  isHero = false,
 }: ResultSummaryCardProps) {
+  if (isHero) {
+    return (
+      <div
+        className={`result-hero result-hero--${tone}`}
+        data-testid="result-summary-card"
+      >
+        <p className="result-hero__label">{label}</p>
+        <p className="result-hero__value" data-testid={valueTestId}>
+          {value}
+        </p>
+        {sublabel ? (
+          <p className="result-hero__sub">{sublabel}</p>
+        ) : null}
+        {caption && !sublabel ? (
+          <p className="result-hero__sub">{caption}</p>
+        ) : null}
+      </div>
+    );
+  }
+
   return (
     <article
       className={`result-summary-card result-summary-card--${tone}`}

@@ -2,8 +2,8 @@
 
 import { useMemo } from "react";
 
-import { ResultInsightPanel } from "@/components/primitives/result-insight-panel";
 import { ResultSummaryCard } from "@/components/primitives/result-summary-card";
+import { BreakdownBar } from "@/components/primitives/breakdown-bar";
 import { SliderInput } from "@/components/primitives/slider-input";
 import { ModeToggle } from "@/components/primitives/mode-toggle";
 import { AdvancedOptionsAccordion } from "@/components/primitives/advanced-options-accordion";
@@ -684,79 +684,56 @@ export function ComprehensiveLoanCalculator() {
       <div className="calculator-shell__results">
         {result ? (
           <>
-            <ResultInsightPanel
-              title={
-                isAdvanced
-                  ? "Your comprehensive loan analysis"
-                  : "What this means for your budget"
-              }
-              summary={
+            {/* Hero metric */}
+            <ResultSummaryCard
+              isHero
+              label={
                 inputs.calculationMode === "loan_amount"
-                  ? `With a monthly EMI of ${formatCurrency(Number(inputs.targetEmi))}, you can afford a loan of up to ${formatCurrency(result.computedLoanAmount)}.`
-                  : inputs.calculationMode === "tenure"
-                    ? `To repay ${formatCurrency(Number(inputs.loanAmount))} at ${formatCurrency(Number(inputs.targetEmi))}/month, you need approximately ${result.computedTenureMonths} months.`
-                    : `You would pay around ${formatCurrency(result.emi)} every month for ${result.computedTenureMonths} months.`
+                  ? "Max loan amount"
+                  : "Monthly EMI"
               }
-              supportingPoints={[
-                `Total repayment: ${formatCurrency(result.totalPayment)}.`,
-                `Total interest cost: ${formatCurrency(result.totalInterest)}.`,
-                ...(isAdvanced && result.interestSaved > 0
-                  ? [
-                      `Interest saved through prepayments: ${formatCurrency(result.interestSaved)}.`,
-                    ]
-                  : []),
-                ...(isAdvanced && result.tenureReduced > 0
-                  ? [
-                      `Tenure reduced by ${result.tenureReduced} months.`,
-                    ]
-                  : []),
-              ]}
+              value={
+                inputs.calculationMode === "loan_amount"
+                  ? formatCurrency(result.computedLoanAmount)
+                  : formatCurrency(result.emi)
+              }
+              sublabel={
+                inputs.calculationMode === "loan_amount"
+                  ? `At ₹${Number(inputs.targetEmi).toLocaleString("en-IN")}/month`
+                  : `per month · ${result.computedTenureMonths} months`
+              }
+              tone="positive"
+            />
+
+            {/* Principal vs Interest breakdown */}
+            <BreakdownBar
+              valueA={Number(inputs.loanAmount)}
+              valueB={result.totalInterest}
+              labelA="Principal"
+              labelB="Interest"
+              colorA="blue"
+              colorB="amber"
+              formattedA={formatCurrency(Number(inputs.loanAmount))}
+              formattedB={formatCurrency(result.totalInterest)}
             />
 
             {/* FOIR Warning */}
             {isAdvanced && result.foirExceeded && (
-              <div
-                style={{
-                  background:
-                    "linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(239, 68, 68, 0.05))",
-                  border: "1px solid rgba(239, 68, 68, 0.4)",
-                  borderRadius: "var(--border-radius-md)",
-                  padding: "16px",
-                  marginBottom: "16px",
-                }}
-              >
-                <p
-                  style={{
-                    fontWeight: 600,
-                    color: "#ef4444",
-                    marginBottom: "4px",
-                  }}
-                >
-                  ⚠️ Affordability Warning
+              <div style={{
+                background: "var(--red-dim)", borderBottom: "1px solid var(--border-sub)",
+                padding: "12px 22px",
+              }}>
+                <p style={{ fontWeight: 700, color: "var(--red)", fontSize: "0.82rem", marginBottom: "2px" }}>
+                  Affordability Warning
                 </p>
-                <p style={{ color: "var(--color-text-muted-light)" }}>
-                  Your FOIR is {result.foirValue.toFixed(1)}%, which exceeds
-                  the {inputs.foirLimit}% limit. Banks may reject this loan
-                  application.
+                <p style={{ color: "var(--text-2)", fontSize: "0.8rem" }}>
+                  FOIR is {result.foirValue.toFixed(1)}% — exceeds your {inputs.foirLimit}% limit.
+                  Banks may reject this application.
                 </p>
               </div>
             )}
 
             <div className="calculator-metric-grid">
-              <ResultSummaryCard
-                caption="Your scheduled payment"
-                label={
-                  inputs.calculationMode === "loan_amount"
-                    ? "Max Loan Amount"
-                    : "Monthly EMI"
-                }
-                value={
-                  inputs.calculationMode === "loan_amount"
-                    ? formatCurrency(result.computedLoanAmount)
-                    : formatCurrency(result.emi)
-                }
-                tone="positive"
-              />
               <ResultSummaryCard
                 caption="Total amount repaid"
                 label="Total payment"
@@ -778,6 +755,22 @@ export function ComprehensiveLoanCalculator() {
                       ? "caution"
                       : "default"
                   }
+                />
+              )}
+              {isAdvanced && result.interestSaved > 0 && (
+                <ResultSummaryCard
+                  caption="Saved via prepayments"
+                  label="Interest saved"
+                  value={formatCurrency(result.interestSaved)}
+                  tone="positive"
+                />
+              )}
+              {isAdvanced && result.tenureReduced > 0 && (
+                <ResultSummaryCard
+                  caption="Shorter loan term"
+                  label="Months saved"
+                  value={`${result.tenureReduced} months`}
+                  tone="positive"
                 />
               )}
             </div>

@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
-import { ResultInsightPanel } from "@/components/primitives/result-insight-panel";
 import { ResultSummaryCard } from "@/components/primitives/result-summary-card";
+import { BreakdownBar } from "@/components/primitives/breakdown-bar";
 import { SliderInput } from "@/components/primitives/slider-input";
 import { CopySummaryButton } from "@/components/primitives/copy-summary-button";
 import { calculateRentVsBuy } from "@/lib/calculations/rent-vs-buy/rent-vs-buy";
@@ -9,10 +9,16 @@ const FMT = new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR",
 const fmt = (v: number) => FMT.format(v);
 
 const CONCLUSIONS = {
-  renting_cheaper: "Based on these estimates, renting appears cheaper over this period.",
-  buying_better: "Based on these estimates, buying may be better value over this period.",
-  close: "The numbers are close — this decision depends on personal and lifestyle factors."
+  renting_cheaper: "Renting appears cheaper over this period.",
+  buying_better: "Buying may be better value over this period.",
+  close: "The numbers are close — lifestyle factors matter here.",
 };
+
+const CONCLUSION_TONE = {
+  renting_cheaper: "positive",
+  buying_better: "positive",
+  close: "default",
+} as const;
 
 export function RentVsBuyCalculator() {
   const [monthlyRent, setMonthlyRent] = useState("25000");
@@ -26,19 +32,18 @@ export function RentVsBuyCalculator() {
 
   const result = useMemo(() => {
     const hp = Number(homePrice);
-    const dp = Number(downPayment);
     const lt = Number(loanTenure);
     const cy = Number(comparisonYears);
     if (hp <= 0 || lt <= 0 || cy <= 0) return null;
     return calculateRentVsBuy({
       monthlyRent: Number(monthlyRent),
       homePrice: hp,
-      downPayment: dp,
+      downPayment: Number(downPayment),
       annualLoanRatePct: Number(loanRate),
       loanTenureYears: lt,
       annualAppreciationPct: Number(appreciation),
       annualRentIncreasePct: Number(rentIncrease),
-      comparisonYears: cy
+      comparisonYears: cy,
     });
   }, [monthlyRent, homePrice, downPayment, loanRate, loanTenure, appreciation, rentIncrease, comparisonYears]);
 
@@ -49,128 +54,99 @@ export function RentVsBuyCalculator() {
       `Monthly rent: ${fmt(Number(monthlyRent))}`,
       `Home price: ${fmt(Number(homePrice))}`,
       `Down payment: ${fmt(Number(downPayment))}`,
-      `Loan rate: ${loanRate}%`,
-      `Loan tenure: ${loanTenure} years`,
+      `Loan rate: ${loanRate}% · Tenure: ${loanTenure} years`,
       `Comparison period: ${comparisonYears} years`,
-      `Estimated EMI: ${fmt(result.monthlyEmi)}`,
-      `Total rent over period: ${fmt(result.totalRentPaid)}`,
+      `EMI: ${fmt(result.monthlyEmi)}`,
+      `Total rent paid: ${fmt(result.totalRentPaid)}`,
       `Total buying outflow: ${fmt(result.totalBuyingOutflow)}`,
-      `Estimated future home value: ${fmt(result.futureHomeValue)}`,
+      `Estimated home value: ${fmt(result.futureHomeValue)}`,
       `Conclusion: ${CONCLUSIONS[result.conclusion]}`,
-      "This is a simplified estimate. Taxes, maintenance, and opportunity cost are not included."
+      "Simplified estimate. Taxes, maintenance, and opportunity cost not included.",
     ].join("\n");
   }
 
   return (
     <section className="calculator-shell">
+      {/* ── Inputs ── */}
       <div className="calculator-panel">
         <div className="calculator-copy">
           <p className="eyebrow">Rent vs buy calculator</p>
-          <h2>Compare renting and buying over time</h2>
-          <p className="hero-copy">
-            A simplified comparison of total outflows when renting versus buying a home over your chosen period. Results are estimates.
-          </p>
+          <h2>Compare renting vs buying</h2>
         </div>
         <div className="calculator-grid">
-          <SliderInput
-            id="rvb-rent"
-            label="Current monthly rent (₹)"
-            value={monthlyRent}
-            onChange={e => setMonthlyRent(e.target.value)}
-            min={5000} max={200000} step={1000}
-          />
-          <SliderInput
-            id="rvb-home-price"
-            label="Home price (₹)"
-            value={homePrice}
-            onChange={e => setHomePrice(e.target.value)}
-            min={1000000} max={100000000} step={100000}
-          />
-          <SliderInput
-            id="rvb-down-payment"
-            label="Down payment (₹)"
-            value={downPayment}
-            onChange={e => setDownPayment(e.target.value)}
-            min={0} max={50000000} step={100000}
-          />
-          <SliderInput
-            id="rvb-loan-rate"
-            label="Loan interest rate (%)"
-            value={loanRate}
-            onChange={e => setLoanRate(e.target.value)}
-            min={5} max={20} step={0.1}
-          />
-          <SliderInput
-            id="rvb-tenure"
-            label="Loan tenure (years)"
-            value={loanTenure}
-            onChange={e => setLoanTenure(e.target.value)}
-            min={5} max={30} step={1}
-          />
-          <SliderInput
-            id="rvb-appreciation"
-            label="Annual home appreciation (%)"
-            value={appreciation}
-            onChange={e => setAppreciation(e.target.value)}
-            min={0} max={20} step={0.5}
-          />
-          <SliderInput
-            id="rvb-rent-increase"
-            label="Annual rent increase (%)"
-            value={rentIncrease}
-            onChange={e => setRentIncrease(e.target.value)}
-            min={0} max={20} step={0.5}
-          />
-          <SliderInput
-            id="rvb-comparison-years"
-            label="Comparison period (years)"
-            value={comparisonYears}
-            onChange={e => setComparisonYears(e.target.value)}
-            min={1} max={30} step={1}
-          />
+          <SliderInput id="rvb-rent" label="Monthly rent (₹)" value={monthlyRent}
+            onChange={(e) => setMonthlyRent(e.target.value)} min={5000} max={200000} step={1000} />
+          <SliderInput id="rvb-home-price" label="Home price (₹)" value={homePrice}
+            onChange={(e) => setHomePrice(e.target.value)} min={1000000} max={100000000} step={100000} />
+          <SliderInput id="rvb-down-payment" label="Down payment (₹)" value={downPayment}
+            onChange={(e) => setDownPayment(e.target.value)} min={0} max={50000000} step={100000} />
+          <SliderInput id="rvb-loan-rate" label="Loan interest rate (%)" value={loanRate}
+            onChange={(e) => setLoanRate(e.target.value)} min={5} max={20} step={0.1} />
+          <SliderInput id="rvb-tenure" label="Loan tenure (years)" value={loanTenure}
+            onChange={(e) => setLoanTenure(e.target.value)} min={5} max={30} step={1} />
+          <SliderInput id="rvb-appreciation" label="Annual home appreciation (%)" value={appreciation}
+            onChange={(e) => setAppreciation(e.target.value)} min={0} max={20} step={0.5} />
+          <SliderInput id="rvb-rent-increase" label="Annual rent increase (%)" value={rentIncrease}
+            onChange={(e) => setRentIncrease(e.target.value)} min={0} max={20} step={0.5} />
+          <SliderInput id="rvb-comparison-years" label="Comparison period (years)" value={comparisonYears}
+            onChange={(e) => setComparisonYears(e.target.value)} min={1} max={30} step={1} />
         </div>
       </div>
 
+      {/* ── Results ── */}
       {result && (
         <div className="calculator-results">
-          <ResultInsightPanel
-            title="Rent vs buy — simplified estimate"
-            summary={CONCLUSIONS[result.conclusion]}
-            supportingPoints={[
-              `Total rent paid over ${comparisonYears} years: ${fmt(result.totalRentPaid)}.`,
-              `Total buying outflow (down payment + EMIs): ${fmt(result.totalBuyingOutflow)}.`,
-              `Estimated home value after ${comparisonYears} years: ${fmt(result.futureHomeValue)}.`
-            ]}
+          {/* Verdict hero */}
+          <ResultSummaryCard
+            isHero
+            label="Verdict"
+            value={result.conclusion === "renting_cheaper" ? "Renting cheaper" : result.conclusion === "buying_better" ? "Buying better" : "Roughly equal"}
+            sublabel={CONCLUSIONS[result.conclusion]}
+            tone={CONCLUSION_TONE[result.conclusion]}
           />
+
+          {/* Rent vs Buy outflow breakdown */}
+          <BreakdownBar
+            valueA={result.totalRentPaid}
+            valueB={result.totalBuyingOutflow}
+            labelA="Total rent"
+            labelB="Total buying"
+            colorA="green"
+            colorB="blue"
+            formattedA={fmt(result.totalRentPaid)}
+            formattedB={fmt(result.totalBuyingOutflow)}
+          />
+
           <div className="calculator-metric-grid">
             <ResultSummaryCard
-              label="Estimated monthly EMI"
-              caption={`${loanTenure}-year loan at ${loanRate}%`}
+              label="Monthly EMI"
+              caption={`${loanTenure}y loan at ${loanRate}%`}
               value={fmt(result.monthlyEmi)}
             />
             <ResultSummaryCard
               label="Total rent paid"
-              caption={`Over ${comparisonYears} years with annual increases`}
+              caption={`Over ${comparisonYears} years with increases`}
               value={fmt(result.totalRentPaid)}
             />
             <ResultSummaryCard
               label="Total buying outflow"
-              caption="Down payment + EMIs over period"
+              caption="Down payment + all EMIs"
               value={fmt(result.totalBuyingOutflow)}
             />
             <ResultSummaryCard
-              label="Estimated future home value"
+              label="Future home value"
               caption={`At ${appreciation}% annual appreciation`}
               value={fmt(result.futureHomeValue)}
               tone="positive"
             />
           </div>
-          <div style={{ marginTop: "1rem" }}>
+
+          <div className="result-actions" style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
             <CopySummaryButton getText={getSummaryText} />
+            <p style={{ fontSize: "0.75rem", color: "var(--text-3)" }}>
+              Simplified estimate. Taxes, maintenance, and opportunity cost not included.
+            </p>
           </div>
-          <p style={{ fontSize: "0.8rem", color: "var(--text-muted, #888)", marginTop: "0.5rem" }}>
-            This is a simplified estimate. Taxes, maintenance, brokerage, and opportunity cost are not included in v1.
-          </p>
         </div>
       )}
     </section>

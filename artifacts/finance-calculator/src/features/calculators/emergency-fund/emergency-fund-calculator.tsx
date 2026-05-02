@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
-import { ResultInsightPanel } from "@/components/primitives/result-insight-panel";
 import { ResultSummaryCard } from "@/components/primitives/result-summary-card";
+import { BreakdownBar } from "@/components/primitives/breakdown-bar";
 import { SliderInput } from "@/components/primitives/slider-input";
 import { CopySummaryButton } from "@/components/primitives/copy-summary-button";
 import { calculateEmergencyFund } from "@/lib/calculations/emergency-fund/emergency-fund";
@@ -25,84 +25,83 @@ export function EmergencyFundCalculator() {
 
   function getSummaryText() {
     if (!result) return "";
-    const lines = [
+    return [
       "Emergency Fund Summary",
       `Monthly expenses: ${fmt(Number(monthlyExpenses))}`,
-      `Target months: ${targetMonths}`,
+      `Target: ${targetMonths} months`,
       `Current savings: ${fmt(Number(currentSavings))}`,
       `Monthly contribution: ${fmt(Number(monthlyContribution))}`,
       `Required fund: ${fmt(result.requiredFund)}`,
       result.hasSurplus ? `Surplus: ${fmt(result.surplus)}` : `Shortfall: ${fmt(result.shortfall)}`,
-      result.monthsToTarget !== null ? `Months to reach target: ${result.monthsToTarget}` : "",
-      "Results are estimates. Verify with a financial advisor."
-    ].filter(Boolean);
-    return lines.join("\n");
+      result.monthsToTarget !== null ? `Months to target: ${result.monthsToTarget}` : "",
+      "Results are estimates only.",
+    ].filter(Boolean).join("\n");
   }
 
   return (
     <section className="calculator-shell">
+      {/* ── Inputs ── */}
       <div className="calculator-panel">
         <div className="calculator-copy">
           <p className="eyebrow">Emergency fund calculator</p>
-          <h2>Know exactly how much buffer you need</h2>
-          <p className="hero-copy">
-            We calculate your target fund based on monthly essential expenses and show how long it will take to build it.
-          </p>
+          <h2>Your safety buffer goal</h2>
         </div>
         <div className="calculator-grid">
           <SliderInput
             id="ef-monthly-expenses"
             label="Monthly essential expenses (₹)"
             value={monthlyExpenses}
-            onChange={e => setMonthlyExpenses(e.target.value)}
+            onChange={(e) => setMonthlyExpenses(e.target.value)}
             min={5000} max={500000} step={1000}
           />
           <SliderInput
             id="ef-target-months"
             label="Target months of coverage"
             value={targetMonths}
-            onChange={e => setTargetMonths(e.target.value)}
+            onChange={(e) => setTargetMonths(e.target.value)}
             min={1} max={24} step={1}
           />
           <SliderInput
             id="ef-current-savings"
             label="Current emergency savings (₹)"
             value={currentSavings}
-            onChange={e => setCurrentSavings(e.target.value)}
+            onChange={(e) => setCurrentSavings(e.target.value)}
             min={0} max={5000000} step={5000}
           />
           <SliderInput
             id="ef-monthly-contribution"
             label="Monthly contribution towards goal (₹)"
             value={monthlyContribution}
-            onChange={e => setMonthlyContribution(e.target.value)}
+            onChange={(e) => setMonthlyContribution(e.target.value)}
             min={0} max={200000} step={500}
-            hint="Leave at 0 to skip the time-to-target estimate"
+            hint="Set to 0 to skip time-to-target estimate"
           />
         </div>
       </div>
 
+      {/* ── Results ── */}
       {result && (
         <div className="calculator-results">
-          <ResultInsightPanel
-            title={result.hasSurplus ? "You already have a comfortable buffer" : "Here is your savings gap and timeline"}
-            summary={
-              result.hasSurplus
-                ? `Your current savings cover your target. You have a surplus of ${fmt(result.surplus)}.`
-                : `You need ${fmt(result.requiredFund)} to cover ${targetMonths} months of expenses. You are ${fmt(result.shortfall)} short.`
-            }
-            supportingPoints={
-              result.monthsToTarget !== null
-                ? [`At your current contribution rate, you will reach the target in ${result.monthsToTarget} months.`]
-                : []
-            }
+          <ResultSummaryCard
+            isHero
+            label="Required emergency fund"
+            value={fmt(result.requiredFund)}
+            sublabel={`${targetMonths} months × ${fmt(Number(monthlyExpenses))}/month`}
           />
+
+          {/* Saved vs still-needed breakdown */}
+          <BreakdownBar
+            valueA={Number(currentSavings)}
+            valueB={Math.max(0, result.shortfall)}
+            labelA="Saved"
+            labelB={result.hasSurplus ? "Surplus" : "Still needed"}
+            colorA="green"
+            colorB={result.hasSurplus ? "green" : "amber"}
+            formattedA={fmt(Number(currentSavings))}
+            formattedB={result.hasSurplus ? fmt(result.surplus) : fmt(result.shortfall)}
+          />
+
           <div className="calculator-metric-grid">
-            <ResultSummaryCard
-              label="Required emergency fund"
-              caption={`${targetMonths} months × ${fmt(Number(monthlyExpenses))}`}
-              value={fmt(result.requiredFund)}
-            />
             {result.hasSurplus ? (
               <ResultSummaryCard
                 label="Current surplus"
@@ -113,7 +112,7 @@ export function EmergencyFundCalculator() {
             ) : (
               <ResultSummaryCard
                 label="Shortfall"
-                caption="Amount still needed to reach target"
+                caption="Amount still needed"
                 value={fmt(result.shortfall)}
                 tone="caution"
               />
@@ -121,18 +120,19 @@ export function EmergencyFundCalculator() {
             {result.monthsToTarget !== null && (
               <ResultSummaryCard
                 label="Months to reach target"
-                caption={`Contributing ${fmt(Number(monthlyContribution))} per month`}
+                caption={`Contributing ${fmt(Number(monthlyContribution))}/month`}
                 value={`${result.monthsToTarget} months`}
                 tone="positive"
               />
             )}
           </div>
-          <div style={{ marginTop: "1rem" }}>
+
+          <div className="result-actions" style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
             <CopySummaryButton getText={getSummaryText} />
+            <p style={{ fontSize: "0.75rem", color: "var(--text-3)" }}>
+              Required fund = monthly expenses × target months. Estimates only.
+            </p>
           </div>
-          <p style={{ fontSize: "0.8rem", color: "var(--text-muted, #888)", marginTop: "0.5rem" }}>
-            Formula: Required fund = monthly expenses × target months. Results are estimates.
-          </p>
         </div>
       )}
     </section>
