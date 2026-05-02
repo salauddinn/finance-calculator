@@ -7,6 +7,7 @@ import { ResultSummaryCard } from "@/components/primitives/result-summary-card";
 import { SliderInput } from "@/components/primitives/slider-input";
 import { ModeToggle } from "@/components/primitives/mode-toggle";
 import { AdvancedOptionsAccordion } from "@/components/primitives/advanced-options-accordion";
+import { CopySummaryButton } from "@/components/primitives/copy-summary-button";
 import { useCalculatorPreferences } from "@/features/preferences/use-calculator-preferences";
 import { calculateSip } from "@/lib/calculations/sip/calculate-sip";
 
@@ -191,6 +192,18 @@ export function SipCalculator() {
               value={formatCurrency(result.maturityValue.value)}
               tone="positive"
             />
+          </div>
+          <div style={{ marginTop: "1rem" }}>
+            <CopySummaryButton getText={() => [
+              "SIP Summary",
+              `Monthly contribution: ${formatCurrency(Number(inputs.monthlyContribution))}`,
+              `Expected annual return: ${inputs.annualReturnPct}%`,
+              `Duration: ${inputs.durationMonths} months`,
+              `Invested amount: ${formatCurrency(result.investedAmount.value)}`,
+              `Estimated returns: ${formatCurrency(result.estimatedReturns.value)}`,
+              `Maturity value: ${formatCurrency(result.maturityValue.value)}`,
+              "Results are estimates. Actual returns may vary."
+            ].join("\n")} />
           </div>
         </div>
       ) : null}

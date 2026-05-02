@@ -3,6 +3,9 @@ import { FixedDepositCalculator } from "@/features/calculators/fixed-deposit/fix
 import { HomeLoanCalculator } from "@/features/calculators/home-loan/home-loan-calculator";
 import { ComprehensiveLoanCalculator } from "@/features/calculators/comprehensive-loan/comprehensive-loan-calculator";
 import { SipCalculator } from "@/features/calculators/sip/sip-calculator";
+import { EmergencyFundCalculator } from "@/features/calculators/emergency-fund/emergency-fund-calculator";
+import { CreditCardPayoffCalculator } from "@/features/calculators/credit-card-payoff/credit-card-payoff-calculator";
+import { RentVsBuyCalculator } from "@/features/calculators/rent-vs-buy/rent-vs-buy-calculator";
 
 type CalculatorRouteProps = {
   slug: string;
@@ -13,21 +16,13 @@ export function CalculatorRoute({ slug }: CalculatorRouteProps) {
   const params = new URLSearchParams(search);
   const _mode = params.get("mode");
 
-  if (slug === "personal-loan") {
-    return <ComprehensiveLoanCalculator />;
-  }
-
-  if (slug === "home-loan") {
-    return <HomeLoanCalculator />;
-  }
-
-  if (slug === "sip") {
-    return <SipCalculator />;
-  }
-
-  if (slug === "fixed-deposit") {
-    return <FixedDepositCalculator />;
-  }
+  if (slug === "personal-loan") return <ComprehensiveLoanCalculator />;
+  if (slug === "home-loan") return <HomeLoanCalculator />;
+  if (slug === "sip") return <SipCalculator />;
+  if (slug === "fixed-deposit") return <FixedDepositCalculator />;
+  if (slug === "emergency-fund") return <EmergencyFundCalculator />;
+  if (slug === "credit-card-payoff") return <CreditCardPayoffCalculator />;
+  if (slug === "rent-vs-buy") return <RentVsBuyCalculator />;
 
   return null;
 }

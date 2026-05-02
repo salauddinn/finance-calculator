@@ -7,6 +7,7 @@ import { ResultSummaryCard } from "@/components/primitives/result-summary-card";
 import { SliderInput } from "@/components/primitives/slider-input";
 import { ModeToggle } from "@/components/primitives/mode-toggle";
 import { AdvancedOptionsAccordion } from "@/components/primitives/advanced-options-accordion";
+import { CopySummaryButton } from "@/components/primitives/copy-summary-button";
 import { useCalculatorPreferences } from "@/features/preferences/use-calculator-preferences";
 import {
   calculateFixedDeposit,
@@ -212,7 +213,7 @@ export function FixedDepositCalculator() {
           title="What this fixed deposit gives you"
           summary="You keep your original deposit protected while earning a fixed return over the selected period."
           supportingPoints={[
-            inputs.payoutFrequency === "cumulative" 
+            inputs.payoutFrequency === "cumulative"
               ? `Your deposit could grow to ${formatCurrency(result.maturityValue)} by maturity.`
               : `You will get payouts of ${formatCurrency(result.payoutPerPeriod)} per period.`,
             `That means ${formatCurrency(result.interestEarned)} would come purely from interest.`
@@ -247,6 +248,19 @@ export function FixedDepositCalculator() {
               tone="positive"
             />
           )}
+        </div>
+        <div style={{ marginTop: "1rem" }}>
+          <CopySummaryButton getText={() => [
+            "Fixed Deposit Summary",
+            `Deposit amount: ${formatCurrency(Number(inputs.depositAmount))}`,
+            `Annual rate: ${inputs.annualRatePct}%`,
+            `Tenure: ${inputs.tenureMonths} months`,
+            `Compounding: ${inputs.compoundingFrequency}`,
+            `Maturity value: ${formatCurrency(result.maturityValue)}`,
+            `Interest earned: ${formatCurrency(result.interestEarned)}`,
+            result.totalTdsDeducted > 0 ? `TDS deducted: ${formatCurrency(result.totalTdsDeducted)}` : "",
+            "Results are estimates. Verify with your bank."
+          ].filter(Boolean).join("\n")} />
         </div>
       </div>
     </section>

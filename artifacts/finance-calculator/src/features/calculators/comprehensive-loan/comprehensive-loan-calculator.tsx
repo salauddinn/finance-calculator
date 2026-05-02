@@ -7,6 +7,7 @@ import { ResultSummaryCard } from "@/components/primitives/result-summary-card";
 import { SliderInput } from "@/components/primitives/slider-input";
 import { ModeToggle } from "@/components/primitives/mode-toggle";
 import { AdvancedOptionsAccordion } from "@/components/primitives/advanced-options-accordion";
+import { CopySummaryButton } from "@/components/primitives/copy-summary-button";
 import { Button } from "@/components/primitives/button";
 import { exportToExcel } from "@/lib/export/excel-export";
 import { useCalculatorPreferences } from "@/features/preferences/use-calculator-preferences";
@@ -779,6 +780,18 @@ export function ComprehensiveLoanCalculator() {
                   }
                 />
               )}
+            </div>
+            <div style={{ marginTop: "1rem" }}>
+              <CopySummaryButton getText={() => [
+                "Personal Loan Summary",
+                `Loan amount: ${formatCurrency(Number(inputs.loanAmount))}`,
+                `Annual rate: ${inputs.interestRateAnnual}%`,
+                `Tenure: ${inputs.tenureMonths} months`,
+                `Monthly EMI: ${formatCurrency(result.emi)}`,
+                `Total interest: ${formatCurrency(result.totalInterest)}`,
+                `Total repayment: ${formatCurrency(result.totalPayment)}`,
+                "Results are estimates. Verify with your lender."
+              ].join("\n")} />
             </div>
 
             {/* Amortization Schedule (first 12 rows) */}
