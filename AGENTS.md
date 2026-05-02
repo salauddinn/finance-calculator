@@ -113,3 +113,10 @@ The Agentic SDLC framework is platform-agnostic. Installation instructions for s
 | "I remember what the skill says" | Skills evolve. Read the current version. |
 | "This doesn't need TDD" | If it's production code, it needs a failing test first. |
 | "Let me write some code first to explore" | Exploration prototypes must be thrown away before TDD begins. |
+
+## Tooling Restrictions — STRICT
+
+- **NEVER use the `gh` (GitHub CLI) command** in this repository.
+  - Do not run `gh pr ...`, `gh run ...`, `gh repo ...`, `gh issue ...`, `gh api ...`, or any other `gh` subcommand.
+  - For git operations, use plain `git` (push, pull, log, etc.).
+  - If you need CI status or PR information, ask the user to share it from the GitHub web UI.
