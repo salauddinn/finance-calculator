@@ -4,45 +4,47 @@ import { BreakdownBar } from "@/components/primitives/breakdown-bar";
 import { SliderInput } from "@/components/primitives/slider-input";
 import { WhatsAppShareButton } from "@/components/primitives/whatsapp-share-button";
 import { CopySummaryButton } from "@/components/primitives/copy-summary-button";
+import { useCalculatorPreferences } from "@/features/preferences/use-calculator-preferences";
 import { calculatePpf } from "@/lib/calculations/ppf/calculate-ppf";
 
 const FMT = new Intl.NumberFormat("en-IN", {
-  style: "currency",
-  currency: "INR",
-  maximumFractionDigits: 0,
+  style: "currency", currency: "INR", maximumFractionDigits: 0,
 });
 const fmt = (v: number) => FMT.format(v);
 
 const CURRENT_PPF_RATE = 7.1;
 
 export function PpfCalculator() {
-  const [annualContribution, setAnnualContribution] = useState("60000");
-  const [extensionYears, setExtensionYears] = useState("0");
+  const [inputs, setInputs] = useCalculatorPreferences("ppf", {
+    annualContribution: "60000",
+    extensionYears: "0",
+  });
   const [showTable, setShowTable] = useState(false);
 
   const result = useMemo(
     () =>
       calculatePpf({
-        annualContribution: Number(annualContribution),
+        annualContribution: Number(inputs.annualContribution),
         interestRatePct: CURRENT_PPF_RATE,
         years: 15,
-        extensionYears: Number(extensionYears),
+        extensionYears: Number(inputs.extensionYears),
       }),
-    [annualContribution, extensionYears]
+    [inputs]
   );
 
-  const totalYears = 15 + Number(extensionYears);
+  const totalYears = 15 + Number(inputs.extensionYears);
 
   function getSummaryText() {
     return [
-      "PPF Calculator Summary",
-      `Annual contribution: ${fmt(Number(annualContribution))}`,
+      "PPF Calculator Summary — India Money Toolkit",
+      `Annual contribution: ${fmt(Number(inputs.annualContribution))}`,
       `Interest rate: ${CURRENT_PPF_RATE}% p.a. (current rate)`,
-      `Duration: ${totalYears} years (15y lock-in${Number(extensionYears) > 0 ? ` + ${extensionYears}y extension` : ""})`,
+      `Duration: ${totalYears} years (15y lock-in${Number(inputs.extensionYears) > 0 ? ` + ${inputs.extensionYears}y extension` : ""})`,
       `Total invested: ${fmt(result.totalInvested)}`,
       `Total interest earned: ${fmt(result.totalInterest)}`,
       `Maturity value: ${fmt(result.maturityValue)}`,
-      "Estimates only. PPF rate is subject to quarterly review by Government of India.",
+      "Estimates only. PPF rate is subject to quarterly review.",
+      "https://indiamoneytoolkit.com/calculators/ppf",
     ].join("\n");
   }
 
@@ -53,8 +55,8 @@ export function PpfCalculator() {
         <div className="calculator-copy">
           <p className="eyebrow">🏛️ PPF calculator</p>
           <h2>15-year wealth builder</h2>
-          <p className="hero-copy" style={{ marginTop: "2px" }}>
-            Current PPF interest rate: <strong>{CURRENT_PPF_RATE}% p.a.</strong> (Q1 FY25–26)
+          <p style={{ fontSize: "0.88rem", color: "var(--text-2)", marginTop: "2px" }}>
+            Current PPF interest rate: <strong>{CURRENT_PPF_RATE}% p.a.</strong> (Q1 FY25–26) · EEE tax status
           </p>
         </div>
 
@@ -62,22 +64,22 @@ export function PpfCalculator() {
           <SliderInput
             id="ppf-contribution"
             label="Annual contribution (₹)"
-            value={annualContribution}
-            onChange={(e) => setAnnualContribution(e.target.value)}
+            value={inputs.annualContribution}
+            onChange={(e) => setInputs((c) => ({ ...c, annualContribution: e.target.value }))}
             min={500}
-            max={150000}
+            max={150_000}
             step={500}
-            hint="Max allowed: ₹1,50,000 per financial year"
+            hint="Max ₹1,50,000 per financial year · Fully tax-free (80C + EEE)"
           />
           <SliderInput
             id="ppf-extension"
             label="Extension after 15 years (years)"
-            value={extensionYears}
-            onChange={(e) => setExtensionYears(e.target.value)}
+            value={inputs.extensionYears}
+            onChange={(e) => setInputs((c) => ({ ...c, extensionYears: e.target.value }))}
             min={0}
             max={20}
             step={5}
-            hint="Extensions allowed in blocks of 5 years. Interest continues."
+            hint="Extensions in 5-year blocks with or without contributions"
           />
         </div>
       </div>
@@ -88,7 +90,7 @@ export function PpfCalculator() {
           isHero
           label="Maturity value"
           value={fmt(result.maturityValue)}
-          sublabel={`After ${totalYears} years · ${fmt(Number(annualContribution))}/year`}
+          sublabel={`After ${totalYears} years · ${fmt(Number(inputs.annualContribution))}/year`}
           tone="positive"
         />
 
@@ -106,7 +108,7 @@ export function PpfCalculator() {
         <div className="calculator-metric-grid">
           <ResultSummaryCard
             label="Total invested"
-            caption={`${Math.min(15, totalYears)} years × ${fmt(Number(annualContribution))}`}
+            caption={`${Math.min(15, totalYears)} years × ${fmt(Number(inputs.annualContribution))}`}
             value={fmt(result.totalInvested)}
           />
           <ResultSummaryCard

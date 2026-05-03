@@ -1,9 +1,10 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { ResultSummaryCard } from "@/components/primitives/result-summary-card";
 import { BreakdownBar } from "@/components/primitives/breakdown-bar";
 import { SliderInput } from "@/components/primitives/slider-input";
 import { CopySummaryButton } from "@/components/primitives/copy-summary-button";
 import { WhatsAppShareButton } from "@/components/primitives/whatsapp-share-button";
+import { useCalculatorPreferences } from "@/features/preferences/use-calculator-preferences";
 import { calculateRentVsBuy } from "@/lib/calculations/rent-vs-buy/rent-vs-buy";
 
 const FMT = new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 });
@@ -11,60 +12,61 @@ const fmt = (v: number) => FMT.format(v);
 
 const CONCLUSIONS = {
   renting_cheaper: "Renting appears cheaper over this period.",
-  buying_better: "Buying may be better value over this period.",
-  close: "The numbers are close — lifestyle factors matter here.",
+  buying_better:   "Buying may be better value over this period.",
+  close:           "The numbers are close — lifestyle factors matter here.",
 };
-
 const CONCLUSION_TONE = {
   renting_cheaper: "positive",
-  buying_better: "positive",
-  close: "default",
+  buying_better:   "positive",
+  close:           "default",
 } as const;
 
 export function RentVsBuyCalculator() {
-  const [monthlyRent, setMonthlyRent] = useState("25000");
-  const [homePrice, setHomePrice] = useState("7500000");
-  const [downPayment, setDownPayment] = useState("1500000");
-  const [loanRate, setLoanRate] = useState("8.5");
-  const [loanTenure, setLoanTenure] = useState("20");
-  const [appreciation, setAppreciation] = useState("6");
-  const [rentIncrease, setRentIncrease] = useState("5");
-  const [comparisonYears, setComparisonYears] = useState("10");
+  const [inputs, setInputs] = useCalculatorPreferences("rent-vs-buy", {
+    monthlyRent:      "25000",
+    homePrice:        "7500000",
+    downPayment:      "1500000",
+    loanRate:         "8.5",
+    loanTenure:       "20",
+    appreciation:     "6",
+    rentIncrease:     "5",
+    comparisonYears:  "10",
+  });
 
   const result = useMemo(() => {
-    const hp = Number(homePrice);
-    const lt = Number(loanTenure);
-    const cy = Number(comparisonYears);
+    const hp = Number(inputs.homePrice);
+    const lt = Number(inputs.loanTenure);
+    const cy = Number(inputs.comparisonYears);
     if (hp <= 0 || lt <= 0 || cy <= 0) return null;
     return calculateRentVsBuy({
-      monthlyRent: Number(monthlyRent),
-      homePrice: hp,
-      downPayment: Number(downPayment),
-      annualLoanRatePct: Number(loanRate),
-      loanTenureYears: lt,
-      annualAppreciationPct: Number(appreciation),
-      annualRentIncreasePct: Number(rentIncrease),
-      comparisonYears: cy,
+      monthlyRent:          Number(inputs.monthlyRent),
+      homePrice:            hp,
+      downPayment:          Number(inputs.downPayment),
+      annualLoanRatePct:    Number(inputs.loanRate),
+      loanTenureYears:      lt,
+      annualAppreciationPct: Number(inputs.appreciation),
+      annualRentIncreasePct: Number(inputs.rentIncrease),
+      comparisonYears:      cy,
     });
-  }, [monthlyRent, homePrice, downPayment, loanRate, loanTenure, appreciation, rentIncrease, comparisonYears]);
+  }, [inputs]);
 
   function getSummaryText() {
     if (!result) return "";
     return [
       "Rent vs Buy Summary — India Money Toolkit",
-      `Monthly rent: ${fmt(Number(monthlyRent))}`,
-      `Home price: ${fmt(Number(homePrice))}`,
-      `Down payment: ${fmt(Number(downPayment))}`,
-      `Loan rate: ${loanRate}% · Tenure: ${loanTenure} years`,
-      `Comparison period: ${comparisonYears} years`,
+      `Monthly rent: ${fmt(Number(inputs.monthlyRent))}`,
+      `Home price: ${fmt(Number(inputs.homePrice))}`,
+      `Down payment: ${fmt(Number(inputs.downPayment))}`,
+      `Loan rate: ${inputs.loanRate}% · Tenure: ${inputs.loanTenure} years`,
+      `Comparison period: ${inputs.comparisonYears} years`,
       `EMI: ${fmt(result.monthlyEmi)}`,
       `Total rent paid: ${fmt(result.totalRentPaid)}`,
       `Total buying outflow: ${fmt(result.totalBuyingOutflow)}`,
       `Estimated home value: ${fmt(result.futureHomeValue)}`,
       `Conclusion: ${CONCLUSIONS[result.conclusion]}`,
       "",
-      "Simplified estimate. Taxes, maintenance, and opportunity cost not included.",
-      "Calculate yours: indiamoneytoolkit.com/calculators/rent-vs-buy",
+      "Simplified estimate. Taxes, maintenance & opportunity cost not included.",
+      "https://indiamoneytoolkit.com/calculators/rent-vs-buy",
     ].join("\n");
   }
 
@@ -75,24 +77,30 @@ export function RentVsBuyCalculator() {
         <div className="calculator-copy">
           <p className="eyebrow">🏠 Rent vs buy calculator</p>
           <h2>Compare renting vs buying</h2>
+          <p style={{ fontSize: "0.88rem", color: "var(--text-2)", marginTop: "2px" }}>
+            Total outflow comparison over your chosen horizon — not accounting for opportunity cost.
+          </p>
         </div>
         <div className="calculator-grid">
-          <SliderInput id="rvb-rent" label="Monthly rent (₹)" value={monthlyRent}
-            onChange={(e) => setMonthlyRent(e.target.value)} min={5000} max={200000} step={1000} />
-          <SliderInput id="rvb-home-price" label="Home price (₹)" value={homePrice}
-            onChange={(e) => setHomePrice(e.target.value)} min={1000000} max={100000000} step={100000} />
-          <SliderInput id="rvb-down-payment" label="Down payment (₹)" value={downPayment}
-            onChange={(e) => setDownPayment(e.target.value)} min={0} max={50000000} step={100000} />
-          <SliderInput id="rvb-loan-rate" label="Loan interest rate (%)" value={loanRate}
-            onChange={(e) => setLoanRate(e.target.value)} min={5} max={20} step={0.1} />
-          <SliderInput id="rvb-tenure" label="Loan tenure (years)" value={loanTenure}
-            onChange={(e) => setLoanTenure(e.target.value)} min={5} max={30} step={1} />
-          <SliderInput id="rvb-appreciation" label="Annual home appreciation (%)" value={appreciation}
-            onChange={(e) => setAppreciation(e.target.value)} min={0} max={20} step={0.5} />
-          <SliderInput id="rvb-rent-increase" label="Annual rent increase (%)" value={rentIncrease}
-            onChange={(e) => setRentIncrease(e.target.value)} min={0} max={20} step={0.5} />
-          <SliderInput id="rvb-comparison-years" label="Comparison period (years)" value={comparisonYears}
-            onChange={(e) => setComparisonYears(e.target.value)} min={1} max={30} step={1} />
+          <SliderInput id="rvb-rent" label="Monthly rent (₹)" value={inputs.monthlyRent}
+            onChange={(e) => setInputs((c) => ({ ...c, monthlyRent: e.target.value })) } min={5_000} max={200_000} step={1_000} />
+          <SliderInput id="rvb-home-price" label="Home price (₹)" value={inputs.homePrice}
+            onChange={(e) => setInputs((c) => ({ ...c, homePrice: e.target.value }))} min={1_000_000} max={100_000_000} step={100_000} />
+          <SliderInput id="rvb-down-payment" label="Down payment (₹)" value={inputs.downPayment}
+            onChange={(e) => setInputs((c) => ({ ...c, downPayment: e.target.value }))} min={0} max={50_000_000} step={100_000}
+            hint="Typically 10–20% of home price" />
+          <SliderInput id="rvb-loan-rate" label="Loan interest rate (%)" value={inputs.loanRate}
+            onChange={(e) => setInputs((c) => ({ ...c, loanRate: e.target.value }))} min={5} max={20} step={0.1} />
+          <SliderInput id="rvb-tenure" label="Loan tenure (years)" value={inputs.loanTenure}
+            onChange={(e) => setInputs((c) => ({ ...c, loanTenure: e.target.value }))} min={5} max={30} step={1} />
+          <SliderInput id="rvb-appreciation" label="Annual home appreciation (%)" value={inputs.appreciation}
+            onChange={(e) => setInputs((c) => ({ ...c, appreciation: e.target.value }))} min={0} max={20} step={0.5}
+            hint="India historical average: 5–8% in most cities" />
+          <SliderInput id="rvb-rent-increase" label="Annual rent increase (%)" value={inputs.rentIncrease}
+            onChange={(e) => setInputs((c) => ({ ...c, rentIncrease: e.target.value }))} min={0} max={20} step={0.5}
+            hint="Typical landlord hike: 5–10% per year" />
+          <SliderInput id="rvb-comparison-years" label="Comparison period (years)" value={inputs.comparisonYears}
+            onChange={(e) => setInputs((c) => ({ ...c, comparisonYears: e.target.value }))} min={1} max={30} step={1} />
         </div>
       </div>
 
@@ -102,7 +110,11 @@ export function RentVsBuyCalculator() {
           <ResultSummaryCard
             isHero
             label="Verdict"
-            value={result.conclusion === "renting_cheaper" ? "Renting cheaper" : result.conclusion === "buying_better" ? "Buying better" : "Roughly equal"}
+            value={
+              result.conclusion === "renting_cheaper" ? "Renting cheaper"
+              : result.conclusion === "buying_better" ? "Buying better"
+              : "Roughly equal"
+            }
             sublabel={CONCLUSIONS[result.conclusion]}
             tone={CONCLUSION_TONE[result.conclusion]}
           />
@@ -119,27 +131,10 @@ export function RentVsBuyCalculator() {
           />
 
           <div className="calculator-metric-grid">
-            <ResultSummaryCard
-              label="Monthly EMI"
-              caption={`${loanTenure}y loan at ${loanRate}%`}
-              value={fmt(result.monthlyEmi)}
-            />
-            <ResultSummaryCard
-              label="Total rent paid"
-              caption={`Over ${comparisonYears} years with increases`}
-              value={fmt(result.totalRentPaid)}
-            />
-            <ResultSummaryCard
-              label="Total buying outflow"
-              caption="Down payment + all EMIs"
-              value={fmt(result.totalBuyingOutflow)}
-            />
-            <ResultSummaryCard
-              label="Future home value"
-              caption={`At ${appreciation}% annual appreciation`}
-              value={fmt(result.futureHomeValue)}
-              tone="positive"
-            />
+            <ResultSummaryCard label="Monthly EMI" caption={`${inputs.loanTenure}y loan at ${inputs.loanRate}%`} value={fmt(result.monthlyEmi)} />
+            <ResultSummaryCard label="Total rent paid" caption={`Over ${inputs.comparisonYears} years with increases`} value={fmt(result.totalRentPaid)} />
+            <ResultSummaryCard label="Total buying outflow" caption="Down payment + all EMIs" value={fmt(result.totalBuyingOutflow)} />
+            <ResultSummaryCard label="Future home value" caption={`At ${inputs.appreciation}% annual appreciation`} value={fmt(result.futureHomeValue)} tone="positive" />
           </div>
 
           <div className="result-actions" style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>

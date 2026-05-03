@@ -1,51 +1,54 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { ResultSummaryCard } from "@/components/primitives/result-summary-card";
 import { SliderInput } from "@/components/primitives/slider-input";
 import { WhatsAppShareButton } from "@/components/primitives/whatsapp-share-button";
 import { CopySummaryButton } from "@/components/primitives/copy-summary-button";
+import { useCalculatorPreferences } from "@/features/preferences/use-calculator-preferences";
 import { calculateHra } from "@/lib/calculations/hra/calculate-hra";
 
 const FMT = new Intl.NumberFormat("en-IN", {
-  style: "currency",
-  currency: "INR",
-  maximumFractionDigits: 0,
+  style: "currency", currency: "INR", maximumFractionDigits: 0,
 });
 const fmt = (v: number) => FMT.format(v);
 
 const METRO_CITIES = ["Delhi", "Mumbai", "Kolkata", "Chennai"];
 
 export function HraCalculator() {
-  const [basicSalary, setBasicSalary] = useState("50000");
-  const [daAmount, setDaAmount] = useState("0");
-  const [hraReceived, setHraReceived] = useState("20000");
-  const [monthlyRent, setMonthlyRent] = useState("18000");
-  const [isMetro, setIsMetro] = useState(true);
+  const [inputs, setInputs] = useCalculatorPreferences("hra", {
+    basicSalary:  "50000",
+    daAmount:     "0",
+    hraReceived:  "20000",
+    monthlyRent:  "18000",
+    isMetro:      "true",
+  });
+
+  const isMetro = inputs.isMetro === "true";
 
   const result = useMemo(
     () =>
       calculateHra({
-        basicSalary: Number(basicSalary),
-        daAmount: Number(daAmount),
-        hraReceived: Number(hraReceived),
-        monthlyRentPaid: Number(monthlyRent),
-        isMetroCity: isMetro,
+        basicSalary:      Number(inputs.basicSalary),
+        daAmount:         Number(inputs.daAmount),
+        hraReceived:      Number(inputs.hraReceived),
+        monthlyRentPaid:  Number(inputs.monthlyRent),
+        isMetroCity:      isMetro,
       }),
-    [basicSalary, daAmount, hraReceived, monthlyRent, isMetro]
+    [inputs, isMetro]
   );
 
   const limitLabels = {
-    hra_received: "Actual HRA received",
+    hra_received:    "Actual HRA received",
     rent_minus_basic: "Rent paid − 10% of Basic+DA",
-    city_limit: `${isMetro ? "50%" : "40%"} of Basic+DA (city limit)`,
+    city_limit:       `${isMetro ? "50%" : "40%"} of Basic+DA (city limit)`,
   };
 
   function getSummaryText() {
     return [
-      "HRA Exemption Summary",
-      `Basic salary: ${fmt(Number(basicSalary))}/month`,
-      `DA: ${fmt(Number(daAmount))}/month`,
-      `HRA received: ${fmt(Number(hraReceived))}/month`,
-      `Rent paid: ${fmt(Number(monthlyRent))}/month`,
+      "HRA Exemption Summary — India Money Toolkit",
+      `Basic salary: ${fmt(Number(inputs.basicSalary))}/month`,
+      `DA: ${fmt(Number(inputs.daAmount))}/month`,
+      `HRA received: ${fmt(Number(inputs.hraReceived))}/month`,
+      `Rent paid: ${fmt(Number(inputs.monthlyRent))}/month`,
       `City type: ${isMetro ? "Metro" : "Non-metro"}`,
       "",
       `Annual HRA received: ${fmt(result.actualHraReceived)}`,
@@ -54,7 +57,7 @@ export function HraCalculator() {
       `Limited by: ${limitLabels[result.limitingFactor]}`,
       "",
       "Exemption = min(Actual HRA, Rent−10% Basic+DA, 50%/40% of Basic+DA).",
-      "Consult a CA for your exact tax liability.",
+      "https://indiamoneytoolkit.com/calculators/hra",
     ].join("\n");
   }
 
@@ -65,7 +68,7 @@ export function HraCalculator() {
         <div className="calculator-copy">
           <p className="eyebrow">🧾 HRA exemption calculator</p>
           <h2>How much HRA is tax-free?</h2>
-          <p className="hero-copy" style={{ marginTop: "2px" }}>
+          <p style={{ fontSize: "0.88rem", color: "var(--text-2)", marginTop: "2px" }}>
             Under Section 10(13A) of the Income Tax Act
           </p>
         </div>
@@ -74,51 +77,43 @@ export function HraCalculator() {
           <SliderInput
             id="hra-basic"
             label="Basic salary per month (₹)"
-            value={basicSalary}
-            onChange={(e) => setBasicSalary(e.target.value)}
-            min={10000}
-            max={500000}
-            step={1000}
+            value={inputs.basicSalary}
+            onChange={(e) => setInputs((c) => ({ ...c, basicSalary: e.target.value }))}
+            min={10_000} max={500_000} step={1_000}
           />
           <SliderInput
             id="hra-da"
             label="Dearness allowance per month (₹)"
-            value={daAmount}
-            onChange={(e) => setDaAmount(e.target.value)}
-            min={0}
-            max={200000}
-            step={1000}
-            hint="DA is 0 for most private sector employees"
+            value={inputs.daAmount}
+            onChange={(e) => setInputs((c) => ({ ...c, daAmount: e.target.value }))}
+            min={0} max={200_000} step={1_000}
+            hint="DA is ₹0 for most private sector employees"
           />
           <SliderInput
             id="hra-received"
             label="HRA received per month (₹)"
-            value={hraReceived}
-            onChange={(e) => setHraReceived(e.target.value)}
-            min={0}
-            max={200000}
-            step={500}
+            value={inputs.hraReceived}
+            onChange={(e) => setInputs((c) => ({ ...c, hraReceived: e.target.value }))}
+            min={0} max={200_000} step={500}
           />
           <SliderInput
             id="hra-rent"
             label="Actual rent paid per month (₹)"
-            value={monthlyRent}
-            onChange={(e) => setMonthlyRent(e.target.value)}
-            min={0}
-            max={200000}
-            step={500}
-            hint="Must be more than 10% of Basic+DA to claim any exemption"
+            value={inputs.monthlyRent}
+            onChange={(e) => setInputs((c) => ({ ...c, monthlyRent: e.target.value }))}
+            min={0} max={200_000} step={500}
+            hint="Must exceed 10% of Basic+DA to claim any exemption"
           />
 
           {/* Metro toggle */}
           <div className="field">
             <label className="field__label">City type</label>
             <div style={{ display: "flex", gap: "8px", marginTop: "4px" }}>
-              {[true, false].map((metro) => (
+              {([true, false] as const).map((metro) => (
                 <button
                   key={String(metro)}
                   type="button"
-                  onClick={() => setIsMetro(metro)}
+                  onClick={() => setInputs((c) => ({ ...c, isMetro: metro ? "true" : "false" }))}
                   className="seg__btn"
                   aria-pressed={isMetro === metro}
                   style={{ flex: 1 }}
@@ -127,9 +122,7 @@ export function HraCalculator() {
                 </button>
               ))}
             </div>
-            <p className="field__hint">
-              Metro cities: {METRO_CITIES.join(", ")}
-            </p>
+            <p className="field__hint">Metro cities: {METRO_CITIES.join(", ")}</p>
           </div>
         </div>
       </div>
@@ -146,7 +139,10 @@ export function HraCalculator() {
 
         {/* Three-rule breakdown */}
         <div style={{ padding: "16px 22px", borderBottom: "1px solid var(--border-sub)" }}>
-          <p style={{ fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", color: "var(--text-3)", marginBottom: "10px" }}>
+          <p style={{
+            fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.06em",
+            textTransform: "uppercase", color: "var(--text-3)", marginBottom: "10px",
+          }}>
             Exemption = minimum of three rules
           </p>
           {[
@@ -178,7 +174,7 @@ export function HraCalculator() {
         <div className="calculator-metric-grid">
           <ResultSummaryCard
             label="Taxable HRA (annual)"
-            caption="This portion is added to taxable income"
+            caption="Added to your taxable income"
             value={fmt(result.taxableHra)}
             tone={result.taxableHra > 0 ? "caution" : "positive"}
           />
