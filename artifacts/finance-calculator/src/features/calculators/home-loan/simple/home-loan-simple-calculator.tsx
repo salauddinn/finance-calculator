@@ -49,7 +49,7 @@ export function HomeLoanSimpleCalculator() {
     <section className="calculator-shell">
       <div className="calculator-panel">
         <div className="calculator-copy">
-          <p className="eyebrow">Home loan calculator</p>
+          <p className="eyebrow">🏡 Home loan calculator</p>
           <h2>Start simple, then move into real-world planning</h2>
           <p className="hero-copy">
             Use simple mode for a quick EMI estimate before exploring

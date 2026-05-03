@@ -51,7 +51,7 @@ export function PpfCalculator() {
       {/* ── Inputs ── */}
       <div className="calculator-panel">
         <div className="calculator-copy">
-          <p className="eyebrow">PPF calculator</p>
+          <p className="eyebrow">🏛️ PPF calculator</p>
           <h2>15-year wealth builder</h2>
           <p className="hero-copy" style={{ marginTop: "2px" }}>
             Current PPF interest rate: <strong>{CURRENT_PPF_RATE}% p.a.</strong> (Q1 FY25–26)

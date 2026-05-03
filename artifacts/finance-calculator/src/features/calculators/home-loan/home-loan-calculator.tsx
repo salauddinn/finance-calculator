@@ -184,7 +184,7 @@ export function HomeLoanCalculator() {
       <div className="calculator-panel">
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: "12px" }}>
           <div className="calculator-copy">
-            <p className="eyebrow">Home loan planner</p>
+            <p className="eyebrow">🏡 Home loan planner</p>
             <h2>Plan your home loan journey</h2>
           </div>
           <ModeToggle

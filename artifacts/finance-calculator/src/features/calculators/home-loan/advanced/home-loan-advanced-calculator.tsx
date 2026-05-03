@@ -55,7 +55,7 @@ export function HomeLoanAdvancedCalculator() {
     <section className="calculator-shell">
       <div className="calculator-panel">
         <div className="calculator-copy">
-          <p className="eyebrow">Advanced home loan planner</p>
+          <p className="eyebrow">🏡 Advanced home loan planner</p>
           <h2>Model events that change repayment over time</h2>
           <p className="hero-copy">
             Layer prepayments, repo-linked rate changes, and moratorium periods

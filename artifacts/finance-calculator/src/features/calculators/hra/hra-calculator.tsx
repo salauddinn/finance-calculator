@@ -63,7 +63,7 @@ export function HraCalculator() {
       {/* ── Inputs ── */}
       <div className="calculator-panel">
         <div className="calculator-copy">
-          <p className="eyebrow">HRA exemption calculator</p>
+          <p className="eyebrow">🧾 HRA exemption calculator</p>
           <h2>How much HRA is tax-free?</h2>
           <p className="hero-copy" style={{ marginTop: "2px" }}>
             Under Section 10(13A) of the Income Tax Act

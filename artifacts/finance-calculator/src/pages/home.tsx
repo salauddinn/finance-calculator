@@ -5,19 +5,22 @@ import { PageMeta } from "@/components/primitives/page-meta";
 const INTENT_CHIPS = [
   { label: "Loan EMI", href: "/calculators/personal-loan" },
   { label: "SIP returns", href: "/calculators/sip" },
+  { label: "Save tax", href: "/calculators/income-tax" },
+  { label: "Lumpsum growth", href: "/calculators/lumpsum" },
+  { label: "SIP goal", href: "/calculators/goal-sip" },
   { label: "Home loan", href: "/calculators/home-loan" },
   { label: "FD earnings", href: "/calculators/fixed-deposit" },
   { label: "Emergency fund", href: "/calculators/emergency-fund" },
-  { label: "Credit card debt", href: "/calculators/credit-card-payoff" },
-  { label: "Rent vs buy", href: "/calculators/rent-vs-buy" },
   { label: "PPF maturity", href: "/calculators/ppf" },
   { label: "HRA exemption", href: "/calculators/hra" },
+  { label: "Credit card debt", href: "/calculators/credit-card-payoff" },
+  { label: "Rent vs buy", href: "/calculators/rent-vs-buy" },
 ];
 
 const TOOLS = [
   {
     group: "Loans",
-    variant: "loan" as const,
+    variant: "loan",
     items: [
       {
         title: "Personal Loan EMI",
@@ -33,12 +36,22 @@ const TOOLS = [
   },
   {
     group: "Savings & Investing",
-    variant: "savings" as const,
+    variant: "savings",
     items: [
       {
         title: "SIP Calculator",
         desc: "How a monthly SIP — with optional step-up — compounds into wealth.",
         href: "/calculators/sip",
+      },
+      {
+        title: "Lumpsum Calculator",
+        desc: "One-time investment: what does ₹1L become at 12% in 10 years?",
+        href: "/calculators/lumpsum",
+      },
+      {
+        title: "Goal SIP",
+        desc: "Working backwards — how much monthly SIP to reach your target corpus?",
+        href: "/calculators/goal-sip",
       },
       {
         title: "Fixed Deposit",
@@ -53,8 +66,24 @@ const TOOLS = [
     ],
   },
   {
+    group: "Tax",
+    variant: "tax",
+    items: [
+      {
+        title: "Income Tax (Old vs New Regime)",
+        desc: "FY 2025-26 Budget 2025 slabs — find which regime saves you more.",
+        href: "/calculators/income-tax",
+      },
+      {
+        title: "HRA Exemption",
+        desc: "How much of your HRA is tax-free under Section 10(13A).",
+        href: "/calculators/hra",
+      },
+    ],
+  },
+  {
     group: "Planning",
-    variant: "planning" as const,
+    variant: "planning",
     items: [
       {
         title: "Emergency Fund",
@@ -71,14 +100,9 @@ const TOOLS = [
         desc: "Total outflows compared over a horizon of your choice.",
         href: "/calculators/rent-vs-buy",
       },
-      {
-        title: "HRA Exemption",
-        desc: "How much of your HRA is tax-free under Section 10(13A).",
-        href: "/calculators/hra",
-      },
     ],
   },
-] as const;
+];
 
 export default function HomePage() {
   return (
@@ -93,7 +117,7 @@ export default function HomePage() {
         <span className="landing-badge">India-first · No login · No server</span>
         <h1>India Money<br />Toolkit</h1>
         <p className="hero-copy">
-          Nine calculators for loans, savings, tax, and everyday money decisions — built for Indian rupees with sensible defaults.
+          12 calculators for loans, savings, tax, and everyday money decisions — built for Indian rupees with sensible defaults.
         </p>
         <div className="landing-hero__actions">
           <a className="button button--primary" href="#tools">Pick a calculator</a>
@@ -146,7 +170,7 @@ export default function HomePage() {
         aria-label="Quick facts"
       >
         <div className="landing-stats__card">
-          <strong>9</strong>
+          <strong>12</strong>
           <span>Calculators</span>
         </div>
         <div className="landing-stats__card">

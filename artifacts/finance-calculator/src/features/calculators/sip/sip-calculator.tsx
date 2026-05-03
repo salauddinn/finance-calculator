@@ -80,7 +80,7 @@ export function SipCalculator() {
       <div className="calculator-panel">
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: "12px" }}>
           <div className="calculator-copy">
-            <p className="eyebrow">SIP calculator</p>
+            <p className="eyebrow">📈 SIP calculator</p>
             <h2>Monthly investment planner</h2>
           </div>
           <ModeToggle

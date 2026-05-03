@@ -234,7 +234,7 @@ export function ComprehensiveLoanCalculator() {
           }}
         >
           <div>
-            <p className="eyebrow">Personal loan</p>
+            <p className="eyebrow">💰 Personal loan</p>
             <h2>Personal Loan Calculator</h2>
             <p className="hero-copy">
               Plan your EMI, model prepayments, and check affordability.

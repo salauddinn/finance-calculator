@@ -48,7 +48,7 @@ export function CreditCardPayoffCalculator() {
       {/* ── Inputs ── */}
       <div className="calculator-panel">
         <div className="calculator-copy">
-          <p className="eyebrow">Credit card payoff calculator</p>
+          <p className="eyebrow">💳 Credit card payoff calculator</p>
           <h2>Your debt-free timeline</h2>
         </div>
         <div className="calculator-grid">

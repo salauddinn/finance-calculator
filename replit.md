@@ -35,8 +35,9 @@ India-focused personal finance calculator app. Pure frontend, no backend require
 - **Framework**: React 19 + Vite + wouter (routing)
 - **Styling**: Custom CSS with CSS variables (dark-first design), no Tailwind utilities in app code
 - **Preview path**: `/` (root)
-- **Calculators**: Personal Loan (comprehensive), Home Loan (simple + advanced), SIP, Fixed Deposit
-- **Key features**: localStorage preferences persistence, Excel export (exceljs), simple/advanced mode toggle per calculator
+- **Calculators (12 total)**: Personal Loan, Home Loan (simple + advanced), SIP (step-up), Fixed Deposit, PPF, Emergency Fund, Credit Card Payoff, Rent vs Buy, HRA Exemption, Lumpsum Investment, Goal SIP (reverse), Income Tax (Old vs New Regime FY 2025-26)
+- **Key features**: localStorage preferences, Excel export (exceljs), simple/advanced mode toggles, WhatsApp share + copy summary on all calculators
+- **UI**: Result hero colour tinting (green-dim for positive results), emoji eyebrow icons on all calculators, breakdown bar with bold percentages, purple Tax card accent variant
 - **Source**: Ported from Next.js 15 App Router (`output: export`) to Vite+React
 
 #### File structure

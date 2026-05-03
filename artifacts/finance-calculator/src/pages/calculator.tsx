@@ -58,6 +58,24 @@ const CALCULATOR_COPY = {
     description: "How much of your HRA is tax-free under Section 10(13A) of the Income Tax Act.",
     badge: "Tax",
   },
+  lumpsum: {
+    title: "Lumpsum Investment Calculator India | India Money Toolkit",
+    heading: "Lumpsum Calculator",
+    description: "What does a one-time investment grow to? Enter amount, rate, and years.",
+    badge: "Investing",
+  },
+  "goal-sip": {
+    title: "Goal SIP Calculator India — How Much to Invest Monthly | India Money Toolkit",
+    heading: "Goal SIP Calculator",
+    description: "Working backwards: how much monthly SIP do you need to reach your target corpus?",
+    badge: "Investing",
+  },
+  "income-tax": {
+    title: "Income Tax Calculator India FY 2025-26 — Old vs New Regime | India Money Toolkit",
+    heading: "Income Tax Calculator",
+    description: "Old vs New Regime comparison for FY 2025-26 with Budget 2025 slabs, surcharge and cess.",
+    badge: "Tax",
+  },
 } as const;
 
 type CalculatorSlug = keyof typeof CALCULATOR_COPY;
@@ -65,19 +83,25 @@ type CalculatorSlug = keyof typeof CALCULATOR_COPY;
 const RELATED: Record<CalculatorSlug, CalculatorSlug[]> = {
   "personal-loan": ["home-loan", "emergency-fund"],
   "home-loan": ["personal-loan", "rent-vs-buy"],
-  sip: ["fixed-deposit", "ppf"],
+  sip: ["goal-sip", "lumpsum"],
   "fixed-deposit": ["sip", "ppf"],
   "emergency-fund": ["sip", "credit-card-payoff"],
   "credit-card-payoff": ["personal-loan", "emergency-fund"],
   "rent-vs-buy": ["home-loan", "personal-loan"],
   ppf: ["sip", "fixed-deposit"],
-  hra: ["personal-loan", "emergency-fund"],
+  hra: ["income-tax", "personal-loan"],
+  lumpsum: ["sip", "goal-sip"],
+  "goal-sip": ["sip", "lumpsum"],
+  "income-tax": ["hra", "ppf"],
 };
 
 const SLUG_LABELS: Record<CalculatorSlug, string> = {
   "personal-loan": "Personal Loan EMI",
   "home-loan": "Home Loan EMI",
   sip: "SIP Calculator",
+  lumpsum: "Lumpsum Calculator",
+  "goal-sip": "Goal SIP",
+  "income-tax": "Income Tax",
   "fixed-deposit": "Fixed Deposit",
   "emergency-fund": "Emergency Fund",
   "credit-card-payoff": "Credit Card Payoff",

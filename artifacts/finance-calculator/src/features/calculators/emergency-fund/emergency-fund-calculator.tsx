@@ -46,7 +46,7 @@ export function EmergencyFundCalculator() {
       {/* ── Inputs ── */}
       <div className="calculator-panel">
         <div className="calculator-copy">
-          <p className="eyebrow">Emergency fund calculator</p>
+          <p className="eyebrow">🛡️ Emergency fund calculator</p>
           <h2>Your safety buffer goal</h2>
         </div>
         <div className="calculator-grid">

@@ -457,7 +457,9 @@ select.text-input {
   color: var(--text); margin-bottom: 6px;
 }
 .result-hero__sub { font-size: 0.85rem; color: var(--text-2); }
+.result-hero--positive { background: var(--green-dim); }
 .result-hero--positive .result-hero__value { color: var(--green); }
+.result-hero--caution { background: var(--amber-dim); }
 .result-hero--caution .result-hero__value { color: var(--amber); }
 
 /* ─── Breakdown bar ───────────────────────────────────────── */
@@ -476,9 +478,9 @@ select.text-input {
 .breakdown__label {
   display: flex; flex-direction: column; gap: 1px;
 }
-.breakdown__label-name { font-size: 0.72rem; color: var(--text-2); }
-.breakdown__label-pct { font-size: 0.8rem; font-weight: 700; color: var(--text); }
-.breakdown__label-val { font-size: 0.72rem; color: var(--text-3); }
+.breakdown__label-name { font-size: 0.78rem; color: var(--text-2); }
+.breakdown__label-pct { font-size: 1.05rem; font-weight: 800; color: var(--text); }
+.breakdown__label-val { font-size: 0.75rem; color: var(--text-3); }
 
 /* ─── Result metric rows ──────────────────────────────────── */
 .result-rows { display: flex; flex-direction: column; }
@@ -644,6 +646,9 @@ select.text-input {
 [data-theme="light"] .tool-card--loan    { --card-accent: #0969da; --card-accent-hover: #0969da; }
 [data-theme="light"] .tool-card--savings { --card-accent: #1a7f37; --card-accent-hover: #1a7f37; }
 [data-theme="light"] .tool-card--planning{ --card-accent: #9a6700; --card-accent-hover: #9a6700; }
+[data-theme="light"] .tool-card--tax     { --card-accent: #6e40c9; --card-accent-hover: #6e40c9; }
+
+.tool-card--tax { --card-accent: #4a2f8a; --card-accent-hover: #7c3aed; }
 
 /* ─── WhatsApp share button ──────────────────────────────── */
 .btn-whatsapp {

@@ -8,6 +8,9 @@ import { CreditCardPayoffCalculator } from "@/features/calculators/credit-card-p
 import { RentVsBuyCalculator } from "@/features/calculators/rent-vs-buy/rent-vs-buy-calculator";
 import { PpfCalculator } from "@/features/calculators/ppf/ppf-calculator";
 import { HraCalculator } from "@/features/calculators/hra/hra-calculator";
+import { LumpsumCalculator } from "@/features/calculators/lumpsum/lumpsum-calculator";
+import { GoalSipCalculator } from "@/features/calculators/goal-sip/goal-sip-calculator";
+import { IncomeTaxCalculator } from "@/features/calculators/income-tax/income-tax-calculator";
 
 type CalculatorRouteProps = {
   slug: string;
@@ -27,6 +30,9 @@ export function CalculatorRoute({ slug }: CalculatorRouteProps) {
   if (slug === "rent-vs-buy") return <RentVsBuyCalculator />;
   if (slug === "ppf") return <PpfCalculator />;
   if (slug === "hra") return <HraCalculator />;
+  if (slug === "lumpsum") return <LumpsumCalculator />;
+  if (slug === "goal-sip") return <GoalSipCalculator />;
+  if (slug === "income-tax") return <IncomeTaxCalculator />;
 
   return null;
 }

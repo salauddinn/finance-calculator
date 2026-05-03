@@ -73,7 +73,7 @@ export function RentVsBuyCalculator() {
       {/* ── Inputs ── */}
       <div className="calculator-panel">
         <div className="calculator-copy">
-          <p className="eyebrow">Rent vs buy calculator</p>
+          <p className="eyebrow">🏠 Rent vs buy calculator</p>
           <h2>Compare renting vs buying</h2>
         </div>
         <div className="calculator-grid">
