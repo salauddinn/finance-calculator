@@ -155,7 +155,7 @@ export function SsyCalculator() {
             labelA="Deposited"
             labelB="Interest earned"
             colorA="blue"
-            colorB="green"
+            colorB="amber"
             formattedA={fmt(result.totalInvested)}
             formattedB={fmt(result.interest)}
           />

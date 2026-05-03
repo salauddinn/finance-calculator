@@ -164,7 +164,7 @@ export function CtcSalaryCalculator() {
             labelA="Take-home"
             labelB="Deductions"
             colorA="green"
-            colorB="blue"
+            colorB="amber"
             formattedA={fmt(result.annualTakeHome)}
             formattedB={fmt(result.totalMonthlyDeductions * 12)}
           />

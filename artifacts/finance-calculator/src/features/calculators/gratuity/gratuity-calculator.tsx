@@ -53,7 +53,7 @@ export function GratuityCalculator() {
           <p className="eyebrow">🤝 Gratuity calculator</p>
           <h2>What gratuity am I owed?</h2>
           <p style={{ fontSize: "0.88rem", color: "var(--text-2)", lineHeight: 1.55 }}>
-            Formula: (Basic + DA × 15 × Years) ÷ 26 — as per Payment of Gratuity Act.
+            Formula: (Basic + DA) × 15 × Years ÷ 26 — as per Payment of Gratuity Act.
             Minimum 5 years of continuous service required.
           </p>
         </div>

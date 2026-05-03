@@ -100,7 +100,7 @@ export function GoalSipCalculator() {
             labelA="You invest"
             labelB="Market adds"
             colorA="blue"
-            colorB="green"
+            colorB="amber"
             formattedA={fmt(result.totalInvested)}
             formattedB={fmt(result.marketReturns)}
           />

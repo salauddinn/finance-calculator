@@ -14,7 +14,20 @@ type CalculatorId =
   | "home-loan-simple"
   | "home-loan-advanced"
   | "sip"
-  | "fixed-deposit";
+  | "fixed-deposit"
+  | "ppf"
+  | "hra"
+  | "emergency-fund"
+  | "credit-card-payoff"
+  | "rent-vs-buy"
+  | "gratuity"
+  | "ctc-salary"
+  | "lumpsum"
+  | "goal-sip"
+  | "income-tax"
+  | "nps"
+  | "inflation"
+  | "ssy";
 
 type StoredInputRecord = Record<string, string>;
 

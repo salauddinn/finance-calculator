@@ -96,7 +96,7 @@ export function LumpsumCalculator() {
             labelA="Invested"
             labelB="Gain"
             colorA="blue"
-            colorB="green"
+            colorB="amber"
             formattedA={fmt(result.principal)}
             formattedB={fmt(result.gain)}
           />

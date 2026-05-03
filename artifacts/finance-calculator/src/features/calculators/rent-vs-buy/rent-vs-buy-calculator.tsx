@@ -125,7 +125,7 @@ export function RentVsBuyCalculator() {
             labelA="Total rent"
             labelB="Total buying"
             colorA="green"
-            colorB="blue"
+            colorB="muted"
             formattedA={fmt(result.totalRentPaid)}
             formattedB={fmt(result.totalBuyingOutflow)}
           />

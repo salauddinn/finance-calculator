@@ -182,7 +182,7 @@ export function FixedDepositCalculator() {
           labelA="Principal"
           labelB="Interest"
           colorA="blue"
-          colorB="green"
+          colorB="amber"
           formattedA={fmt(Number(inputs.depositAmount))}
           formattedB={fmt(result.interestEarned)}
         />

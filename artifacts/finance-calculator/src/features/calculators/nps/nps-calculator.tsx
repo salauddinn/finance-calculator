@@ -131,7 +131,7 @@ export function NpsCalculator() {
             labelA="Contributed"
             labelB="Growth"
             colorA="blue"
-            colorB="green"
+            colorB="amber"
             formattedA={fmt(result.totalInvested)}
             formattedB={fmt(result.returns)}
           />

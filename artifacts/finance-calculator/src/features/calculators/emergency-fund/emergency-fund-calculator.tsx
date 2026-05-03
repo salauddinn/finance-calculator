@@ -105,7 +105,7 @@ export function EmergencyFundCalculator() {
             labelA="Saved"
             labelB={result.hasSurplus ? "Surplus" : "Still needed"}
             colorA="green"
-            colorB={result.hasSurplus ? "green" : "amber"}
+            colorB={result.hasSurplus ? "muted" : "amber"}
             formattedA={fmt(Number(inputs.currentSavings))}
             formattedB={result.hasSurplus ? fmt(result.surplus) : fmt(result.shortfall)}
           />

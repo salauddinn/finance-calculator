@@ -174,7 +174,7 @@ export function SipCalculator() {
             labelA="Invested"
             labelB="Returns"
             colorA="blue"
-            colorB="green"
+            colorB="amber"
             formattedA={fmt(result.investedAmount.value)}
             formattedB={fmt(result.estimatedReturns.value)}
           />

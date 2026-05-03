@@ -100,7 +100,7 @@ export function PpfCalculator() {
           labelA="Invested"
           labelB="Interest"
           colorA="blue"
-          colorB="green"
+          colorB="amber"
           formattedA={fmt(result.totalInvested)}
           formattedB={fmt(result.totalInterest)}
         />

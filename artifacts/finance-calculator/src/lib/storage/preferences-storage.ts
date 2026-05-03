@@ -7,7 +7,20 @@ const CALCULATOR_IDS = [
   "home-loan-simple",
   "home-loan-advanced",
   "sip",
-  "fixed-deposit"
+  "fixed-deposit",
+  "ppf",
+  "hra",
+  "emergency-fund",
+  "credit-card-payoff",
+  "rent-vs-buy",
+  "gratuity",
+  "ctc-salary",
+  "lumpsum",
+  "goal-sip",
+  "income-tax",
+  "nps",
+  "inflation",
+  "ssy"
 ] as const;
 const THEMES = ["light", "dark", "system"] as const;
 

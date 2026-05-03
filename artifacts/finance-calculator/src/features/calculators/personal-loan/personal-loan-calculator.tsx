@@ -52,9 +52,9 @@ export function PersonalLoanCalculator() {
       tenureMonths: validation.data.tenureMonths,
     });
     return {
-      monthlyEmi:        { value: raw.monthlyEmi },
-      totalRepayment:    { value: raw.totalRepayment },
-      totalInterest:     { value: raw.totalInterest },
+      monthlyEmi:        { value: raw.monthlyEmi.value },
+      totalRepayment:    { value: raw.totalRepayment.value },
+      totalInterest:     { value: raw.totalInterest.value },
       effectiveAprPct:   validation.data.annualRatePct,
       finalTenureMonths: validation.data.tenureMonths,
     };
