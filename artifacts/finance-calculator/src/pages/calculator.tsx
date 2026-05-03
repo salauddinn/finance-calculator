@@ -123,20 +123,20 @@ export default function CalculatorPage() {
       {/* Page header */}
       <div style={{ display: "flex", alignItems: "center", gap: "12px", flexWrap: "wrap" }}>
         <Link className="back-link" href="/">← All calculators</Link>
-        <span style={{ color: "var(--text-faint)", fontSize: "0.8rem" }}>/</span>
+        <span style={{ color: "var(--text-faint)", fontSize: "0.85rem" }}>/</span>
         <span style={{
-          fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.08em",
+          fontSize: "0.78rem", fontWeight: 700, letterSpacing: "0.08em",
           textTransform: "uppercase", color: "var(--text-faint)"
         }}>{calc.badge}</span>
       </div>
 
       <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
         <h1 style={{
-          fontSize: "clamp(1.4rem, 3vw, 1.9rem)",
-          fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.15,
+          fontSize: "clamp(1.7rem, 3.5vw, 2.3rem)",
+          fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.12,
           color: "var(--text)"
         }}>{calc.heading}</h1>
-        <p style={{ fontSize: "0.88rem", color: "var(--text-muted)", lineHeight: 1.6 }}>
+        <p style={{ fontSize: "0.95rem", color: "var(--text-muted)", lineHeight: 1.65 }}>
           {calc.description}
         </p>
       </div>
@@ -153,7 +153,7 @@ export default function CalculatorPage() {
           display: "flex", alignItems: "center", gap: "12px", flexWrap: "wrap"
         }}>
           <span style={{
-            fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.08em",
+            fontSize: "0.78rem", fontWeight: 700, letterSpacing: "0.08em",
             textTransform: "uppercase", color: "var(--text-faint)"
           }}>Also try</span>
           {related.map(r => (
@@ -161,11 +161,11 @@ export default function CalculatorPage() {
               key={r}
               href={`/calculators/${r}`}
               style={{
-                fontSize: "0.83rem", fontWeight: 600,
+                fontSize: "0.88rem", fontWeight: 600,
                 color: "var(--blue)", textDecoration: "none",
-                padding: "4px 10px",
+                padding: "6px 14px",
                 border: "1px solid var(--border)",
-                borderRadius: "6px",
+                borderRadius: "8px",
                 background: "var(--bg-card)",
                 transition: "border-color 140ms"
               }}
@@ -178,7 +178,7 @@ export default function CalculatorPage() {
 
       <footer style={{
         borderTop: "1px solid var(--border)", paddingTop: "16px",
-        fontSize: "0.78rem", color: "var(--text-faint)"
+        fontSize: "0.83rem", color: "var(--text-faint)"
       }}>
         Results are estimates for planning purposes only. Always verify with your lender or bank.
       </footer>
