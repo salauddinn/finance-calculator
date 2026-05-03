@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { calculateGratuity } from "@/lib/calculations/gratuity/gratuity-engine";
 import { SliderInput } from "@/components/primitives/slider-input";
 import { ResultSummaryCard } from "@/components/primitives/result-summary-card";
 import { WhatsAppShareButton } from "@/components/primitives/whatsapp-share-button";
@@ -9,8 +10,6 @@ const fmt = new Intl.NumberFormat("en-IN", {
   style: "currency", currency: "INR", maximumFractionDigits: 0,
 }).format;
 
-const TAX_FREE_LIMIT = 2_000_000; // ₹20 lakh
-
 export function GratuityCalculator() {
   const [inputs, setInputs] = useCalculatorPreferences("gratuity", {
     lastSalary: "50000",
@@ -18,17 +17,11 @@ export function GratuityCalculator() {
   });
 
   const result = useMemo(() => {
-    const salary = Number(inputs.lastSalary);
-    const years = Number(inputs.yearsOfService);
-    if (salary <= 0 || years <= 0) return null;
-
-    // Payment of Gratuity Act formula (for covered organisations ≥ 10 employees)
-    const gratuity = (salary * 15 * years) / 26;
-    const taxFree = Math.min(gratuity, TAX_FREE_LIMIT);
-    const taxable = Math.max(0, gratuity - TAX_FREE_LIMIT);
-    const eligible = years >= 5;
-
-    return { gratuity, taxFree, taxable, eligible, years, salary };
+    const lastSalary = Number(inputs.lastSalary);
+    const yearsOfService = Number(inputs.yearsOfService);
+    if (lastSalary <= 0 || yearsOfService <= 0) return null;
+    const calc = calculateGratuity({ lastSalary, yearsOfService });
+    return { ...calc, years: yearsOfService, salary: lastSalary };
   }, [inputs]);
 
   function getSummaryText() {

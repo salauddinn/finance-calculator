@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { calculateNps } from "@/lib/calculations/nps/nps-engine";
 import { SliderInput } from "@/components/primitives/slider-input";
 import { ResultSummaryCard } from "@/components/primitives/result-summary-card";
 import { BreakdownBar } from "@/components/primitives/breakdown-bar";
@@ -20,23 +21,11 @@ export function NpsCalculator() {
 
   const result = useMemo(() => {
     const monthly = Number(inputs.monthlyContribution);
-    const r = Number(inputs.annualReturnPct) / 100 / 12;
+    const annualReturnPct = Number(inputs.annualReturnPct);
     const currentAge = Number(inputs.currentAge);
     const retirementAge = Number(inputs.retirementAge);
-    const n = Math.max(0, retirementAge - currentAge) * 12;
-
-    if (monthly <= 0 || r <= 0 || n <= 0) return null;
-
-    const corpus = monthly * ((Math.pow(1 + r, n) - 1) / r) * (1 + r);
-    const totalInvested = monthly * n;
-    const returns = corpus - totalInvested;
-    const lumpSum = corpus * 0.6;
-    const annuityCorpus = corpus * 0.4;
-    const annuityRate = 0.06; // typical 6% annuity rate
-    const monthlyPension = (annuityCorpus * annuityRate) / 12;
-    const years = retirementAge - currentAge;
-
-    return { corpus, totalInvested, returns, lumpSum, annuityCorpus, monthlyPension, years };
+    if (monthly <= 0 || annualReturnPct <= 0 || retirementAge <= currentAge) return null;
+    return calculateNps({ monthlyContribution: monthly, annualReturnPct, currentAge, retirementAge });
   }, [inputs]);
 
   function getSummaryText() {

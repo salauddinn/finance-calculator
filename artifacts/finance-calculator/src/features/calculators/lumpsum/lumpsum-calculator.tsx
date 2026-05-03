@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { calculateLumpsum } from "@/lib/calculations/lumpsum/lumpsum-engine";
 import { ResultSummaryCard } from "@/components/primitives/result-summary-card";
 import { BreakdownBar } from "@/components/primitives/breakdown-bar";
 import { SliderInput } from "@/components/primitives/slider-input";
@@ -19,13 +20,10 @@ export function LumpsumCalculator() {
 
   const result = useMemo(() => {
     const p = Number(inputs.principal);
-    const r = Number(inputs.annualReturnPct) / 100;
+    const r = Number(inputs.annualReturnPct);
     const n = Number(inputs.years);
     if (p <= 0 || r <= 0 || n <= 0) return null;
-    const maturity = p * Math.pow(1 + r, n);
-    const gain = maturity - p;
-    const multiple = maturity / p;
-    return { maturity, gain, principal: p, multiple };
+    return calculateLumpsum({ principal: p, annualReturnPct: r, years: n });
   }, [inputs]);
 
   function getSummaryText() {

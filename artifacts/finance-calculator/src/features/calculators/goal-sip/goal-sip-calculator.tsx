@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { calculateGoalSip } from "@/lib/calculations/goal-sip/goal-sip-engine";
 import { ResultSummaryCard } from "@/components/primitives/result-summary-card";
 import { BreakdownBar } from "@/components/primitives/breakdown-bar";
 import { SliderInput } from "@/components/primitives/slider-input";
@@ -19,13 +20,10 @@ export function GoalSipCalculator() {
 
   const result = useMemo(() => {
     const fv = Number(inputs.targetAmount);
-    const r = Number(inputs.annualReturnPct) / 100 / 12;
-    const n = Number(inputs.years) * 12;
-    if (fv <= 0 || r <= 0 || n <= 0) return null;
-    const monthly = (fv * r) / (Math.pow(1 + r, n) - 1);
-    const totalInvested = monthly * n;
-    const marketReturns = fv - totalInvested;
-    return { monthly, totalInvested, marketReturns, targetAmount: fv };
+    const annualReturnPct = Number(inputs.annualReturnPct);
+    const years = Number(inputs.years);
+    if (fv <= 0 || annualReturnPct <= 0 || years <= 0) return null;
+    return calculateGoalSip({ targetAmount: fv, annualReturnPct, years });
   }, [inputs]);
 
   function getSummaryText() {

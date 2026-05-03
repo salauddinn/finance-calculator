@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { calculateSsy } from "@/lib/calculations/ssy/ssy-engine";
 import { SliderInput } from "@/components/primitives/slider-input";
 import { ResultSummaryCard } from "@/components/primitives/result-summary-card";
 import { BreakdownBar } from "@/components/primitives/breakdown-bar";
@@ -20,50 +21,12 @@ export function SsyCalculator() {
   });
 
   const result = useMemo(() => {
-    const contrib = Math.min(Number(inputs.annualContribution), 150_000);
+    const annualContribution = Number(inputs.annualContribution);
     const girlAge = Number(inputs.girlAge);
-    const rate = Number(inputs.interestRate) / 100;
-
-    if (contrib < 250 || girlAge < 0 || girlAge > 9 || rate <= 0) return null;
-
-    // Contribution period: 15 years from account opening
-    // Account matures at girl's age 21 (21 - girlAge more years from now)
-    // Total lock-in: 21 - girlAge years
-    // Contribution years: 15
-    // Dormant years (no deposit, earns interest): (21 - girlAge) - 15
-
-    const maturityYears = 21 - girlAge;
-    const contributionYears = 15;
-    const dormantYears = maturityYears - contributionYears;
-
-    // Contribution at start of each year (before interest)
-    let balance = 0;
-    for (let y = 1; y <= contributionYears; y++) {
-      balance = (balance + contrib) * (1 + rate);
-    }
-    // Dormant period — no new deposits, interest accumulates
-    for (let y = 1; y <= dormantYears; y++) {
-      balance = balance * (1 + rate);
-    }
-
-    const maturityValue = Math.round(balance);
-    const totalInvested = contrib * contributionYears;
-    const interest = maturityValue - totalInvested;
-    const maturityAge = 21;
-    const partialWithdrawal = `At age 18 — up to 50% for education`;
-
-    return {
-      maturityValue,
-      totalInvested,
-      interest,
-      contrib,
-      maturityAge,
-      maturityYears,
-      contributionYears,
-      dormantYears,
-      partialWithdrawal,
-      girlAge,
-    };
+    const interestRatePct = Number(inputs.interestRate);
+    if (annualContribution < 250 || girlAge < 0 || girlAge > 9 || interestRatePct <= 0) return null;
+    const calc = calculateSsy({ annualContribution, girlAge, interestRatePct });
+    return { ...calc, partialWithdrawal: "At age 18 — up to 50% for education", girlAge };
   }, [inputs]);
 
   const girlAge = Number(inputs.girlAge);

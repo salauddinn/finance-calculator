@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { calculateCtcSalary } from "@/lib/calculations/ctc-salary/ctc-salary-engine";
 import { SliderInput } from "@/components/primitives/slider-input";
 import { ResultSummaryCard } from "@/components/primitives/result-summary-card";
 import { BreakdownBar } from "@/components/primitives/breakdown-bar";
@@ -10,31 +11,6 @@ const fmt = new Intl.NumberFormat("en-IN", {
   style: "currency", currency: "INR", maximumFractionDigits: 0,
 }).format;
 
-type Slab = { from: number; to: number; rate: number };
-const NEW_SLABS: Slab[] = [
-  { from: 0,         to: 400_000,   rate: 0  },
-  { from: 400_000,   to: 800_000,   rate: 5  },
-  { from: 800_000,   to: 1_200_000, rate: 10 },
-  { from: 1_200_000, to: 1_600_000, rate: 15 },
-  { from: 1_600_000, to: 2_000_000, rate: 20 },
-  { from: 2_000_000, to: 2_400_000, rate: 25 },
-  { from: 2_400_000, to: Infinity,  rate: 30 },
-];
-function slabTax(income: number): number {
-  let tax = 0;
-  for (const s of NEW_SLABS) {
-    if (income <= s.from) break;
-    tax += (Math.min(income, s.to) - s.from) * s.rate / 100;
-  }
-  return tax;
-}
-function newRegimeTax(gross: number): number {
-  const taxable = Math.max(0, gross - 75_000);
-  let base = slabTax(taxable);
-  if (taxable <= 1_200_000) base = Math.max(0, base - 60_000);
-  return Math.round(base * 1.04); // 4% cess, no surcharge for typical salary
-}
-
 export function CtcSalaryCalculator() {
   const [inputs, setInputs] = useCalculatorPreferences("ctc-salary", {
     annualCtc: "1200000",
@@ -44,37 +20,12 @@ export function CtcSalaryCalculator() {
   });
 
   const result = useMemo(() => {
-    const ctc = Number(inputs.annualCtc);
-    const basicPct = Number(inputs.basicPct) / 100;
-    const isMetro = inputs.metroCityHra === "true";
-    const profTax = Number(inputs.profTaxAnnual);
-
-    const basic = ctc * basicPct;
-    const hra = basic * (isMetro ? 0.5 : 0.4);
-    // PF ceiling: ₹15,000/month basic
-    const pfBase = Math.min(basic, 180_000);
-    const employerPf = pfBase * 0.12;
-    const employeePf = pfBase * 0.12;
-    const grossSalary = ctc - employerPf;
-    const otherAllowances = grossSalary - basic - hra;
-    const incomeTax = newRegimeTax(grossSalary);
-    const annualTakeHome = grossSalary - employeePf - profTax - incomeTax;
-    const monthlyTakeHome = annualTakeHome / 12;
-
-    return {
-      monthlyTakeHome,
-      annualTakeHome,
-      grossSalary,
-      monthlyGross: grossSalary / 12,
-      basic: basic / 12,
-      hra: hra / 12,
-      otherAllowances: otherAllowances / 12,
-      monthlyPf: employeePf / 12,
-      monthlyProfTax: profTax / 12,
-      monthlyTds: incomeTax / 12,
-      totalMonthlyDeductions: (employeePf + profTax + incomeTax) / 12,
-      effectiveTaxRate: incomeTax / grossSalary * 100,
-    };
+    const annualCtc = Number(inputs.annualCtc);
+    const basicPct = Number(inputs.basicPct);
+    const isMetroCity = inputs.metroCityHra === "true";
+    const profTaxAnnual = Number(inputs.profTaxAnnual);
+    if (annualCtc <= 0) return null;
+    return calculateCtcSalary({ annualCtc, basicPct, isMetroCity, profTaxAnnual });
   }, [inputs]);
 
   function getSummaryText() {

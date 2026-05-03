@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { calculateInflation } from "@/lib/calculations/inflation/inflation-engine";
 import { SliderInput } from "@/components/primitives/slider-input";
 import { ResultSummaryCard } from "@/components/primitives/result-summary-card";
 import { WhatsAppShareButton } from "@/components/primitives/whatsapp-share-button";
@@ -18,16 +19,11 @@ export function InflationCalculator() {
 
   const result = useMemo(() => {
     const amount = Number(inputs.amount);
-    const rate = Number(inputs.inflationRate) / 100;
+    const inflationRatePct = Number(inputs.inflationRate);
     const years = Number(inputs.years);
-    if (amount <= 0 || rate <= 0 || years <= 0) return null;
-
-    const futureCost = amount * Math.pow(1 + rate, years);
-    const realValue = amount / Math.pow(1 + rate, years);
-    const purchasingPowerLost = amount - realValue;
-    const pctLost = (purchasingPowerLost / amount) * 100;
-
-    return { futureCost, realValue, purchasingPowerLost, pctLost, amount, years, rate };
+    if (amount <= 0 || inflationRatePct <= 0 || years <= 0) return null;
+    const calc = calculateInflation({ amount, inflationRatePct, years });
+    return { ...calc, amount, years, rate: inflationRatePct / 100 };
   }, [inputs]);
 
   function getSummaryText() {
