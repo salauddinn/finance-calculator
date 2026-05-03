@@ -6,6 +6,7 @@ import { SliderInput } from "@/components/primitives/slider-input";
 import { ModeToggle } from "@/components/primitives/mode-toggle";
 import { AdvancedOptionsAccordion } from "@/components/primitives/advanced-options-accordion";
 import { CopySummaryButton } from "@/components/primitives/copy-summary-button";
+import { WhatsAppShareButton } from "@/components/primitives/whatsapp-share-button";
 import { useCalculatorPreferences } from "@/features/preferences/use-calculator-preferences";
 import { calculateSip } from "@/lib/calculations/sip/calculate-sip";
 
@@ -23,9 +24,9 @@ export function SipCalculator() {
   const [inputs, setInputs] = useCalculatorPreferences("sip", {
     monthlyContribution: "10000",
     annualReturnPct: "12",
-    durationMonths: "24",
-    mode: "simple",
+    durationMonths: "120",
     stepUpPercentage: "0",
+    mode: "simple",
     inflationRate: "0",
     taxationEnabled: "false",
   });
@@ -38,13 +39,12 @@ export function SipCalculator() {
         monthlyContribution: Number(inputs.monthlyContribution),
         annualReturnPct: Number(inputs.annualReturnPct),
         durationMonths: Number(inputs.durationMonths),
-        advancedConfig: isAdvanced
-          ? {
-              stepUpPercentage: Number(inputs.stepUpPercentage),
-              inflationRate: Number(inputs.inflationRate),
-              taxationEnabled: inputs.taxationEnabled === "true",
-            }
-          : undefined,
+        // Step-up is always active (not just in advanced mode)
+        advancedConfig: {
+          stepUpPercentage: Number(inputs.stepUpPercentage),
+          inflationRate: isAdvanced ? Number(inputs.inflationRate) : 0,
+          taxationEnabled: isAdvanced ? inputs.taxationEnabled === "true" : false,
+        },
       }),
     [inputs, isAdvanced]
   );
@@ -55,6 +55,24 @@ export function SipCalculator() {
   const durationLabel = years > 0
     ? `${years}y${remMonths > 0 ? ` ${remMonths}m` : ""}`
     : `${months}m`;
+
+  function getSummaryText() {
+    if (!result) return "";
+    const stepUp = Number(inputs.stepUpPercentage);
+    return [
+      "SIP Summary — India Money Toolkit",
+      `Monthly SIP: ${fmt(Number(inputs.monthlyContribution))}`,
+      stepUp > 0 ? `Annual step-up: ${stepUp}%` : null,
+      `Expected return: ${inputs.annualReturnPct}% p.a.`,
+      `Duration: ${durationLabel}`,
+      `Total invested: ${fmt(result.investedAmount.value)}`,
+      `Estimated returns: ${fmt(result.estimatedReturns.value)}`,
+      `Maturity value: ${fmt(result.maturityValue.value)}`,
+      "",
+      "Estimates only. Actual returns may vary.",
+      "Calculate yours: indiamoneytoolkit.com/calculators/sip",
+    ].filter(Boolean).join("\n");
+  }
 
   return (
     <section className="calculator-shell">
@@ -99,18 +117,22 @@ export function SipCalculator() {
             step={6}
             onChange={(e) => setInputs((c) => ({ ...c, durationMonths: e.target.value }))}
           />
+          {/* Step-up always visible — the most popular SIP feature */}
+          <SliderInput
+            id="sip-step-up"
+            label="Annual step-up (%)"
+            value={inputs.stepUpPercentage as string}
+            min={0}
+            max={50}
+            step={1}
+            hint="Increase SIP by this % each year. Popular choice: 10%/year."
+            onChange={(e) => setInputs((c) => ({ ...c, stepUpPercentage: e.target.value }))}
+          />
         </div>
 
         {isAdvanced && (
-          <AdvancedOptionsAccordion title="Advanced options">
+          <AdvancedOptionsAccordion title="Inflation & tax adjustments">
             <div className="calculator-grid">
-              <SliderInput
-                id="sip-step-up"
-                label="Annual step-up (%)"
-                value={inputs.stepUpPercentage as string}
-                min={0} max={50} step={1}
-                onChange={(e) => setInputs((c) => ({ ...c, stepUpPercentage: e.target.value }))}
-              />
               <SliderInput
                 id="sip-inflation"
                 label="Inflation rate (%)"
@@ -142,7 +164,7 @@ export function SipCalculator() {
             isHero
             label="Maturity value"
             value={fmt(result.maturityValue.value)}
-            sublabel={`After ${durationLabel} · ₹${Number(inputs.monthlyContribution).toLocaleString("en-IN")}/month`}
+            sublabel={`After ${durationLabel} · ${fmt(Number(inputs.monthlyContribution))}/month${Number(inputs.stepUpPercentage) > 0 ? ` · ${inputs.stepUpPercentage}% step-up/yr` : ""}`}
             tone="positive"
           />
 
@@ -171,21 +193,9 @@ export function SipCalculator() {
             />
           </div>
 
-          <div className="result-actions">
-            <CopySummaryButton
-              getText={() =>
-                [
-                  "SIP Summary",
-                  `Monthly: ${fmt(Number(inputs.monthlyContribution))}`,
-                  `Return: ${inputs.annualReturnPct}%`,
-                  `Duration: ${inputs.durationMonths} months`,
-                  `Invested: ${fmt(result.investedAmount.value)}`,
-                  `Returns: ${fmt(result.estimatedReturns.value)}`,
-                  `Maturity: ${fmt(result.maturityValue.value)}`,
-                  "Estimates only. Actual returns may vary.",
-                ].join("\n")
-              }
-            />
+          <div className="result-actions" style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+            <WhatsAppShareButton getText={getSummaryText} />
+            <CopySummaryButton getText={getSummaryText} />
           </div>
         </div>
       ) : null}

@@ -2,6 +2,18 @@ import { Link } from "wouter";
 import { ContinueCalculatorLink } from "@/components/layout/continue-calculator-link";
 import { PageMeta } from "@/components/primitives/page-meta";
 
+const INTENT_CHIPS = [
+  { label: "Loan EMI", href: "/calculators/personal-loan" },
+  { label: "SIP returns", href: "/calculators/sip" },
+  { label: "Home loan", href: "/calculators/home-loan" },
+  { label: "FD earnings", href: "/calculators/fixed-deposit" },
+  { label: "Emergency fund", href: "/calculators/emergency-fund" },
+  { label: "Credit card debt", href: "/calculators/credit-card-payoff" },
+  { label: "Rent vs buy", href: "/calculators/rent-vs-buy" },
+  { label: "PPF maturity", href: "/calculators/ppf" },
+  { label: "HRA exemption", href: "/calculators/hra" },
+];
+
 const TOOLS = [
   {
     group: "Loans",
@@ -14,7 +26,7 @@ const TOOLS = [
       },
       {
         title: "Home Loan EMI",
-        desc: "EMI estimate with optional prepayment and rate-change scenarios.",
+        desc: "EMI with amortisation table, prepayment and rate-change scenarios.",
         href: "/calculators/home-loan",
       },
     ],
@@ -25,13 +37,18 @@ const TOOLS = [
     items: [
       {
         title: "SIP Calculator",
-        desc: "See how a monthly SIP compounds into wealth over time.",
+        desc: "How a monthly SIP — with optional step-up — compounds into wealth.",
         href: "/calculators/sip",
       },
       {
         title: "Fixed Deposit",
         desc: "Maturity value and interest earned across compounding options.",
         href: "/calculators/fixed-deposit",
+      },
+      {
+        title: "PPF Calculator",
+        desc: "15-year Public Provident Fund maturity at current 7.1% rate.",
+        href: "/calculators/ppf",
       },
     ],
   },
@@ -54,6 +71,11 @@ const TOOLS = [
         desc: "Total outflows compared over a horizon of your choice.",
         href: "/calculators/rent-vs-buy",
       },
+      {
+        title: "HRA Exemption",
+        desc: "How much of your HRA is tax-free under Section 10(13A).",
+        href: "/calculators/hra",
+      },
     ],
   },
 ] as const;
@@ -63,7 +85,7 @@ export default function HomePage() {
     <main id="main-content" tabIndex={-1} className="landing-shell">
       <PageMeta
         title="India Money Toolkit — Free Finance Calculators for India"
-        description="Free calculators for EMI, SIP, FD, emergency fund, credit card payoff, and rent vs buy — built for Indian rupees, no login required."
+        description="Free calculators for EMI, SIP, FD, PPF, HRA, emergency fund, credit card payoff, and rent vs buy — built for Indian rupees, no login required."
       />
 
       {/* Hero */}
@@ -71,7 +93,7 @@ export default function HomePage() {
         <span className="landing-badge">India-first · No login · No server</span>
         <h1>India Money<br />Toolkit</h1>
         <p className="hero-copy">
-          Seven calculators for loans, savings, and everyday money decisions — built for Indian rupees with sensible defaults.
+          Nine calculators for loans, savings, tax, and everyday money decisions — built for Indian rupees with sensible defaults.
         </p>
         <div className="landing-hero__actions">
           <a className="button button--primary" href="#tools">Pick a calculator</a>
@@ -79,11 +101,23 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Quick intent chips */}
+      <section className="intent-strip motion-fade-up motion-stagger-2" aria-label="Quick navigation">
+        <p className="intent-strip__label">What are you planning?</p>
+        <div className="intent-chips">
+          {INTENT_CHIPS.map((chip) => (
+            <Link key={chip.href} href={chip.href} className="intent-chip">
+              {chip.label}
+            </Link>
+          ))}
+        </div>
+      </section>
+
       {/* Calculator directory */}
       <section
         id="tools"
         aria-label="All calculators"
-        className="motion-fade-up motion-stagger-2"
+        className="motion-fade-up motion-stagger-3"
         style={{ display: "flex", flexDirection: "column", gap: "28px" }}
       >
         {TOOLS.map((group) => (
@@ -108,11 +142,11 @@ export default function HomePage() {
 
       {/* Trust stats */}
       <div
-        className="landing-stats motion-fade-up motion-stagger-3"
+        className="landing-stats motion-fade-up motion-stagger-4"
         aria-label="Quick facts"
       >
         <div className="landing-stats__card">
-          <strong>7</strong>
+          <strong>9</strong>
           <span>Calculators</span>
         </div>
         <div className="landing-stats__card">

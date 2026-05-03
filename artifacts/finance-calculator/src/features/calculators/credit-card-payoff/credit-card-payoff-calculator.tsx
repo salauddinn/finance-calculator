@@ -3,6 +3,7 @@ import { ResultSummaryCard } from "@/components/primitives/result-summary-card";
 import { BreakdownBar } from "@/components/primitives/breakdown-bar";
 import { SliderInput } from "@/components/primitives/slider-input";
 import { CopySummaryButton } from "@/components/primitives/copy-summary-button";
+import { WhatsAppShareButton } from "@/components/primitives/whatsapp-share-button";
 import { calculateCreditCardPayoff } from "@/lib/calculations/credit-card-payoff/credit-card-payoff";
 
 const FMT = new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 });
@@ -29,14 +30,16 @@ export function CreditCardPayoffCalculator() {
         : "Credit Card Payoff\nBalance is zero or invalid.";
     }
     return [
-      "Credit Card Payoff Summary",
+      "Credit Card Payoff Summary — India Money Toolkit",
       `Balance: ${fmt(Number(balance))}`,
       `Annual rate: ${annualRate}%`,
       `Monthly payment: ${fmt(Number(monthlyPayment))}`,
       `Months to repay: ${result.monthsToRepay}`,
       `Total interest: ${fmt(result.totalInterest)}`,
       `Total paid: ${fmt(result.totalPaid)}`,
+      "",
       "Estimates based on monthly compounding.",
+      "Calculate yours: indiamoneytoolkit.com/calculators/credit-card-payoff",
     ].join("\n");
   }
 
@@ -120,12 +123,13 @@ export function CreditCardPayoffCalculator() {
                 />
               </div>
 
-              <div className="result-actions" style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+              <div className="result-actions" style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+                <WhatsAppShareButton getText={getSummaryText} />
                 <CopySummaryButton getText={getSummaryText} />
-                <p style={{ fontSize: "0.75rem", color: "var(--text-3)" }}>
-                  Monthly compounding simulation. May differ from card statement.
-                </p>
               </div>
+              <p style={{ padding: "0 22px 14px", fontSize: "0.75rem", color: "var(--text-3)" }}>
+                Monthly compounding simulation. May differ from card statement.
+              </p>
             </>
           ) : null}
         </div>

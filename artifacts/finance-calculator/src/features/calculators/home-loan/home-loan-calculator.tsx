@@ -1,10 +1,12 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 
 import { ResultSummaryCard } from "@/components/primitives/result-summary-card";
 import { BreakdownBar } from "@/components/primitives/breakdown-bar";
 import { SliderInput } from "@/components/primitives/slider-input";
 import { ModeToggle } from "@/components/primitives/mode-toggle";
 import { AdvancedOptionsAccordion } from "@/components/primitives/advanced-options-accordion";
+import { CopySummaryButton } from "@/components/primitives/copy-summary-button";
+import { WhatsAppShareButton } from "@/components/primitives/whatsapp-share-button";
 import { useCalculatorPreferences } from "@/features/preferences/use-calculator-preferences";
 import { calculateSimpleHomeLoan } from "@/lib/calculations/home-loan-simple/home-loan-simple";
 import { calculateAdvancedHomeLoan, type LoanScheduleRow } from "@/lib/calculations/home-loan-advanced/home-loan-advanced";
@@ -32,8 +34,61 @@ function getErrorMessage(issues: ValidationIssue[], field: string) {
   return issues.find((issue) => issue.field === field)?.message;
 }
 
+type YearlyRow = {
+  year: number;
+  openingBalance: number;
+  principalPaid: number;
+  interestPaid: number;
+  closingBalance: number;
+};
+
+function computeYearlyAmortization(
+  principal: number,
+  annualRatePct: number,
+  months: number
+): YearlyRow[] {
+  const monthlyRate = annualRatePct / 100 / 12;
+  const emi =
+    (principal * monthlyRate * Math.pow(1 + monthlyRate, months)) /
+    (Math.pow(1 + monthlyRate, months) - 1);
+
+  let balance = principal;
+  const rows: YearlyRow[] = [];
+  let month = 0;
+  let year = 1;
+
+  while (month < months && balance > 1) {
+    const openingBalance = balance;
+    let yearInterest = 0;
+    let yearPrincipal = 0;
+    const monthsInYear = Math.min(12, months - month);
+
+    for (let m = 0; m < monthsInYear; m++) {
+      const interest = balance * monthlyRate;
+      const principalPaid = Math.min(emi - interest, balance);
+      yearInterest += interest;
+      yearPrincipal += principalPaid;
+      balance -= principalPaid;
+    }
+
+    rows.push({
+      year,
+      openingBalance: Math.round(openingBalance),
+      principalPaid: Math.round(yearPrincipal),
+      interestPaid: Math.round(yearInterest),
+      closingBalance: Math.round(Math.max(0, balance)),
+    });
+
+    month += monthsInYear;
+    year++;
+  }
+
+  return rows;
+}
+
 export function HomeLoanCalculator() {
   const [inputs, setInputs] = useCalculatorPreferences("home-loan", DEFAULT_INPUTS);
+  const [showAmort, setShowAmort] = useState(false);
 
   const isAdvanced = inputs.mode === "advanced";
   const validation = parseSimpleLoanInput(inputs);
@@ -70,6 +125,15 @@ export function HomeLoanCalculator() {
     };
   }, [validation, inputs, isAdvanced]);
 
+  const amortSchedule = useMemo(() => {
+    if (!validation.ok || !showAmort) return [];
+    return computeYearlyAmortization(
+      validation.data.principal.value,
+      validation.data.annualRatePct,
+      validation.data.tenureMonths
+    );
+  }, [validation, showAmort]);
+
   const handleExport = async () => {
     if (!result || !("schedule" in result)) return;
     const schedule = (result as { schedule: LoanScheduleRow[] }).schedule;
@@ -97,6 +161,22 @@ export function HomeLoanCalculator() {
   const months = Number(inputs.tenureMonths);
   const years = Math.floor(months / 12);
   const durationLabel = `${years}y`;
+
+  function getSummaryText() {
+    if (!result) return "";
+    return [
+      "Home Loan Summary — India Money Toolkit",
+      `Loan amount: ${formatCurrency(Number(inputs.principal))}`,
+      `Annual rate: ${inputs.annualRatePct}%`,
+      `Tenure: ${months} months (${durationLabel})`,
+      `Monthly EMI: ${formatCurrency(result.finalMonthlyEmi.value)}`,
+      `Total interest: ${formatCurrency(result.totalInterest.value)}`,
+      `Total repayment: ${formatCurrency(result.totalRepayment.value)}`,
+      "",
+      "Estimates only. Verify with your lender.",
+      "Calculate yours: indiamoneytoolkit.com/calculators/home-loan",
+    ].join("\n");
+  }
 
   return (
     <section className="calculator-shell">
@@ -237,6 +317,47 @@ export function HomeLoanCalculator() {
             </div>
           )}
 
+          {/* Amortisation table — simple and advanced */}
+          {!isAdvanced && (
+            <div style={{ padding: "0 22px 4px" }}>
+              <button
+                type="button"
+                className="amort-toggle"
+                onClick={() => setShowAmort((s) => !s)}
+                aria-expanded={showAmort}
+              >
+                {showAmort ? "▲ Hide" : "▼ Show"} year-by-year amortisation
+              </button>
+            </div>
+          )}
+
+          {showAmort && !isAdvanced && amortSchedule.length > 0 && (
+            <div className="amort-table-wrap">
+              <table className="amort-table">
+                <thead>
+                  <tr>
+                    <th>Year</th>
+                    <th>Opening</th>
+                    <th>Principal</th>
+                    <th>Interest</th>
+                    <th>Closing</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {amortSchedule.map((row) => (
+                    <tr key={row.year}>
+                      <td>{row.year}</td>
+                      <td>{formatCurrency(row.openingBalance)}</td>
+                      <td style={{ color: "var(--blue)", fontWeight: 600 }}>{formatCurrency(row.principalPaid)}</td>
+                      <td style={{ color: "var(--amber)", fontWeight: 600 }}>{formatCurrency(row.interestPaid)}</td>
+                      <td style={{ fontWeight: 700 }}>{formatCurrency(row.closingBalance)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+
           {isAdvanced && "schedule" in result && (
             <div style={{ padding: "12px 22px", borderTop: "1px solid var(--border-sub)" }}>
               <Button onClick={handleExport} variant="secondary">
@@ -244,6 +365,11 @@ export function HomeLoanCalculator() {
               </Button>
             </div>
           )}
+
+          <div className="result-actions" style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+            <WhatsAppShareButton getText={getSummaryText} />
+            <CopySummaryButton getText={getSummaryText} />
+          </div>
         </div>
       ) : null}
     </section>

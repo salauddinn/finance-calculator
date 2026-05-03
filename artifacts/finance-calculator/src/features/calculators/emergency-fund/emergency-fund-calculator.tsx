@@ -3,6 +3,7 @@ import { ResultSummaryCard } from "@/components/primitives/result-summary-card";
 import { BreakdownBar } from "@/components/primitives/breakdown-bar";
 import { SliderInput } from "@/components/primitives/slider-input";
 import { CopySummaryButton } from "@/components/primitives/copy-summary-button";
+import { WhatsAppShareButton } from "@/components/primitives/whatsapp-share-button";
 import { calculateEmergencyFund } from "@/lib/calculations/emergency-fund/emergency-fund";
 
 const FMT = new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 });
@@ -26,7 +27,7 @@ export function EmergencyFundCalculator() {
   function getSummaryText() {
     if (!result) return "";
     return [
-      "Emergency Fund Summary",
+      "Emergency Fund Summary — India Money Toolkit",
       `Monthly expenses: ${fmt(Number(monthlyExpenses))}`,
       `Target: ${targetMonths} months`,
       `Current savings: ${fmt(Number(currentSavings))}`,
@@ -34,7 +35,9 @@ export function EmergencyFundCalculator() {
       `Required fund: ${fmt(result.requiredFund)}`,
       result.hasSurplus ? `Surplus: ${fmt(result.surplus)}` : `Shortfall: ${fmt(result.shortfall)}`,
       result.monthsToTarget !== null ? `Months to target: ${result.monthsToTarget}` : "",
+      "",
       "Results are estimates only.",
+      "Calculate yours: indiamoneytoolkit.com/calculators/emergency-fund",
     ].filter(Boolean).join("\n");
   }
 
@@ -89,7 +92,6 @@ export function EmergencyFundCalculator() {
             sublabel={`${targetMonths} months × ${fmt(Number(monthlyExpenses))}/month`}
           />
 
-          {/* Saved vs still-needed breakdown */}
           <BreakdownBar
             valueA={Number(currentSavings)}
             valueB={Math.max(0, result.shortfall)}
@@ -127,12 +129,13 @@ export function EmergencyFundCalculator() {
             )}
           </div>
 
-          <div className="result-actions" style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+          <div className="result-actions" style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+            <WhatsAppShareButton getText={getSummaryText} />
             <CopySummaryButton getText={getSummaryText} />
-            <p style={{ fontSize: "0.75rem", color: "var(--text-3)" }}>
-              Required fund = monthly expenses × target months. Estimates only.
-            </p>
           </div>
+          <p style={{ padding: "0 22px 14px", fontSize: "0.75rem", color: "var(--text-3)" }}>
+            Required fund = monthly expenses × target months. Estimates only.
+          </p>
         </div>
       )}
     </section>

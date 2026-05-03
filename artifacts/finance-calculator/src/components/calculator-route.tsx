@@ -6,6 +6,8 @@ import { SipCalculator } from "@/features/calculators/sip/sip-calculator";
 import { EmergencyFundCalculator } from "@/features/calculators/emergency-fund/emergency-fund-calculator";
 import { CreditCardPayoffCalculator } from "@/features/calculators/credit-card-payoff/credit-card-payoff-calculator";
 import { RentVsBuyCalculator } from "@/features/calculators/rent-vs-buy/rent-vs-buy-calculator";
+import { PpfCalculator } from "@/features/calculators/ppf/ppf-calculator";
+import { HraCalculator } from "@/features/calculators/hra/hra-calculator";
 
 type CalculatorRouteProps = {
   slug: string;
@@ -23,6 +25,8 @@ export function CalculatorRoute({ slug }: CalculatorRouteProps) {
   if (slug === "emergency-fund") return <EmergencyFundCalculator />;
   if (slug === "credit-card-payoff") return <CreditCardPayoffCalculator />;
   if (slug === "rent-vs-buy") return <RentVsBuyCalculator />;
+  if (slug === "ppf") return <PpfCalculator />;
+  if (slug === "hra") return <HraCalculator />;
 
   return null;
 }

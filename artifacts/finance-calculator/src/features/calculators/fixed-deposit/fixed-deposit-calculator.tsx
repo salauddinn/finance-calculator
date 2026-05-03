@@ -6,6 +6,7 @@ import { SliderInput } from "@/components/primitives/slider-input";
 import { ModeToggle } from "@/components/primitives/mode-toggle";
 import { AdvancedOptionsAccordion } from "@/components/primitives/advanced-options-accordion";
 import { CopySummaryButton } from "@/components/primitives/copy-summary-button";
+import { WhatsAppShareButton } from "@/components/primitives/whatsapp-share-button";
 import { useCalculatorPreferences } from "@/features/preferences/use-calculator-preferences";
 import {
   calculateFixedDeposit,
@@ -211,7 +212,20 @@ export function FixedDepositCalculator() {
           )}
         </div>
 
-        <div className="result-actions">
+        <div className="result-actions" style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+          <WhatsAppShareButton getText={() => [
+            "Fixed Deposit Summary — India Money Toolkit",
+            `Deposit: ${fmt(Number(inputs.depositAmount))}`,
+            `Rate: ${inputs.annualRatePct}%`,
+            `Tenure: ${inputs.tenureMonths} months`,
+            `Compounding: ${inputs.compoundingFrequency}`,
+            `Interest earned: ${fmt(result.interestEarned)}`,
+            `Maturity value: ${fmt(result.maturityValue)}`,
+            result.totalTdsDeducted > 0 ? `TDS deducted: ${fmt(result.totalTdsDeducted)}` : "",
+            "",
+            "Estimates only. Verify with your bank.",
+            "Calculate yours: indiamoneytoolkit.com/calculators/fixed-deposit",
+          ].filter(Boolean).join("\n")} />
           <CopySummaryButton
             getText={() =>
               [

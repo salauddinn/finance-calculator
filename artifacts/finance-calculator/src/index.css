@@ -641,3 +641,127 @@ select.text-input {
 [data-theme="light"] .seg__btn[aria-pressed="true"] {
   background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.12);
 }
+
+/* ─── WhatsApp share button ──────────────────────────────── */
+.btn-whatsapp {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 16px;
+  background: #25D366;
+  color: #fff;
+  border: none;
+  border-radius: var(--r-md);
+  font: inherit;
+  font-size: 0.83rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 140ms, transform 100ms;
+  white-space: nowrap;
+}
+.btn-whatsapp:hover { background: #1da851; }
+.btn-whatsapp:active { transform: scale(0.97); }
+
+/* ─── Home page intent strip ─────────────────────────────── */
+.intent-strip {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 18px 22px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+}
+.intent-strip__label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+.intent-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.intent-chip {
+  padding: 5px 14px;
+  border-radius: 9999px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text-2);
+  font-size: 0.82rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: border-color 140ms, color 140ms, background 140ms;
+  cursor: pointer;
+}
+.intent-chip:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+  background: var(--blue-dim);
+}
+
+/* ─── Tool section header ────────────────────────────────── */
+.tool-section { display: flex; flex-direction: column; gap: 10px; }
+.tool-section__label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  padding-left: 2px;
+}
+
+/* ─── Amortisation table ─────────────────────────────────── */
+.amort-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 5px 12px;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-2);
+  cursor: pointer;
+  transition: border-color 140ms, color 140ms;
+  margin-top: 4px;
+}
+.amort-toggle:hover { border-color: var(--blue); color: var(--blue); }
+
+.amort-table-wrap {
+  overflow-x: auto;
+  padding: 0 22px 16px;
+  border-top: 1px solid var(--border-sub);
+}
+.amort-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+  min-width: 480px;
+}
+.amort-table th {
+  text-align: right;
+  padding: 6px 10px;
+  border-bottom: 2px solid var(--border);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  white-space: nowrap;
+}
+.amort-table th:first-child { text-align: left; }
+.amort-table td {
+  text-align: right;
+  padding: 6px 10px;
+  border-bottom: 1px solid var(--border-sub);
+  color: var(--text-2);
+  white-space: nowrap;
+}
+.amort-table td:first-child { text-align: left; color: var(--text); font-weight: 600; }
+.amort-table tbody tr:last-child td { border-bottom: none; }
+.amort-table tbody tr:hover td { background: var(--bg-hover); }

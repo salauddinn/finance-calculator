@@ -3,6 +3,7 @@ import { ResultSummaryCard } from "@/components/primitives/result-summary-card";
 import { BreakdownBar } from "@/components/primitives/breakdown-bar";
 import { SliderInput } from "@/components/primitives/slider-input";
 import { CopySummaryButton } from "@/components/primitives/copy-summary-button";
+import { WhatsAppShareButton } from "@/components/primitives/whatsapp-share-button";
 import { calculateRentVsBuy } from "@/lib/calculations/rent-vs-buy/rent-vs-buy";
 
 const FMT = new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 });
@@ -50,7 +51,7 @@ export function RentVsBuyCalculator() {
   function getSummaryText() {
     if (!result) return "";
     return [
-      "Rent vs Buy Summary",
+      "Rent vs Buy Summary — India Money Toolkit",
       `Monthly rent: ${fmt(Number(monthlyRent))}`,
       `Home price: ${fmt(Number(homePrice))}`,
       `Down payment: ${fmt(Number(downPayment))}`,
@@ -61,7 +62,9 @@ export function RentVsBuyCalculator() {
       `Total buying outflow: ${fmt(result.totalBuyingOutflow)}`,
       `Estimated home value: ${fmt(result.futureHomeValue)}`,
       `Conclusion: ${CONCLUSIONS[result.conclusion]}`,
+      "",
       "Simplified estimate. Taxes, maintenance, and opportunity cost not included.",
+      "Calculate yours: indiamoneytoolkit.com/calculators/rent-vs-buy",
     ].join("\n");
   }
 
@@ -96,7 +99,6 @@ export function RentVsBuyCalculator() {
       {/* ── Results ── */}
       {result && (
         <div className="calculator-results">
-          {/* Verdict hero */}
           <ResultSummaryCard
             isHero
             label="Verdict"
@@ -105,7 +107,6 @@ export function RentVsBuyCalculator() {
             tone={CONCLUSION_TONE[result.conclusion]}
           />
 
-          {/* Rent vs Buy outflow breakdown */}
           <BreakdownBar
             valueA={result.totalRentPaid}
             valueB={result.totalBuyingOutflow}
@@ -141,12 +142,13 @@ export function RentVsBuyCalculator() {
             />
           </div>
 
-          <div className="result-actions" style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+          <div className="result-actions" style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+            <WhatsAppShareButton getText={getSummaryText} />
             <CopySummaryButton getText={getSummaryText} />
-            <p style={{ fontSize: "0.75rem", color: "var(--text-3)" }}>
-              Simplified estimate. Taxes, maintenance, and opportunity cost not included.
-            </p>
           </div>
+          <p style={{ padding: "0 22px 14px", fontSize: "0.75rem", color: "var(--text-3)" }}>
+            Simplified estimate. Taxes, maintenance, and opportunity cost not included.
+          </p>
         </div>
       )}
     </section>

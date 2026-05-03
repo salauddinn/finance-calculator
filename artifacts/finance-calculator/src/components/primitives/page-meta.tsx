@@ -4,6 +4,7 @@ type PageMetaProps = {
   title: string;
   description: string;
   canonical?: string;
+  jsonLd?: Record<string, unknown>;
 };
 
 function setOrCreate(selector: string, attr: string, value: string) {
@@ -15,7 +16,7 @@ function setOrCreate(selector: string, attr: string, value: string) {
   el.setAttribute(attr, value);
 }
 
-export function PageMeta({ title, description, canonical }: PageMetaProps) {
+export function PageMeta({ title, description, canonical, jsonLd }: PageMetaProps) {
   useEffect(() => {
     document.title = title;
 
@@ -36,10 +37,25 @@ export function PageMeta({ title, description, canonical }: PageMetaProps) {
     }
     linkEl.href = canonicalHref;
 
+    // JSON-LD structured data
+    let script = document.querySelector<HTMLScriptElement>('script[data-jsonld="page"]');
+    if (jsonLd) {
+      if (!script) {
+        script = document.createElement("script");
+        script.type = "application/ld+json";
+        script.dataset.jsonld = "page";
+        document.head.appendChild(script);
+      }
+      script.textContent = JSON.stringify(jsonLd);
+    } else if (script) {
+      script.remove();
+    }
+
     return () => {
       document.title = "India Money Toolkit";
+      document.querySelector('script[data-jsonld="page"]')?.remove();
     };
-  }, [title, description, canonical]);
+  }, [title, description, canonical, jsonLd]);
 
   return null;
 }

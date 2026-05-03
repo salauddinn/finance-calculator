@@ -8,6 +8,7 @@ import { SliderInput } from "@/components/primitives/slider-input";
 import { ModeToggle } from "@/components/primitives/mode-toggle";
 import { AdvancedOptionsAccordion } from "@/components/primitives/advanced-options-accordion";
 import { CopySummaryButton } from "@/components/primitives/copy-summary-button";
+import { WhatsAppShareButton } from "@/components/primitives/whatsapp-share-button";
 import { Button } from "@/components/primitives/button";
 import { exportToExcel } from "@/lib/export/excel-export";
 import { useCalculatorPreferences } from "@/features/preferences/use-calculator-preferences";
@@ -233,7 +234,7 @@ export function ComprehensiveLoanCalculator() {
           }}
         >
           <div>
-            <p className="eyebrow">Comprehensive loan engine</p>
+            <p className="eyebrow">Personal loan</p>
             <h2>Personal Loan Calculator</h2>
             <p className="hero-copy">
               Plan your EMI, model prepayments, and check affordability.
@@ -774,7 +775,19 @@ export function ComprehensiveLoanCalculator() {
                 />
               )}
             </div>
-            <div style={{ marginTop: "1rem" }}>
+            <div style={{ marginTop: "1rem", display: "flex", gap: "8px", flexWrap: "wrap", padding: "0 22px 14px" }}>
+              <WhatsAppShareButton getText={() => [
+                "Personal Loan Summary — India Money Toolkit",
+                `Loan amount: ${formatCurrency(Number(inputs.loanAmount))}`,
+                `Annual rate: ${inputs.interestRateAnnual}%`,
+                `Tenure: ${inputs.tenureMonths} months`,
+                `Monthly EMI: ${formatCurrency(result.emi)}`,
+                `Total interest: ${formatCurrency(result.totalInterest)}`,
+                `Total repayment: ${formatCurrency(result.totalPayment)}`,
+                "",
+                "Results are estimates. Verify with your lender.",
+                "Calculate yours: indiamoneytoolkit.com/calculators/personal-loan",
+              ].join("\n")} />
               <CopySummaryButton getText={() => [
                 "Personal Loan Summary",
                 `Loan amount: ${formatCurrency(Number(inputs.loanAmount))}`,
