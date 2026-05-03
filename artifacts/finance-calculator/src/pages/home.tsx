@@ -4,17 +4,20 @@ import { PageMeta } from "@/components/primitives/page-meta";
 
 const INTENT_CHIPS = [
   { label: "Loan EMI", href: "/calculators/personal-loan" },
+  { label: "My take-home", href: "/calculators/ctc-salary" },
   { label: "SIP returns", href: "/calculators/sip" },
   { label: "Save tax", href: "/calculators/income-tax" },
   { label: "Lumpsum growth", href: "/calculators/lumpsum" },
   { label: "SIP goal", href: "/calculators/goal-sip" },
+  { label: "NPS pension", href: "/calculators/nps" },
+  { label: "Inflation impact", href: "/calculators/inflation" },
+  { label: "Girl child SSY", href: "/calculators/ssy" },
   { label: "Home loan", href: "/calculators/home-loan" },
   { label: "FD earnings", href: "/calculators/fixed-deposit" },
-  { label: "Emergency fund", href: "/calculators/emergency-fund" },
   { label: "PPF maturity", href: "/calculators/ppf" },
   { label: "HRA exemption", href: "/calculators/hra" },
-  { label: "Credit card debt", href: "/calculators/credit-card-payoff" },
-  { label: "Rent vs buy", href: "/calculators/rent-vs-buy" },
+  { label: "Gratuity", href: "/calculators/gratuity" },
+  { label: "Emergency fund", href: "/calculators/emergency-fund" },
 ];
 
 const TOOLS = [
@@ -63,6 +66,11 @@ const TOOLS = [
         desc: "15-year Public Provident Fund maturity at current 7.1% rate.",
         href: "/calculators/ppf",
       },
+      {
+        title: "SSY Calculator",
+        desc: "Sukanya Samriddhi Yojana — 8.2% p.a., EEE tax-free, matures at girl's age 21.",
+        href: "/calculators/ssy",
+      },
     ],
   },
   {
@@ -82,6 +90,27 @@ const TOOLS = [
     ],
   },
   {
+    group: "Salary & Pension",
+    variant: "salary",
+    items: [
+      {
+        title: "CTC to Take-home",
+        desc: "Break your CTC into monthly in-hand after PF, TDS, and professional tax.",
+        href: "/calculators/ctc-salary",
+      },
+      {
+        title: "NPS Calculator",
+        desc: "National Pension System corpus, lump sum, and estimated monthly pension.",
+        href: "/calculators/nps",
+      },
+      {
+        title: "Gratuity Calculator",
+        desc: "What gratuity are you owed? Formula + tax-free limit under Gratuity Act.",
+        href: "/calculators/gratuity",
+      },
+    ],
+  },
+  {
     group: "Planning",
     variant: "planning",
     items: [
@@ -89,6 +118,11 @@ const TOOLS = [
         title: "Emergency Fund",
         desc: "How much safety buffer you need and how fast you can build it.",
         href: "/calculators/emergency-fund",
+      },
+      {
+        title: "Inflation Calculator",
+        desc: "How inflation silently erodes your money — and what you need to beat it.",
+        href: "/calculators/inflation",
       },
       {
         title: "Credit Card Payoff",
@@ -117,7 +151,7 @@ export default function HomePage() {
         <span className="landing-badge">India-first · No login · No server</span>
         <h1>India Money<br />Toolkit</h1>
         <p className="hero-copy">
-          12 calculators for loans, savings, tax, and everyday money decisions — built for Indian rupees with sensible defaults.
+          17 calculators for loans, savings, tax, salary, and everyday money decisions — built for Indian rupees with sensible defaults.
         </p>
         <div className="landing-hero__actions">
           <a className="button button--primary" href="#tools">Pick a calculator</a>
@@ -170,7 +204,7 @@ export default function HomePage() {
         aria-label="Quick facts"
       >
         <div className="landing-stats__card">
-          <strong>12</strong>
+          <strong>17</strong>
           <span>Calculators</span>
         </div>
         <div className="landing-stats__card">

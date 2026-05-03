@@ -76,6 +76,36 @@ const CALCULATOR_COPY = {
     description: "Old vs New Regime comparison for FY 2025-26 with Budget 2025 slabs, surcharge and cess.",
     badge: "Tax",
   },
+  "ctc-salary": {
+    title: "CTC to In-Hand Salary Calculator India | India Money Toolkit",
+    heading: "CTC to Take-home",
+    description: "Break down your CTC into monthly in-hand salary after PF, TDS and professional tax.",
+    badge: "Salary",
+  },
+  nps: {
+    title: "NPS Calculator India — National Pension System | India Money Toolkit",
+    heading: "NPS Calculator",
+    description: "Project your NPS corpus, lump sum withdrawal, and estimated monthly pension at retirement.",
+    badge: "Pension",
+  },
+  gratuity: {
+    title: "Gratuity Calculator India — Payment of Gratuity Act | India Money Toolkit",
+    heading: "Gratuity Calculator",
+    description: "Calculate your gratuity entitlement — tax-free limit and taxable portion.",
+    badge: "Salary",
+  },
+  inflation: {
+    title: "Inflation Calculator India — Purchasing Power | India Money Toolkit",
+    heading: "Inflation Calculator",
+    description: "See how inflation erodes purchasing power and what you need to invest to stay ahead.",
+    badge: "Planning",
+  },
+  ssy: {
+    title: "Sukanya Samriddhi Yojana Calculator India (SSY) | India Money Toolkit",
+    heading: "SSY Calculator",
+    description: "Maturity value of Sukanya Samriddhi Yojana at 8.2% — 15-year deposits, matures at age 21.",
+    badge: "Savings",
+  },
 } as const;
 
 type CalculatorSlug = keyof typeof CALCULATOR_COPY;
@@ -92,7 +122,12 @@ const RELATED: Record<CalculatorSlug, CalculatorSlug[]> = {
   hra: ["income-tax", "personal-loan"],
   lumpsum: ["sip", "goal-sip"],
   "goal-sip": ["sip", "lumpsum"],
-  "income-tax": ["hra", "ppf"],
+  "income-tax": ["hra", "ctc-salary"],
+  "ctc-salary": ["income-tax", "hra"],
+  nps: ["sip", "ppf"],
+  gratuity: ["ctc-salary", "personal-loan"],
+  inflation: ["sip", "goal-sip"],
+  ssy: ["ppf", "sip"],
 };
 
 const SLUG_LABELS: Record<CalculatorSlug, string> = {
@@ -102,6 +137,11 @@ const SLUG_LABELS: Record<CalculatorSlug, string> = {
   lumpsum: "Lumpsum Calculator",
   "goal-sip": "Goal SIP",
   "income-tax": "Income Tax",
+  "ctc-salary": "CTC to Take-home",
+  nps: "NPS Calculator",
+  gratuity: "Gratuity Calculator",
+  inflation: "Inflation Calculator",
+  ssy: "SSY Calculator",
   "fixed-deposit": "Fixed Deposit",
   "emergency-fund": "Emergency Fund",
   "credit-card-payoff": "Credit Card Payoff",

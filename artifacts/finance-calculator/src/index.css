@@ -648,7 +648,9 @@ select.text-input {
 [data-theme="light"] .tool-card--planning{ --card-accent: #9a6700; --card-accent-hover: #9a6700; }
 [data-theme="light"] .tool-card--tax     { --card-accent: #6e40c9; --card-accent-hover: #6e40c9; }
 
-.tool-card--tax { --card-accent: #4a2f8a; --card-accent-hover: #7c3aed; }
+.tool-card--tax    { --card-accent: #4a2f8a; --card-accent-hover: #7c3aed; }
+.tool-card--salary { --card-accent: #065f46; --card-accent-hover: #059669; }
+[data-theme="light"] .tool-card--salary { --card-accent: #065f46; --card-accent-hover: #065f46; }
 
 /* ─── WhatsApp share button ──────────────────────────────── */
 .btn-whatsapp {
