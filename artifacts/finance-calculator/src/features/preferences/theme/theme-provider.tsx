@@ -1,8 +1,4 @@
-
-
 import {
-  createContext,
-  useContext,
   useEffect,
   useState,
   type ReactNode
@@ -14,31 +10,14 @@ import {
   type StoredPreferences
 } from "@/lib/storage/preferences-storage";
 
-type ThemeMode = "light" | "dark";
+import { ThemeContext, type ThemeMode } from "./theme-context";
 
 type ThemeProviderProps = Readonly<{
   children: ReactNode;
 }>;
 
-type ThemeContextValue = {
-  theme: ThemeMode;
-  toggleTheme: () => void;
-};
-
-const ThemeContext = createContext<ThemeContextValue | null>(null);
-
 function resolveTheme(theme: StoredPreferences["theme"]): ThemeMode {
   return theme === "dark" ? "dark" : "light";
-}
-
-export function useTheme() {
-  const context = useContext(ThemeContext);
-
-  if (context === null) {
-    throw new Error("useTheme must be used within ThemeProvider.");
-  }
-
-  return context;
 }
 
 export function ThemeProvider({ children }: ThemeProviderProps) {
@@ -75,7 +54,7 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
     });
   }
 
-  const value: ThemeContextValue = {
+  const value = {
     theme: resolveTheme(preferences.theme),
     toggleTheme: handleToggle
   };

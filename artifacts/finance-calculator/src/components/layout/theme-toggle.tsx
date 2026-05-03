@@ -1,6 +1,6 @@
 
 
-import { useTheme } from "@/features/preferences/theme/theme-provider";
+import { useTheme } from "@/features/preferences/theme/use-theme";
 
 export function ThemeToggle() {
   const { theme, toggleTheme } = useTheme();
