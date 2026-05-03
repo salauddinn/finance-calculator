@@ -19,6 +19,9 @@
   --text-2:       #8b949e;
   --text-3:       #6e7681;
   --text-4:       #484f58;
+  /* Aliases used by calculator pages */
+  --text-muted:   #8b949e;
+  --text-faint:   #6e7681;
 
   /* Brand & status */
   --blue:         #388bfd;
@@ -395,6 +398,19 @@ select.text-input {
   display: flex; flex-direction: column; gap: 20px;
 }
 
+/* ─── Content page panels (About / Privacy / Disclaimer) ──── */
+.calculator-entry__panel {
+  display: flex; flex-direction: column; gap: 16px;
+}
+.calculator-entry__hero {
+  display: flex; flex-direction: column; gap: 10px;
+  max-width: 640px;
+}
+.calculator-entry__hero h1 {
+  font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+  font-weight: 800; letter-spacing: -0.04em; line-height: 1.15;
+}
+
 /* ─── Calculator layout ───────────────────────────────────── */
 .calculator-shell {
   display: grid;
@@ -573,7 +589,12 @@ select.text-input {
   .result-hero__value { font-size: 2rem; }
   .breakdown, .result-row, .result-summary-card { padding-left: 18px; padding-right: 18px; }
   .result-actions { padding: 12px 18px; }
-  .site-navbar__inner { padding: 0 16px; }
+  .site-navbar__inner { padding: 0 12px; }
+  /* Compact navbar on mobile: hide toggle label, shrink brand */
+  .theme-toggle__label { display: none; }
+  .theme-toggle { padding: 5px 8px; }
+  .site-navbar__brand { font-size: 0.82rem; }
+  .site-navbar__link { padding: 5px 7px; font-size: 0.8rem; }
   .landing-stats { flex-direction: column; }
   .landing-stats__card { border-right: none; border-bottom: 1px solid var(--border-sub); }
   .landing-stats__card:last-child { border-bottom: none; }
@@ -600,6 +621,8 @@ select.text-input {
   --text-2:       #656d76;
   --text-3:       #8c959f;
   --text-4:       #b1bac4;
+  --text-muted:   #656d76;
+  --text-faint:   #8c959f;
   --blue:         #0969da;
   --blue-dim:     rgba(9,105,218,0.07);
   --green:        #1a7f37;

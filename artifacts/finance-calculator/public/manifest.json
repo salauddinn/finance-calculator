@@ -1,0 +1,17 @@
+{
+  "name": "India Money Toolkit",
+  "short_name": "MoneyToolkit",
+  "description": "Free EMI, SIP, FD, and financial calculators for India",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f6f8fa",
+  "theme_color": "#0969da",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

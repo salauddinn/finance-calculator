@@ -1,4 +1,4 @@
-import type { CSSProperties, InputHTMLAttributes } from "react";
+import { useState, type CSSProperties, type InputHTMLAttributes } from "react";
 
 type SliderInputProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange'> & {
   id: string;
@@ -11,6 +11,11 @@ type SliderInputProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange'> 
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
+function formatIndian(n: number): string {
+  if (isNaN(n)) return "";
+  return n.toLocaleString("en-IN");
+}
+
 export function SliderInput({
   id,
   label,
@@ -22,6 +27,8 @@ export function SliderInput({
   onChange,
   ...props
 }: SliderInputProps) {
+  const [focused, setFocused] = useState(false);
+
   const numValue = Number(value);
   const numMin = Number(min);
   const numMax = Number(max);
@@ -29,6 +36,13 @@ export function SliderInput({
   const fillPct = range > 0
     ? `${Math.max(0, Math.min(100, ((numValue - numMin) / range) * 100)).toFixed(1)}%`
     : "0%";
+
+  const displayValue = focused ? String(value) : formatIndian(numValue);
+
+  function handleTextChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const raw = e.target.value.replace(/[^0-9.]/g, "");
+    onChange({ target: { value: raw } } as React.ChangeEvent<HTMLInputElement>);
+  }
 
   return (
     <div className="field">
@@ -41,8 +55,10 @@ export function SliderInput({
           type="text"
           inputMode="decimal"
           className="slider-row__value-input"
-          value={value}
-          onChange={onChange}
+          value={displayValue}
+          onChange={handleTextChange}
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
           aria-describedby={hint ? `${id}-hint` : undefined}
           {...props}
         />

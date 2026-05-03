@@ -3,22 +3,43 @@ import { useEffect } from "react";
 type PageMetaProps = {
   title: string;
   description: string;
+  canonical?: string;
 };
 
-export function PageMeta({ title, description }: PageMetaProps) {
+function setOrCreate(selector: string, attr: string, value: string) {
+  let el = document.querySelector<HTMLMetaElement>(selector);
+  if (!el) {
+    el = document.createElement("meta");
+    document.head.appendChild(el);
+  }
+  el.setAttribute(attr, value);
+}
+
+export function PageMeta({ title, description, canonical }: PageMetaProps) {
   useEffect(() => {
     document.title = title;
-    let meta = document.querySelector<HTMLMetaElement>('meta[name="description"]');
-    if (!meta) {
-      meta = document.createElement("meta");
-      meta.name = "description";
-      document.head.appendChild(meta);
+
+    setOrCreate('meta[name="description"]', "content", description);
+    setOrCreate('meta[property="og:title"]', "content", title);
+    setOrCreate('meta[property="og:description"]', "content", description);
+    setOrCreate('meta[name="twitter:title"]', "content", title);
+    setOrCreate('meta[name="twitter:description"]', "content", description);
+
+    const canonicalHref = canonical ?? window.location.href.split("?")[0];
+    setOrCreate('meta[property="og:url"]', "content", canonicalHref);
+
+    let linkEl = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+    if (!linkEl) {
+      linkEl = document.createElement("link");
+      linkEl.rel = "canonical";
+      document.head.appendChild(linkEl);
     }
-    meta.content = description;
+    linkEl.href = canonicalHref;
+
     return () => {
       document.title = "India Money Toolkit";
     };
-  }, [title, description]);
+  }, [title, description, canonical]);
 
   return null;
 }

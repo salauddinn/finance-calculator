@@ -29,7 +29,7 @@ export interface PreferencesStorageAdapter {
 
 export const DEFAULT_PREFERENCES: StoredPreferences = {
   schemaVersion: 1,
-  theme: "dark",
+  theme: "light",
   calculatorDefaults: {}
 };
 
